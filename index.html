@@ -325,7 +325,7 @@ header.scrolled{
 <script>
 const supa=supabase.createClient(
 'https://akkroydgqotbavvchiju.supabase.co',
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo'
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo'
 );
 let allMovies=[];
 
@@ -352,7 +352,21 @@ function opt(u,w=300){
  return `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=72`;
 }
 
+// --- ده التعديل الوحيد اللي يسرع الموقع ---
 async function fetchMovies(){
+ // 1- جرب تحمل من movies.json (سريع - 0.3 ثانية)
+ try{
+   let r = await fetch('./movies.json?v='+Date.now(), {cache:'no-store'});
+   if(r.ok){
+     let j = await r.json();
+     if(Array.isArray(j) && j.length>0){
+       console.log('⚡ Loaded FAST from movies.json:', j.length);
+       return j;
+     }
+   }
+ }catch(e){ console.log('no json, fallback'); }
+
+ // 2- لو فشل، حمل من Supabase (بطيء - 3 ثواني)
  let {data,error}=await supa
   .from('movies')
   .select('id,title,description,poster_url,category,year,created_at')
@@ -360,6 +374,7 @@ async function fetchMovies(){
   .limit(80);
 
  if(error){console.error(error);return null}
+ console.log('Loaded from Supabase:', data.length);
  return data;
 }
 
