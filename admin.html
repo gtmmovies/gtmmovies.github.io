@@ -1,0 +1,40 @@
+<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GTM Admin - اقسام</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px}input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;color:#fff;border:1px solid #333;border-radius:8px;box-sizing:border-box}button{padding:12px;border:none;border-radius:8px;cursor:pointer}.btn-add{background:#e50914;color:#fff;width:100%;font-size:16px}.card{background:#1a1a1a;padding:12px;border-radius:10px;margin:10px 0;display:flex;gap:10px;align-items:center}img.thumb{width:60px;height:80px;object-fit:cover}</style>
+</head><body>
+<h2>اضافة فيلم + قسم</h2>
+<input id="title" placeholder="اسم الفيلم"><input id="year" placeholder="السنة">
+<select id="category">
+<option value="افلام عربي">افلام عربي</option>
+<option value="افلام اجنبي">افلام اجنبي</option>
+<option value="اكشن">اكشن</option>
+<option value="كوميدي">كوميدي</option>
+<option value="رعب">رعب</option>
+<option value="دراما">دراما</option>
+<option value="انمي">انمي</option>
+<option value="وثائقي">وثائقي</option>
+</select>
+<input type="file" id="file" accept="image/*"><img id="preview" style="width:120px;display:none;margin:8px 0;border-radius:8px">
+<input id="video" placeholder="رابط المشاهدة"><textarea id="desc" placeholder="القصة"></textarea>
+<input type="hidden" id="editId"><button class="btn-add" onclick="save()">حفظ</button><p id="msg"></p><hr><div id="list"></div>
+<script>
+const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
+let base64Image="";
+file.addEventListener('change',()=>{let f=file.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{base64Image=e.target.result;preview.src=base64Image;preview.style.display='block';};r.readAsDataURL(f);});
+async function save(){
+ msg.innerText='جاري الحفظ...';
+ let poster=base64Image;
+ if(!poster &&!editId.value) return msg.innerText='اختار صورة';
+ let payload={title:title.value,year:year.value,category:category.value,poster_url:poster||window.oldPoster,video_url:video.value,watch_url:video.value,description:desc.value};
+ let res=editId.value?await supa.from('movies').update(payload).eq('id',editId.value):await supa.from('movies').insert([payload]);
+ msg.innerText=res.error?'خطأ: '+res.error.message:'تم ✅'; if(!res.error){editId.value='';title.value=year.value=video.value=desc.value='';file.value='';preview.style.display='none';base64Image='';load();}
+}
+async function load(){
+ let {data}=await supa.from('movies').select('*').order('id',{ascending:false});
+ window.all=data; list.innerHTML=data.map(m=>`<div class="card"><img class="thumb" src="${m.poster_url}"><div><b>${m.title}</b><br><small>${m.category||'افلام'}</small></div><div style="margin-right:auto"><button onclick="del(${m.id})">مسح</button> <button onclick="startEdit(${m.id})">تعديل</button></div></div>`).join('');
+}
+function startEdit(id){let m=all.find(x=>x.id==id);editId.value=m.id;title.value=m.title;year.value=m.year;category.value=m.category||'افلام';video.value=m.video_url;desc.value=m.description;window.oldPoster=m.poster_url;preview.src=m.poster_url;preview.style.display='block';base64Image=m.poster_url;window.scrollTo(0,0);}
+async function del(id){if(!confirm('تمسح؟'))return;await supa.from('movies').delete().eq('id',id);load();}
+load();
+</script>
+</body></html>
