@@ -1,58 +1,69 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GTM MOVIES</title>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GTM MOVIES</title>
+<link rel="preconnect" href="https://akkroydgqotbavvchiju.supabase.co">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}body{background:#050507;color:#fff}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#050507;color:#fff}
 header{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 4%;background:rgba(0,0,0,.6);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,.07)}
 .logo{font-size:30px;font-weight:900;background:linear-gradient(90deg,#e50914,#ff3d5a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .search input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 18px;border-radius:30px;width:260px;outline:none}
-.hero{height:92vh;position:relative;display:flex;align-items:center;padding:0 5%;overflow:hidden}.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;transform:scale(1.05)}.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 15%,rgba(5,5,7,.6) 50%,transparent 85%),linear-gradient(0deg,#050507 10%,transparent 70%);z-index:1}
-.hero-content{position:relative;z-index:2;max-width:650px}.badge{display:inline-block;background:#e50914;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:800;margin-bottom:12px}.hero-content h1{font-size:60px;font-weight:900;line-height:.95;margin-bottom:14px}.hero-content p{color:#c9c9c9;line-height:1.7;font-size:15px;margin-bottom:24px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.btn{padding:14px 32px;border-radius:40px;font-weight:800;text-decoration:none;display:inline-flex;gap:8px}.btn-play{background:#fff;color:#000}.btn-list{background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(10px)}
-.row{padding:12px 0}.row h2{padding:0 4%;font-size:22px;margin-bottom:14px}.row h2 span{color:#e50914}
-.slider{display:flex;gap:14px;overflow-x:auto;padding:10px 4% 20px;scrollbar-width:none}.slider::-webkit-scrollbar{display:none}
-.card{position:relative;min-width:200px;width:200px;height:300px;border-radius:16px;overflow:hidden;background:#111;cursor:pointer;transition:.4s;flex-shrink:0;border:1px solid rgba(255,255,255,.06)}.card img{width:100%;height:100%;object-fit:cover}.card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 20px 40px rgba(229,9,20,.3)}
-.card.ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:12px;opacity:0;transition:.3s}.card:hover.ov{opacity:1}
-.chips{padding:10px 4%;display:flex;gap:8px;overflow-x:auto;position:sticky;top:60px;z-index:5;background:rgba(5,5,7,.8);backdrop-filter:blur(10px)}.chip{padding:8px 18px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);cursor:pointer;white-space:nowrap;transition:.2s}.chip.active,.chip:hover{background:#e50914;border-color:#e50914}
+.hero{height:92vh;position:relative;display:flex;align-items:center;padding:0 5%;overflow:hidden;background:#0a0a0a}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 15%,rgba(5,5,7,.6) 50%,transparent 85%),linear-gradient(0deg,#050507 10%,transparent 70%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:650px}
+.skeleton{animation:pulse 1.5s infinite;background:linear-gradient(90deg,#111,#222,#111);background-size:200%}
+@keyframes pulse{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.card{min-width:180px;width:180px;height:270px;border-radius:16px;overflow:hidden;background:#111;cursor:pointer;transition:.3s;flex-shrink:0;border:1px solid rgba(255,255,255,.06)}
+.card img{width:100%;height:100%;object-fit:cover}
+.card:hover{transform:translateY(-6px)}
+.card .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:12px;opacity:0;transition:.3s}
+.card:hover .ov{opacity:1}
+.chips{padding:10px 4%;display:flex;gap:8px;overflow-x:auto;position:sticky;top:60px;z-index:5;background:rgba(5,5,7,.8);backdrop-filter:blur(10px)}
+.chip{padding:8px 18px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);cursor:pointer;white-space:nowrap}
+.chip.active{background:#e50914}
+.row{padding:12px 0}.row h2{padding:0 4%;font-size:22px;margin-bottom:14px}
+.slider{display:flex;gap:14px;overflow-x:auto;padding:10px 4% 20px;scrollbar-width:none}
+.slider::-webkit-scrollbar{display:none}
 </style>
 </head><body>
 <header><div class="logo">GTM MOVIES</div><div class="search"><input id="search" placeholder="ابحث..." oninput="doSearch()"></div></header>
-<div class="hero" id="hero"><div class="hero-bg" id="heroBg"></div><div class="hero-content" id="heroContent"></div></div>
+<div class="hero" id="hero"><div class="hero-bg skeleton" id="heroBg"></div><div class="hero-content" id="heroContent"><h1 class="skeleton" style="height:60px;width:300px"></h1></div></div>
 <div class="chips" id="chips"></div>
-<div id="rows"></div>
+<div id="rows"><div class="slider"><div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div></div></div>
 <script>
 const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
 let allMovies=[],currentCat='الكل';
+const CACHE_KEY='gtm_cache';const CACHE_TIME=5*60*1000;
 async function load(){
+ let cached=localStorage.getItem(CACHE_KEY);
+ if(cached){try{let c=JSON.parse(cached);if(Date.now()-c.time<CACHE_TIME){allMovies=c.data;build();return}}catch(e){}}
  let {data}=await supa.from('movies').select('*').order('id',{ascending:false});
  allMovies=data||[];
+ localStorage.setItem(CACHE_KEY,JSON.stringify({time:Date.now(),data:allMovies}));
+ build();
+}
+function build(){
  let cats=['الكل',...new Set(allMovies.map(m=>m.category||'افلام'))];
  document.getElementById('chips').innerHTML=cats.map(c=>`<div class="chip ${c==currentCat?'active':''}" onclick="filterCat('${c}')">${c}</div>`).join('');
  if(allMovies.length) showHero(allMovies[0]);
  render(allMovies);
 }
 function showHero(m){
+ document.getElementById('heroBg').classList.remove('skeleton');
  document.getElementById('heroBg').style.backgroundImage=`url('${m.poster_url}')`;
- document.getElementById('heroContent').innerHTML=`<div class="badge">احدث الاضافات • ${m.category||''}</div><h1>${m.title}</h1><p>${m.description||''}</p><div style="display:flex;gap:12px;margin-top:14px"><a class="btn btn-play" href="movie.html?id=${m.id}">▶ شاهد</a><a class="btn btn-list" href="movie.html?id=${m.id}">تفاصيل</a></div>`;
+ document.getElementById('heroContent').innerHTML=`<div style="background:#e50914;display:inline-block;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:800;margin-bottom:12px">${m.category||''}</div><h1 style="font-size:50px;font-weight:900;line-height:.95;margin-bottom:14px">${m.title}</h1><p style="color:#c9c9c9;line-height:1.7;font-size:15px;margin-bottom:24px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${m.description||''}</p><a style="padding:14px 32px;border-radius:40px;background:#fff;color:#000;font-weight:800;text-decoration:none" href="movie.html?id=${m.id}">▶ شاهد</a>`;
 }
-function card(m){return `<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url}"><div class="ov"><b>${m.title}</b><small>${m.category||''} • ${m.year||''}</small></div></div>`}
+function card(m){return `<div class="card" style="position:relative" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url}" loading="lazy" decoding="async"><div class="ov"><b>${m.title}</b><small>${m.category||''}</small></div></div>`}
 function render(list){
- let cats=[...new Set(list.map(m=>m.category||'افلام'))];
- let html='';
- html+=`<div class="row"><h2><span>#</span> احدث الاضافات</h2><div class="slider">${list.slice(0,5).map(card).join('')}</div></div>`;
+ let cats=[...new Set(list.map(m=>m.category||'افلام'))];let html=`<div class="row"><h2><span style="color:#e50914">#</span> احدث الاضافات</h2><div class="slider">${list.slice(0,8).map(card).join('')}</div></div>`;
  cats.forEach(cat=>{let arr=list.filter(m=>(m.category||'افلام')==cat); if(arr.length) html+=`<div class="row"><h2>🎬 ${cat}</h2><div class="slider">${arr.map(card).join('')}</div></div>`});
  document.getElementById('rows').innerHTML=html;
 }
-function filterCat(c){
- currentCat=c; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.textContent==c));
- if(c=='الكل') render(allMovies); else render(allMovies.filter(m=>(m.category||'افلام')==c));
-}
-function doSearch(){
- let q=document.getElementById('search').value.toLowerCase();
- let f=allMovies.filter(m=>m.title.toLowerCase().includes(q));
- document.getElementById('rows').innerHTML=`<div class="row"><h2>نتائج البحث (${f.length})</h2><div class="slider" style="flex-wrap:wrap">${f.map(card).join('')}</div></div>`;
- if(!q) render(allMovies);
-}
+function filterCat(c){currentCat=c; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.textContent==c)); if(c=='الكل') render(allMovies); else render(allMovies.filter(m=>(m.category||'افلام')==c));}
+function doSearch(){let q=document.getElementById('search').value.toLowerCase();let f=allMovies.filter(m=>m.title.toLowerCase().includes(q)); document.getElementById('rows').innerHTML=`<div class="row"><h2>نتائج (${f.length})</h2><div class="slider" style="flex-wrap:wrap">${f.map(card).join('')}</div></div>`; if(!q) render(allMovies);}
 load();
 </script>
 </body></html>
