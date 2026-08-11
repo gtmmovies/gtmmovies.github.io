@@ -349,7 +349,8 @@ function setCache(data){
 
 function opt(u,w=300){
  if(!u)return '';
- return return u; // مباشر
+ // لو الصورة مش شغالة من wsrv نرجع للاصلية
+ return u;
 }
 
 // --- ده التعديل الوحيد اللي يسرع الموقع ---
