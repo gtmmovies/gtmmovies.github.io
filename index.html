@@ -4,57 +4,199 @@
 <link rel="preconnect" href="https://akkroydgqotbavvchiju.supabase.co">
 <link rel="preconnect" href="https://wsrv.nl">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#141414;
+  --bg-deep:#0b0b0b;
+  --surface:#1f1f1f;
+  --red:#e50914;
+  --red-hover:#f6121d;
+  --text:#ffffff;
+  --muted:#b3b3b3;
+  --muted2:#737373;
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#050507;color:#fff}
-header{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 4%;background:rgba(0,0,0,.8);backdrop-filter:blur(10px)}
-.logo{font-size:28px;font-weight:900;background:linear-gradient(90deg,#e50914,#ff3d5a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.search input{background:#1a1a1a;border:none;color:#fff;padding:10px 18px;border-radius:30px;width:240px;outline:none}
-.hero{height:85vh;position:relative;display:flex;align-items:center;padding:0 5%;background:#0a0a0a}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 20%,transparent 80%),linear-gradient(0deg,#050507 10%,transparent 60%);z-index:1}
-.hero-content{position:relative;z-index:2;max-width:600px}
-.card{min-width:170px;width:170px;height:255px;border-radius:14px;overflow:hidden;background:#111;cursor:pointer;flex-shrink:0;position:relative}
-.card img{width:100%;height:100%;object-fit:cover}
-.card .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;opacity:0;transition:.2s}
-.card:hover .ov{opacity:1}
-.chips{padding:10px 4%;display:flex;gap:8px;overflow-x:auto;position:sticky;top:58px;z-index:5;background:#050507}
-.chip{padding:7px 16px;border-radius:20px;background:#1a1a1a;cursor:pointer;white-space:nowrap;font-size:14px}
-.chip.active{background:#e50914}
-.row{padding:10px 0}.row h2{padding:0 4%;font-size:20px;margin-bottom:10px}
-.slider{display:flex;gap:12px;overflow-x:auto;padding:10px 4% 20px;scrollbar-width:none}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text)}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+a{color:inherit}
+
+/* ---- Header ---- */
+header{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 4%;background:linear-gradient(0deg,transparent,rgba(0,0,0,.7));transition:background .3s ease;}
+header.scrolled{background:var(--bg-deep);box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.logo{font-size:24px;font-weight:900;color:var(--red);letter-spacing:.5px}
+.search{position:relative}
+.search input{background:rgba(0,0,0,.75);border:1px solid #4d4d4d;color:var(--text);padding:9px 40px 9px 16px;border-radius:4px;width:220px;outline:none;font-size:14px;transition:.2s}
+.search input:focus{border-color:#fff;width:260px}
+.search input::placeholder{color:var(--muted2)}
+.search::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.6;pointer-events:none}
+
+/* ---- Hero ---- */
+.hero{height:92vh;min-height:520px;position:relative;display:flex;align-items:center;padding:0 4%;background:var(--bg-deep)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 15%}
+.hero::before{content:'';position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(20,20,20,.15) 0%,transparent 30%,var(--bg) 96%),
+  linear-gradient(90deg,rgba(20,20,20,.95) 0%,rgba(20,20,20,.5) 45%,transparent 75%);
+  z-index:1}
+.hero-content{position:relative;z-index:2;max-width:620px}
+.hero-meta{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.badge{font-size:13px;padding:3px 10px;border:1px solid rgba(255,255,255,.4);border-radius:3px;color:var(--muted);font-weight:600}
+.badge.year{color:#46d369;border-color:transparent;padding:0;font-weight:700}
+.hero-title{font-size:clamp(34px,5.5vw,58px);font-weight:900;margin-bottom:16px;line-height:1.15;text-shadow:2px 2px 8px rgba(0,0,0,.6)}
+.hero-desc{color:var(--text);opacity:.9;margin-bottom:26px;max-width:520px;line-height:1.7;font-size:15.5px;text-shadow:1px 1px 4px rgba(0,0,0,.6)}
+.hero-actions{display:flex;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:4px;font-weight:800;text-decoration:none;font-size:15.5px;border:none;cursor:pointer;transition:.15s}
+.btn-play{background:#fff;color:#000}
+.btn-play:hover{background:rgba(255,255,255,.8)}
+.btn-info{background:rgba(109,109,110,.6);color:#fff}
+.btn-info:hover{background:rgba(109,109,110,.4)}
+
+/* ---- Genre chips ---- */
+.chips{padding:18px 4% 6px;display:flex;gap:10px;overflow-x:auto;position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 60%,transparent);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{padding:7px 18px;border-radius:20px;background:rgba(255,255,255,.08);cursor:pointer;white-space:nowrap;font-size:13.5px;font-weight:700;color:var(--muted);border:1px solid transparent;transition:.15s}
+.chip:hover{background:rgba(255,255,255,.16);color:var(--text)}
+.chip.active{background:var(--red);color:#fff}
+
+/* ---- Rows ---- */
+.row{padding:22px 0 6px;position:relative}
+.row h2{padding:0 4%;font-size:20px;font-weight:800;margin-bottom:10px}
+.row-wrap{position:relative}
+.slider{display:flex;gap:6px;overflow-x:auto;padding:6px 4% 26px;scrollbar-width:none;scroll-behavior:smooth}
 .slider::-webkit-scrollbar{display:none}
+.row-arrow{position:absolute;top:0;bottom:26px;width:48px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,var(--bg),transparent);z-index:10;cursor:pointer;opacity:0;transition:.2s;border:none;color:#fff;font-size:22px}
+.row-wrap:hover .row-arrow{opacity:1}
+.row-arrow.left{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.row-arrow.right{left:0}
+
+/* ---- Cards ---- */
+.card{min-width:180px;width:180px;height:101px;border-radius:4px;overflow:hidden;background:var(--surface);cursor:pointer;flex-shrink:0;position:relative;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;margin:0 3px}
+.card:hover{transform:scale(1.32) translateY(-18px);box-shadow:0 12px 30px rgba(0,0,0,.7);z-index:5}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card .ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.95) 5%,transparent 65%);display:flex;flex-direction:column;justify-content:flex-end;padding:9px 10px;opacity:0;transition:.2s}
+.card:hover .ov{opacity:1}
+.card .ov b{font-size:12.5px;line-height:1.3}
+.card .ov span{font-size:10.5px;color:#46d369;margin-top:2px;font-weight:700}
+
+.skeleton{padding:0 4%;color:var(--muted2);font-size:14px}
 </style>
 </head><body>
-<header><div class="logo">GTM MOVIES</div><div class="search"><input id="search" placeholder="ابحث..." oninput="doSearch()"></div></header>
+<header id="siteHeader"><div class="logo">GTM MOVIES</div><div class="search"><input id="search" placeholder="ابحث عن فيلم..." oninput="doSearch()"></div></header>
 <div class="hero" id="hero"><div class="hero-bg" id="heroBg"></div><div class="hero-content" id="heroContent"></div></div>
 <div class="chips" id="chips"></div>
-<div id="rows"></div>
+<div id="rows"><div class="skeleton">جاري التحميل...</div></div>
 <script>
 const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
 let allMovies=[];
+
+const CACHE_KEY='gtm_movies_cache_v2';
+const CACHE_TTL=10*60*1000;
+
+function getCache(){
+ try{
+  const raw=localStorage.getItem(CACHE_KEY);
+  if(!raw)return null;
+  const {data,time}=JSON.parse(raw);
+  if(Date.now()-time>CACHE_TTL)return null;
+  return data;
+ }catch(e){return null}
+}
+function setCache(data){
+ try{localStorage.setItem(CACHE_KEY,JSON.stringify({data,time:Date.now()}))}catch(e){}
+}
+
 function opt(u,w=300){if(!u)return '';return `https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=70`}
+
+async function fetchMovies(){
+ let {data,error}=await supa
+  .from('movies')
+  .select('id,title,description,poster_url,category,year,created_at')
+  .order('id',{ascending:false})
+  .limit(80);
+ if(error){console.error(error);return null}
+ return data;
+}
+
 async function load(){
- let {data}=await supa.from('movies').select('*').order('id',{ascending:false}).limit(80);
- allMovies=data||[];
+ const cached=getCache();
+ if(cached){allMovies=cached;paint();}
+
+ const fresh=await fetchMovies();
+ if(fresh){
+  const changed=!cached||JSON.stringify(fresh)!==JSON.stringify(cached);
+  allMovies=fresh;
+  setCache(fresh);
+  if(changed||!cached)paint();
+ }else if(!cached){
+  document.getElementById('rows').innerHTML='<div class="skeleton">تعذر تحميل الافلام، حاول تحدّث الصفحة</div>';
+ }
+}
+
+function paint(){
  let cats=['الكل',...new Set(allMovies.map(m=>m.category||'افلام'))];
  document.getElementById('chips').innerHTML=cats.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat('${c}')">${c}</div>`).join('');
- if(allMovies[0]){
-  document.getElementById('heroBg').style.backgroundImage=`url('${opt(allMovies[0].poster_url,800)}')`;
-  document.getElementById('heroContent').innerHTML=`<h1 style="font-size:48px;font-weight:900;margin-bottom:10px">${allMovies[0].title}</h1><p style="color:#aaa;margin-bottom:20px">${(allMovies[0].description||'').slice(0,120)}</p><a style="padding:12px 28px;border-radius:30px;background:#fff;color:#000;font-weight:800;text-decoration:none" href="movie.html?id=${allMovies[0].id}">▶ شاهد</a>`;
+ const m0=allMovies[0];
+ if(m0){
+  document.getElementById('heroBg').style.backgroundImage=`url('${opt(m0.poster_url,900)}')`;
+  document.getElementById('heroContent').innerHTML=`
+   <div class="hero-meta">
+    ${m0.year?`<span class="badge year">${m0.year}</span>`:''}
+    <span class="badge">${m0.category||'افلام'}</span>
+   </div>
+   <h1 class="hero-title">${m0.title}</h1>
+   <p class="hero-desc">${(m0.description||'').slice(0,140)}</p>
+   <div class="hero-actions">
+     <a class="btn btn-play" href="movie.html?id=${m0.id}">▶ تشغيل</a>
+     <a class="btn btn-info" href="movie.html?id=${m0.id}">ℹ معلومات أكثر</a>
+   </div>`;
  }
  render(allMovies);
 }
-function card(m){return `<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${opt(m.poster_url,300)}" loading="lazy"><div class="ov"><b style="font-size:13px">${m.title}</b></div></div>`}
+
+function card(m){
+ return `<div class="card" onclick="location.href='movie.html?id=${m.id}'">
+  <img src="${opt(m.poster_url,320)}" loading="lazy" decoding="async" alt="${m.title}">
+  <div class="ov"><b>${m.title}</b>${m.year?`<span>${m.year}</span>`:''}</div>
+ </div>`;
+}
+
 function render(list){
  let cats=[...new Set(list.map(m=>m.category||'افلام'))];
- let h=`<div class="row"><h2>احدث الاضافات</h2><div class="slider">${list.slice(0,10).map(card).join('')}</div></div>`;
- cats.forEach(cat=>{let arr=list.filter(m=>(m.category||'افلام')==cat);h+=`<div class="row"><h2>${cat}</h2><div class="slider">${arr.map(card).join('')}</div></div>`});
+ let h=`<div class="row"><h2>احدث الاضافات</h2>${sliderHtml(list.slice(0,10))}</div>`;
+ cats.forEach(cat=>{let arr=list.filter(m=>(m.category||'افلام')==cat);h+=`<div class="row"><h2>${cat}</h2>${sliderHtml(arr)}</div>`});
  document.getElementById('rows').innerHTML=h;
 }
-function filterCat(c){document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.textContent==c));if(c=='الكل')render(allMovies);else render(allMovies.filter(m=>(m.category||'افلام')==c));}
-function doSearch(){let q=document.getElementById('search').value.toLowerCase();if(!q){render(allMovies);return}let f=allMovies.filter(m=>m.title.toLowerCase().includes(q));document.getElementById('rows').innerHTML=`<div class="row"><h2>نتائج ${f.length}</h2><div class="slider" style="flex-wrap:wrap">${f.map(card).join('')}</div></div>`;}
+
+function sliderHtml(arr){
+ const id='s'+Math.random().toString(36).slice(2,8);
+ return `<div class="row-wrap">
+  <button class="row-arrow right" onclick="document.getElementById('${id}').scrollBy({left:-600,behavior:'smooth'})">‹</button>
+  <div class="slider" id="${id}">${arr.map(card).join('')}</div>
+  <button class="row-arrow left" onclick="document.getElementById('${id}').scrollBy({left:600,behavior:'smooth'})">›</button>
+ </div>`;
+}
+
+function filterCat(c){
+ document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.textContent==c));
+ if(c=='الكل')render(allMovies);else render(allMovies.filter(m=>(m.category||'افلام')==c));
+}
+
+let searchTimer;
+function doSearch(){
+ clearTimeout(searchTimer);
+ searchTimer=setTimeout(()=>{
+  let q=document.getElementById('search').value.toLowerCase();
+  if(!q){render(allMovies);return}
+  let f=allMovies.filter(m=>m.title.toLowerCase().includes(q));
+  document.getElementById('rows').innerHTML=`<div class="row"><h2>نتائج ${f.length}</h2><div class="slider" style="flex-wrap:wrap">${f.map(card).join('')}</div></div>`;
+ },200);
+}
+
+window.addEventListener('scroll',()=>{
+ document.getElementById('siteHeader').classList.toggle('scrolled',window.scrollY>10);
+});
+
 load();
 </script>
 </body></html>
