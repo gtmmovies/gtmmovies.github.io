@@ -9,27 +9,23 @@ body{background:#0a0a0a;color:#fff;font-family:sans-serif;margin:0}
 .nav{padding:15px;background:#141414;color:#e50914;font-weight:bold;font-size:22px}
 .container{max-width:900px;margin:auto;padding:15px}
 .player{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
-.player iframe{width:100%;height:100%;border:0}
+.player video{width:100%;height:100%}
 .info{background:#1a1a1a;padding:20px;border-radius:12px;margin-top:15px}
-.info p{color:#bbb;line-height:1.7}
 a.back{display:inline-block;margin-top:10px;background:#e50914;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none}
 </style>
 </head>
 <body>
 <div class="nav">GTM MOVIES</div>
 <div class="container">
-  <div class="player"><iframe id="videoFrame" allowfullscreen allow="autoplay"></iframe></div>
+  <div class="player"><video id="videoFrame" controls autoplay playsinline></video></div>
   <div class="info">
     <h1 id="title">جاري التحميل...</h1>
     <p id="desc"></p>
     <a class="back" href="index.html">← رجوع</a>
   </div>
 </div>
-
 <script>
-// بيجيب الـ id من اللينك زي watch.html?id=7
 const id = new URLSearchParams(window.location.search).get('id');
-
 fetch('movies.json')
   .then(res => res.json())
   .then(movies => {
@@ -37,9 +33,7 @@ fetch('movies.json')
     if(!movie){ document.getElementById('title').innerText='الفيلم مش موجود'; return; }
     document.getElementById('title').innerText = movie.title;
     document.getElementById('desc').innerText = movie.description;
-    document.title = movie.title + " - GTM Movies";
-    // هنا بيحط لينك الفيديو بتاعك
-    document.getElementById('videoFrame').src = https://ddl.safone.vip/watch/AgADfR15928
+    document.getElementById('videoFrame').src = movie.video_url;
   });
 </script>
 </body>
