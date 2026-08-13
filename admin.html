@@ -1,82 +1,137 @@
-<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>GTM Admin - اقسام</title>
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIDI GABER</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>body{background:#0f0f0f;color:#fff;font-family:Arial;padding:15px}input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;color:#fff;border:1px solid #333;border-radius:8px;box-sizing:border-box}button{padding:12px;border:none;border-radius:8px;cursor:pointer}.btn-add{background:#e50914;color:#fff;width:100%;font-size:16px}.card{background:#1a1a1a;padding:12px;border-radius:10px;margin:10px 0;display:flex;gap:10px;align-items:center}img.thumb{width:60px;height:80px;object-fit:cover}.btn-small{padding:6px 10px;font-size:12px;margin-left:4px}</style>
-</head><body>
-<h2>اضافة فيلم + قسم</h2>
-<div style="background:#1a1a1a;padding:10px;border-radius:8px;margin-bottom:10px">
-<small>توكن GitHub للتحديث التلقائي (يتحفظ في جهازك فقط):</small>
-<input id="ghToken" placeholder="الصق توكن GitHub هنا (ghp_...)" style="margin-top:6px">
-<button onclick="saveToken()" style="background:#333;color:#fff;width:100%;margin-top:6px">حفظ التوكن</button>
-<p id="tokenStatus" style="font-size:12px;color:#0f0"></p>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{font-family:'Cairo',sans-serif;box-sizing:border-box}
+body{margin:0;background:#060606;color:#fff}
+.topbar{height:64px;background:#0e0e0e;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:100}
+.logo{font-weight:800;font-size:20px;letter-spacing:1px}.logo span{color:#e50914}
+.stats{display:flex;gap:12px;padding:20px;max-width:1100px;margin:auto}
+.stat{flex:1;background:linear-gradient(145deg,#151515,#0f0f0f);border:1px solid #222;border-radius:16px;padding:16px}
+.stat b{font-size:28px;display:block;color:#e50914}.stat small{color:#888}
+.toolbar{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;gap:10px;align-items:center}
+.search{flex:1;background:#161616;border:1px solid #222;border-radius:12px;padding:12px 14px;color:#fff;outline:none}
+.search:focus{border-color:#e50914}
+.btn-add-main{background:#e50914;color:#fff;border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer}
+.container{max-width:1100px;margin:20px auto;padding:0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.card{position:relative;background:#121212;border:1px solid #1f1f1f;border-radius:16px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#e50914;box-shadow:0 10px 30px rgba(229,9,20,.25)}
+.card img{width:100%;height:260px;object-fit:cover}
+.card-body{padding:10px}.card-body b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-body small{color:#888;font-size:11px}
+.card-actions{position:absolute;top:8px;left:8px;display:flex;gap:6px;opacity:0;transition:.2s}
+.card:hover.card-actions{opacity:1}
+.icon-btn{width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;background:rgba(0,0,0,.7);color:#fff;backdrop-filter:blur(6px)}
+.icon-btn.del:hover{background:#e50914}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:200;padding:15px}
+.modal.active{display:flex}
+.modal-box{background:#111;border:1px solid #222;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow:auto;padding:20px}
+.modal-box h3{margin:0 0 10px}
+.modal-box input,.modal-box select,.modal-box textarea{width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px;margin:7px 0;color:#fff;outline:none}
+.modal-box input:focus{border-color:#e50914}
+.upload{border:2px dashed #2a2a2a;border-radius:12px;padding:18px;text-align:center;cursor:pointer;margin:8px 0}
+.upload:hover{border-color:#e50914}
+#preview{width:100%;border-radius:12px;display:none;margin-top:8px;max-height:250px;object-fit:cover}
+.btn-save{width:100%;background:linear-gradient(90deg,#e50914,#ff2535);border:none;padding:14px;border-radius:12px;color:#fff;font-weight:800;font-size:16px;margin-top:10px;cursor:pointer}
+#msg{font-size:12px;margin-top:8px;white-space:pre-wrap}
+.token-mini{background:#0e0e0e;border:1px solid #1f1f1f;border-radius:12px;padding:10px;margin-bottom:15px;display:flex;gap:8px}
+.token-mini input{margin:0;flex:1;background:transparent;border:none;padding:6px}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="logo">GTM MOVIES <span>SIDI GABER</span> 13</div>
+<div style="display:flex;gap:8px">
+<button class="btn-add-main" onclick="openModal()">+ إضافة فيلم</button>
+<a href="/" style="background:#1a1a1a;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none">👁️ الموقع</a>
 </div>
-<input id="title" placeholder="اسم الفيلم"><input id="year" placeholder="السنة">
-<select id="category">
-<option value="افلام عربي">افلام عربي</option>
-<option value="افلام اجنبي">افلام اجنبي</option>
-<option value="اكشن">اكشن</option>
-<option value="كوميدي">كوميدي</option>
-<option value="رعب">رعب</option>
-<option value="دراما">دراما</option>
-<option value="انمي">انمي</option>
-<option value="وثائقي">وثائقي</option>
-</select>
-<input type="file" id="file" accept="image/*"><img id="preview" style="width:120px;display:none;margin:8px 0;border-radius:8px">
-<input id="video" placeholder="رابط المشاهدة"><textarea id="desc" placeholder="القصة"></textarea>
-<input type="hidden" id="editId"><button class="btn-add" onclick="save()">حفظ</button><p id="msg"></p><hr><div id="list"></div>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="totalMovies">0</b><small>إجمالي الأفلام</small></div>
+<div class="stat"><b id="totalAr">0</b><small>أفلام عربي</small></div>
+<div class="stat"><b id="totalEn">0</b><small>أفلام أجنبي</small></div>
+<div class="stat" style="background:linear-gradient(145deg,#1a0a0a,#150505);border-color:#3a1111"><b style="color:#fff" id="ghStatus">●</b><small>حالة GitHub</small></div>
+</div>
+
+<div class="toolbar">
+<input class="search" id="search" placeholder="🔍 ابحث عن فيلم..." oninput="filterMovies()">
+<div class="token-mini" style="margin:0">
+<input id="ghToken" type="password" placeholder="الباسورد ينجم">
+<button onclick="saveToken()" style="background:#222;color:#fff;border:none;border-radius:8px;padding:6px 10px;cursor:pointer">حفظ</button>
+</div>
+</div>
+
+<div class="container">
+<div class="grid" id="list"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-box">
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 id="modalTitle">إضافة فيلم جديد</h3><button onclick="closeModal()" style="background:#222;border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer">✕</button></div>
+<input id="title" placeholder="اسم الفيلم">
+<div style="display:flex;gap:8px"><input id="year" placeholder="السنة"><select id="category"><option>افلام عربي</option><option>افلام اجنبي</option><option>اكشن</option><option>كوميدي</option><option>رعب</option><option>دراما</option><option>انمي</option><option>مسلسلات</option></select></div>
+<label class="upload" for="file"><span id="uploadText">📸 اسحب الصورة هنا أو اضغط</span><input type="file" id="file" accept="image/*" hidden></label>
+<img id="preview">
+<input id="video" placeholder="رابط المشاهدة">
+<textarea id="desc" placeholder="القصة..." rows="3"></textarea>
+<input type="hidden" id="editId">
+<button class="btn-save" onclick="save()">حفظ ونشر تلقائي 🚀</button>
+<div id="msg"></div>
+</div>
+</div>
+
 <script>
 const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
-let base64Image="";
-const REPO_OWNER='gtmmovies'; // غير ده ليوزرنيم جيت هب بتاعك
-const REPO_NAME='gtmmovies.github.io'; // غير ده لاسم الريبو
-const FILE_PATH='movies.json';
-
+let base64Image="", allData=[];
+const REPO_OWNER='gtmmovies', REPO_NAME='gtmmovies.github.io', FILE_PATH='movies.json';
+const ghToken=document.getElementById('ghToken');
 ghToken.value=localStorage.getItem('gh_token')||'';
-if(ghToken.value) tokenStatus.innerText='✅ التوكن محفوظ';
-
-function saveToken(){localStorage.setItem('gh_token',ghToken.value.trim()); tokenStatus.innerText='تم حفظ التوكن ✅';}
-
-file.addEventListener('change',()=>{let f=file.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{base64Image=e.target.result;preview.src=base64Image;preview.style.display='block';};r.readAsDataURL(f);});
-
+if(ghToken.value){ document.getElementById('ghStatus').innerHTML='✅ متصل'; document.getElementById('ghStatus').style.color='#0f0'; }
+function saveToken(){ localStorage.setItem('gh_token',ghToken.value.trim()); document.getElementById('ghStatus').innerHTML='✅ متصل'; document.getElementById('ghStatus').style.color='#0f0'; alert('تم الحفظ'); }
+function openModal(){ modal.classList.add('active'); }
+function closeModal(){ modal.classList.remove('active'); }
+file.addEventListener('change',()=>{let f=file.files[0];if(!f)return;uploadText.innerText='✅ '+f.name;let r=new FileReader();r.onload=e=>{base64Image=e.target.result;preview.src=base64Image;preview.style.display='block';};r.readAsDataURL(f);});
 async function updateGitHubJson(){
- let token=localStorage.getItem('gh_token');
- if(!token){ msg.innerText='تم الحفظ في Supabase بس لازم تحط توكن GitHub عشان يحدث الموقع تلقائي'; return; }
+ let token=localStorage.getItem('gh_token'); if(!token){ msg.innerText='⚠️ حط التوكن الأول'; return; }
  try{
-  msg.innerText='جاري تحديث ملف الموقع...';
-  let {data:allFresh}=await supa.from('movies').select('id,title,description,poster_url,category,year,video_url,watch_url,created_at').order('id',{ascending:false});
-  let contentStr=JSON.stringify(allFresh,null,2);
-  let contentB64=btoa(unescape(encodeURIComponent(contentStr)));
-
-  // get sha
+  msg.innerText='⏳ ينشر...';
+  let {data}=await supa.from('movies').select('id,title,description,poster_url,category,year,video_url,watch_url,created_at').order('id',{ascending:false});
+  let b64=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
   let getRes=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,{headers:{Authorization:`Bearer ${token}`}});
-  let sha=null;
-  if(getRes.ok){ let j=await getRes.json(); sha=j.sha; }
-
-  let putRes=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,{
-   method:'PUT',
-   headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},
-   body:JSON.stringify({message:'update movies.json auto',content:contentB64,sha:sha})
-  });
-  if(putRes.ok){ msg.innerText='تم الحفظ وتحديث الموقع تلقائيا ✅ (سيظهر بعد دقيقة)'; }
-  else{ let err=await putRes.text(); msg.innerText='اتحفظ في Supabase بس فشل تحديث GitHub: '+err.slice(0,100); console.log(err); }
- }catch(e){ msg.innerText='خطأ في تحديث GitHub: '+e.message; console.error(e); }
+  let sha=null; if(getRes.ok){ let j=await getRes.json(); sha=j.sha; }
+  let putRes=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,{method:'PUT',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({message:'update',content:b64,sha})});
+  msg.innerText=putRes.ok?'✅ اتنشر وهيظهر بعد دقيقة':'❌ فشل: '+(await putRes.text()).slice(0,150);
+ }catch(e){ msg.innerText='❌ '+e.message; }
 }
-
 async function save(){
- msg.innerText='جاري الحفظ...';
- let poster=base64Image;
- if(!poster &&!editId.value) return msg.innerText='اختار صورة';
+ if(!title.value) return alert('الاسم');
+ let poster=base64Image; if(!poster &&!editId.value) return alert('الصورة');
  let payload={title:title.value,year:year.value,category:category.value,poster_url:poster||window.oldPoster,video_url:video.value,watch_url:video.value,description:desc.value};
  let res=editId.value?await supa.from('movies').update(payload).eq('id',editId.value):await supa.from('movies').insert([payload]);
- if(res.error){ msg.innerText='خطأ: '+res.error.message; return; }
- await updateGitHubJson();
- editId.value='';title.value=year.value=video.value=desc.value='';file.value='';preview.style.display='none';base64Image='';load();
+ if(res.error){ msg.innerText=res.error.message; return; }
+ await updateGitHubJson(); closeModal(); resetForm(); load();
 }
+function resetForm(){ editId.value='';title.value=year.value=video.value=desc.value='';file.value='';preview.style.display='none';base64Image='';uploadText.innerText='📸 اسحب الصورة هنا أو اضغط'; modalTitle.innerText='إضافة فيلم جديد'; }
 async function load(){
- let {data}=await supa.from('movies').select('*').order('id',{ascending:false});
- window.all=data; list.innerHTML=data.map(m=>`<div class="card"><img class="thumb" src="${m.poster_url}"><div><b>${m.title}</b><br><small>${m.category||'افلام'}</small></div><div style="margin-right:auto"><button class="btn-small" onclick="del(${m.id})">مسح</button> <button class="btn-small" onclick="startEdit(${m.id})">تعديل</button></div></div>`).join('');
+ let {data}=await supa.from('movies').select('*').order('id',{ascending:false}); allData=data||[];
+ totalMovies.innerText=allData.length; totalAr.innerText=allData.filter(m=>m.category?.includes('عربي')).length; totalEn.innerText=allData.filter(m=>m.category?.includes('اجنبي')).length;
+ render(allData);
 }
-function startEdit(id){let m=all.find(x=>x.id==id);editId.value=m.id;title.value=m.title;year.value=m.year;category.value=m.category||'افلام';video.value=m.video_url;desc.value=m.description;window.oldPoster=m.poster_url;preview.src=m.poster_url;preview.style.display='block';base64Image=m.poster_url;window.scrollTo(0,0);}
-async function del(id){if(!confirm('تمسح؟'))return;await supa.from('movies').delete().eq('id',id);load(); await updateGitHubJson();}
+function render(data){
+ list.innerHTML=data.map(m=>`<div class="card"><div class="card-actions"><button class="icon-btn" onclick="startEdit(${m.id})">✏️</button><button class="icon-btn del" onclick="del(${m.id})">🗑️</button></div><img src="${m.poster_url}" loading="lazy"><div class="card-body"><b>${m.title}</b><small>${m.category} • ${m.year||''}</small></div></div>`).join('');
+}
+function filterMovies(){ let q=search.value.toLowerCase(); render(allData.filter(m=>m.title.toLowerCase().includes(q))); }
+function startEdit(id){ let m=allData.find(x=>x.id==id); editId.value=m.id; title.value=m.title; year.value=m.year; category.value=m.category; video.value=m.video_url; desc.value=m.description; window.oldPoster=m.poster_url; preview.src=m.poster_url; preview.style.display='block'; base64Image=m.poster_url; modalTitle.innerText='تعديل: '+m.title; openModal(); }
+async function del(id){ if(!confirm('تمسح؟'))return; await supa.from('movies').delete().eq('id',id); load(); let token=localStorage.getItem('gh_token'); if(token) updateGitHubJson(); }
 load();
 </script>
-</body></html>
+</body>
+</html>
