@@ -1,4 +1,3 @@
+Sitemap: https://gtmmovies.github.io/sitemap.xml
 User-agent: *
 Allow: /
-
-Sitemap: https://gtmmovies.github.io/sitemap.xml
