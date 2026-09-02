@@ -5,15 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GTM MOVIES - تحميل...</title>
 <meta name="description" id="meta-desc" content="شاهد احدث الافلام والمسلسلات على GTM Movies">
-<meta name="keywords" id="meta-keys" content="افلام, مسلسلات, GTM Movies">
 <meta property="og:type" content="video.movie">
 <meta property="og:title" id="og-title" content="GTM MOVIES">
 <meta property="og:description" id="og-desc" content="شاهد الفيلم بجودة عالية">
 <meta property="og:image" id="og-image" content="">
 <meta property="og:url" id="og-url" content="">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" id="canonical" href="">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
 <script type="application/ld+json" id="json-ld"></script>
 <style>
@@ -22,10 +19,10 @@ body{background:#050507;color:#fff}
 header{position:fixed;top:0;width:100%;z-index:10;display:flex;align-items:center;padding:14px 4%;background:rgba(0,0,0,.5);backdrop-filter:blur(15px)}
 .logo{font-size:26px;font-weight:900;background:linear-gradient(90deg,#e50914,#ff3d5a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:90px 4% 40px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:blur(0px) brightness(.4);transform:scale(1.1)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.4);transform:scale(1.1)}
 .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 25%,rgba(5,5,7,.7) 60%,rgba(5,5,7,.2)),linear-gradient(0deg,#050507 5%,transparent 60%);z-index:1}
 .content{position:relative;z-index:2;display:flex;gap:40px;align-items:flex-start;max-width:1200px;width:100%}
-.poster{width:320px;min-width:320px;height:480px;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1)}
+.poster{width:320px;min-width:320px;height:480px;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.8)}
 .poster img{width:100%;height:100%;object-fit:cover}
 .info{flex:1;padding-top:20px}
 .badge{display:inline-flex;gap:6px;align-items:center;background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.3);color:#ff4d5e;padding:6px 12px;border-radius:30px;font-size:12px;font-weight:800;margin-bottom:10px;margin-left:6px}
@@ -35,8 +32,8 @@ header{position:fixed;top:0;width:100%;z-index:10;display:flex;align-items:cente
 .desc{color:#d0d0d0;line-height:1.9;font-size:16px;margin-bottom:30px;max-width:600px}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
 .btn{padding:16px 36px;border-radius:40px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:.3s;font-size:16px;cursor:pointer;border:none}
-.btn-play{background:#fff;color:#000}.btn-play:hover{transform:scale(1.05);background:#e5e5e5}
-.btn-back{background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(10px)}.btn-back:hover{background:rgba(255,255,255,.2)}
+.btn-play{background:#fff;color:#000}.btn-play:hover{transform:scale(1.05)}
+.btn-back{background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(10px)}
 .similar{padding:40px 4%;border-top:1px solid rgba(255,255,255,.07)}
 .similar h2{font-size:22px;margin-bottom:16px}
 .slider{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
@@ -44,7 +41,7 @@ header{position:fixed;top:0;width:100%;z-index:10;display:flex;align-items:cente
 .card{min-width:170px;width:170px;height:255px;border-radius:14px;overflow:hidden;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,.06)}
 .card img{width:100%;height:100%;object-fit:cover}
 .card:hover{transform:translateY(-8px);border-color:#e50914}
-@media(max-width:900px){.content{flex-direction:column;align-items:center}.poster{width:260px;min-width:260px;height:390px}.info h1{font-size:38px}.hero{min-height:auto;padding-bottom:40px}}
+@media(max-width:900px){.content{flex-direction:column;align-items:center}.poster{width:260px;min-width:260px;height:390px}.info h1{font-size:38px}}
 </style>
 </head>
 <body>
@@ -52,73 +49,50 @@ header{position:fixed;top:0;width:100%;z-index:10;display:flex;align-items:cente
 <div class="hero" id="hero"><div class="hero-bg" id="heroBg"></div><div class="content" id="content">جاري التحميل...</div></div>
 <div class="similar" id="similar"></div>
 <script>
-const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
 const id=new URLSearchParams(location.search).get('id');
-
 function getCats(m){return (m.category||'افلام').split(',').map(s=>s.trim()).filter(Boolean);}
 
 async function load(){
  let movie=null;
- // 1- جرب من movies.json اسرع
  try{
-  let r=await fetch('./movies.json?v='+Date.now());
-  if(r.ok){let all=await r.json(); movie=all.find(x=>String(x.id)==String(id));}
- }catch(e){}
- // 2- لو مفيش، هات من Supabase
- if(!movie){
-  let {data}=await supa.from('movies').select('*').eq('id',id).single();
-  movie=data;
- }
- if(!movie){document.getElementById('content').innerHTML='<div style="padding:50px">الفيلم مش موجود - <a href=index.html style=color:#e50914>رجوع للرئيسية</a></div>';return}
+  let r=await fetch('./movies.json?v='+Date.now(),{cache:'no-store'});
+  if(r.ok){let all=await r.json(); let list=Array.isArray(all)?all:all.movies||[]; movie=list.find(x=>String(x.id)==String(id)); window._all=list;}
+ }catch(e){console.error(e)}
+ if(!movie){document.getElementById('content').innerHTML='<div style="padding:50px">الفيلم مش موجود - <a href=index.html style=color:#e50914>رجوع</a></div>';return}
 
- // ===== SEO DYNAMIC =====
  const cats=getCats(movie);
  const pageTitle=`مشاهدة ${movie.title} ${movie.year?`(${movie.year})`:''} - GTM MOVIES`;
- const pageDesc=(movie.description||`شاهد فيلم ${movie.title} بجودة عالية على GTM Movies - ${cats.join(', ')}`).slice(0,160);
+ const pageDesc=(movie.description||`شاهد فيلم ${movie.title} بجودة عالية`).slice(0,160);
  const pageUrl=`https://gtmmovies.github.io/movie.html?id=${movie.id}`;
 
  document.title=pageTitle;
  document.getElementById('meta-desc').setAttribute('content', pageDesc);
- document.getElementById('meta-keys').setAttribute('content', `${movie.title}, ${cats.join(', ')}, افلام, GTM Movies`);
  document.getElementById('og-title').setAttribute('content', pageTitle);
  document.getElementById('og-desc').setAttribute('content', pageDesc);
- document.getElementById('og-image').setAttribute('content', movie.poster_url);
+ document.getElementById('og-image').setAttribute('content', movie.poster_url||movie.poster);
  document.getElementById('og-url').setAttribute('content', pageUrl);
  document.getElementById('canonical').setAttribute('href', pageUrl);
+ document.getElementById('json-ld').textContent=JSON.stringify({"@context":"https://schema.org","@type":"Movie","name":movie.title,"image":movie.poster_url||movie.poster,"dateCreated":movie.year,"description":pageDesc,"genre":cats,"url":pageUrl});
 
- // JSON-LD for Google
- document.getElementById('json-ld').textContent=JSON.stringify({
-  "@context":"https://schema.org",
-  "@type":"Movie",
-  "name": movie.title,
-  "image": movie.poster_url,
-  "dateCreated": movie.year,
-  "description": pageDesc,
-  "genre": cats,
-  "url": pageUrl
- });
-
- document.getElementById('heroBg').style.backgroundImage=`url('${movie.poster_url}')`;
+ document.getElementById('heroBg').style.backgroundImage=`url('${movie.poster_url||movie.poster}')`;
  document.getElementById('content').innerHTML=`
-  <div class="poster"><img src="${movie.poster_url}" alt="${movie.title}"></div>
+  <div class="poster"><img src="${movie.poster_url||movie.poster}" alt="${movie.title}"></div>
   <div class="info">
    <div style="margin-bottom:8px">${cats.map(c=>`<span class="badge">${c}</span>`).join('')}</div>
-   <div class="badge" style="background:rgba(102,243,154,.12);border-color:rgba(102,243,154,.3);color:#66f39a">🔥 حصري على GTM</div>
    <h1>${movie.title}</h1>
    <div class="meta"><span>${movie.year||'2025'}</span><span>HD 1080p</span><span>${cats[0]||'افلام'}</span></div>
-   <div class="desc">${movie.description||'لا يوجد وصف متاح حاليا، استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES.'}</div>
+   <div class="desc">${movie.description||'استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES.'}</div>
    <div class="btns">
-    <a class="btn btn-play" href="${movie.video_url||movie.watch_url}" target="_blank">▶ مشاهدة الان</a>
-    <a class="btn btn-back" onclick="history.back()">← رجوع</a>
+    <a class="btn btn-play" href="watch.html?id=${movie.id}">▶ مشاهدة الان</a>
+    <a class="btn btn-back" href="index.html">← رجوع</a>
    </div>
   </div>
  `;
- // افلام مشابهة - نفس التصنيف
- let {data:all}=await supa.from('movies').select('*').order('id',{ascending:false}).limit(20);
- if(!all){try{let r=await fetch('./movies.json');all=await r.json();}catch(e){all=[]}}
- let similar=all.filter(m=>m.id!=movie.id && getCats(m).some(c=>cats.includes(c))).slice(0,10);
- if(similar.length==0) similar=all.filter(m=>m.id!=movie.id).slice(0,8);
- document.getElementById('similar').innerHTML=`<h2>افلام مشابهة قد تعجبك</h2><div class="slider">${similar.map(m=>`<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url}" alt="${m.title}" loading="lazy"></div>`).join('')}</div>`;
+
+ let all=window._all||[];
+ let similar=all.filter(m=>String(m.id)!=String(id) && getCats(m).some(c=>cats.includes(c))).slice(0,10);
+ if(similar.length==0) similar=all.filter(m=>String(m.id)!=String(id)).slice(0,8);
+ document.getElementById('similar').innerHTML=`<h2>افلام مشابهة قد تعجبك</h2><div class="slider">${similar.map(m=>`<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url||m.poster}" alt="${m.title}" loading="lazy"></div>`).join('')}</div>`;
 }
 load();
 </script>
