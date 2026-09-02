@@ -1,40 +1,196 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTM Movies - مشاهدة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#0a0a0a;color:#fff;font-family:sans-serif;margin:0}
-.nav{padding:15px;background:#141414;color:#e50914;font-weight:bold;font-size:22px}
-.container{max-width:900px;margin:auto;padding:15px}
-.player{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
-.player video{width:100%;height:100%}
-.info{background:#1a1a1a;padding:20px;border-radius:12px;margin-top:15px}
-a.back{display:inline-block;margin-top:10px;background:#e50914;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none}
+*{font-family:'Cairo',sans-serif;box-sizing:border-box}
+body{background:#080808;color:#fff;margin:0}
+.nav{height:60px;background:#0e0e0e;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;justify-content:space-between;padding:0 15px;position:sticky;top:0;z-index:100}
+.nav b{color:#e50914;font-size:22px}
+.nav a{color:#aaa;text-decoration:none;font-size:13px;background:#1a1a1a;padding:6px 12px;border-radius:20px;border:1px solid #222}
+.container{max-width:1000px;margin:15px auto;padding:0 12px}
+.player-wrap{position:relative;background:#000;border-radius:16px;overflow:hidden;border:1px solid #1f1f1f;aspect-ratio:16/9}
+.player-wrap iframe,.player-wrap video{width:100%;height:100%;border:none;background:#000}
+.servers{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;background:#111;padding:10px;border-radius:12px;border:1px solid #1f1f1f}
+.server-btn{padding:8px 16px;border-radius:20px;border:1px solid #222;background:#1a1a1a;color:#aaa;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
+.server-btn.active{background:#e50914;color:#fff;border-color:#e50914}
+.server-btn:hover{border-color:#e50914;color:#fff}
+.info{background:#111;border:1px solid #1f1f1f;padding:18px;border-radius:16px;margin-top:12px}
+.info h1{margin:0 0 6px 0;font-size:20px}
+.meta{color:#777;font-size:12px;margin-bottom:10px}
+.info p{color:#bbb;line-height:1.7;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.btn-back{background:#1a1a1a;color:#fff;border:1px solid #222}
+.btn-dl{background:#e50914;color:#fff}
+.btn-wa{background:#25D366;color:#fff}
+.notice{background:#1a1300;border:1px solid #332600;color:#ffcc00;padding:10px;border-radius:10px;font-size:12px;margin:10px 0;display:none}
 </style>
 </head>
 <body>
-<div class="nav">GTM MOVIES</div>
+<div class="nav">
+  <b>GTM MOVIES</b>
+  <a href="index.html">← الرئيسية</a>
+</div>
 <div class="container">
-  <div class="player"><video id="videoFrame" controls autoplay playsinline></video></div>
+  <div class="player-wrap" id="playerWrap">
+    <div id="loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#666">جاري تحميل المشغل...</div>
+  </div>
+
+  <div class="servers" id="servers">
+    <button class="server-btn active" onclick="setServer(0)">▶️ سيرفر المشاهدة 1</button>
+    <button class="server-btn" onclick="setServer(1)">▶️ سيرفر المشاهدة 2</button>
+    <button class="server-btn" onclick="setServer(2)">▶️ سيرفر احتياطي</button>
+    <button class="server-btn" onclick="setServer(3)">⬇️ سيرفر التحميل</button>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
   <div class="info">
     <h1 id="title">جاري التحميل...</h1>
+    <div class="meta" id="meta"></div>
     <p id="desc"></p>
-    <a class="back" href="index.html">← رجوع</a>
+    <div class="actions">
+      <a class="btn btn-back" href="index.html">← رجوع</a>
+      <a class="btn btn-dl" id="dlBtn" href="#" target="_blank">⬇️ تحميل الفيلم</a>
+      <a class="btn btn-wa" href="https://whatsapp.com/channel/0029Va6fU0X1yT28NTQGys1I" target="_blank">واتساب</a>
+    </div>
   </div>
 </div>
+
 <script>
 const id = new URLSearchParams(window.location.search).get('id');
-fetch('movies.json')
+let movie=null;
+let servers=[];
+let currentServer=0;
+
+function isDirectVideo(url){
+  if(!url) return false;
+  return url.match(/\.(mp4|m3u8|webm)(\?|$)/i);
+}
+
+function makePlayer(url){
+  const wrap=document.getElementById('playerWrap');
+  wrap.innerHTML='';
+  if(!url){
+    wrap.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666">لا يوجد رابط مشاهدة</div>';
+    return;
+  }
+  // لو رابط مباشر mp4/m3u8 شغله video tag
+  if(isDirectVideo(url)){
+    const v=document.createElement('video');
+    v.controls=true;
+    v.autoplay=true;
+    v.playsInline=true;
+    v.src=url;
+    v.style.width='100%';
+    v.style.height='100%';
+    wrap.appendChild(v);
+  }else{
+    // غير كده iframe (يوتيوب - جوجل درايف - ok.ru - streamtape - اي embed)
+    const ifr=document.createElement('iframe');
+    ifr.src=url;
+    ifr.allowFullscreen=true;
+    ifr.allow='autoplay; fullscreen; encrypted-media';
+    // اهم حاجة عشان السيرفرات الخارجية تشتغل
+    ifr.referrerPolicy='no-referrer';
+    wrap.appendChild(ifr);
+  }
+}
+
+function setServer(idx){
+  currentServer=idx;
+  document.querySelectorAll('.server-btn').forEach((b,i)=> b.classList.toggle('active', i===idx));
+  const url=servers[idx];
+  if(!url){
+    document.getElementById('notice').style.display='block';
+    document.getElementById('notice').innerText='⚠️ السيرفر ده مش متاح للفيلم ده، جرب سيرفر تاني';
+    makePlayer(servers.find(s=>s) || '');
+  }else{
+    document.getElementById('notice').style.display='none';
+    makePlayer(url);
+  }
+  // حفظ اخر سيرفر
+  localStorage.setItem('last_server', idx);
+}
+
+fetch('movies.json?t='+Date.now())
   .then(res => res.json())
   .then(movies => {
-    const movie = movies.find(m => m.id == id);
-    if(!movie){ document.getElementById('title').innerText='الفيلم مش موجود'; return; }
-    document.getElementById('title').innerText = movie.title;
-    document.getElementById('desc').innerText = movie.description;
-    document.getElementById('videoFrame').src = movie.video_url;
+    const list=Array.isArray(movies)?movies:(movies.movies||[]);
+    movie = list.find(m => String(m.id) == String(id));
+    if(!movie){
+      document.getElementById('title').innerText='الفيلم مش موجود';
+      document.getElementById('playerWrap').innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666">الفيلم غير موجود - ارجع للرئيسية</div>';
+      return;
+    }
+    document.title=movie.title+' - GTM Movies';
+    document.getElementById('title').innerText=movie.title;
+    document.getElementById('meta').innerText=(movie.category||'')+' • '+(movie.year||'');
+    document.getElementById('desc').innerText=movie.description||'';
+
+    // ترتيب السيرفرات:
+    // سيرفر 1: watch_url او video_url
+    // سيرفر 2: لو عندك رابط تاني (ممكن تضيف في movies.json حقل video_url2) - حاليا بنستخدم نفس الرابط بس مع بروكسي
+    // سيرفر 3: سيرفر احتياطي - بنحاول نحول رابط جوجل درايف لمعاينة
+    // سيرفر 4: رابط التحميل
+
+    let mainUrl = movie.watch_url || movie.video_url || '';
+    let dlUrl = movie.download_url || mainUrl;
+
+    // لو رابط جوجل درايف حوله لمعاينة
+    function fixDrive(url){
+      if(!url) return url;
+      if(url.includes('drive.google.com')){
+        // https://drive.google.com/file/d/FILE_ID/view -> preview
+        let m=url.match(/\/d\/([^\/]+)/);
+        if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+      }
+      return url;
+    }
+
+    servers=[
+      fixDrive(mainUrl), // سيرفر 1
+      mainUrl, // سيرفر 2 (مباشر)
+      fixDrive(movie.video_url2 || mainUrl), // سيرفر 3 احتياطي
+      dlUrl // سيرفر 4 تحميل - هنفتحه في iframe برضو لو اضطريت
+    ];
+
+    document.getElementById('dlBtn').href=dlUrl||'#';
+    document.getElementById('dlBtn').style.display=dlUrl?'inline-flex':'none';
+
+    // رجع اخر سيرفر كان مختاره
+    let last=parseInt(localStorage.getItem('last_server')||'0');
+    setServer(last);
+  })
+  .catch(e=>{
+    document.getElementById('title').innerText='خطأ في التحميل';
+    console.error(e);
   });
 </script>
-</body>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
