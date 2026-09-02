@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
-<head>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GTM ADMIN V5 - اقسام متعددة</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>GTM ADMIN V6 - مباشر GitHub</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 *{font-family:'Cairo',sans-serif;box-sizing:border-box}body{margin:0;background:#060606;color:#fff}
@@ -19,7 +39,7 @@
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .card{position:relative;background:#121212;border:1px solid #1f1f1f;border-radius:14px;overflow:hidden;transition:.2s}
 .card:hover{border-color:#e50914;transform:translateY(-3px)}
-.card img{width:100%;height:230px;object-fit:cover}
+.card img{width:100%;height:230px;object-fit:cover;background:#111}
 .card-body{padding:8px}.card-body b{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-body small{color:#777;font-size:10px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-actions{position:absolute;top:6px;left:6px;display:flex;gap:5px;z-index:10;background:rgba(0,0,0,.6);padding:4px;border-radius:8px}
@@ -34,14 +54,21 @@
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .cat-label{display:flex;gap:6px;align-items:center;background:#222;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;transition:.2s}
 .cat-label:has(input:checked){background:#e50914;color:#fff;border:1px solid #ff2535}
+.token-box{display:flex;gap:8px;margin:10px 0;background:#111;padding:10px;border-radius:12px;border:1px solid #222}
 </style>
 </head>
 <body>
 <div class="topbar">
-<div class="logo">GTM <span>V5 متعدد</span></div>
+<div class="logo">GTM <span>V6 مباشر</span></div>
 <button class="btn-add" onclick="openModal()">+ إضافة فيلم</button>
 </div>
 <div class="container">
+<div class="token-box">
+<input id="ghToken" type="password" placeholder="GitHub Token (ghp_...)" style="flex:1;background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:10px;color:#fff">
+<button onclick="saveToken()" style="background:#e50914;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer">حفظ</button>
+<a href="https://github.com/settings/tokens/new" target="_blank" style="background:#222;color:#fff;border:none;border-radius:8px;padding:8px 12px;text-decoration:none;font-size:12px;display:flex;align-items:center">انشاء توكن</a>
+</div>
+<div id="status" style="font-size:12px;color:#888;margin:5px 0"></div>
 <div class="tabs" id="tabs">
 <button class="tab active" onclick="filterBy('الكل', this)">الكل <span id="c-all"></span></button>
 <button class="tab" onclick="filterBy('افلام عربي', this)">عربي <span id="c-ar"></span></button>
@@ -53,7 +80,6 @@
 <button class="tab" onclick="filterBy('دراما', this)">دراما</button>
 </div>
 <input class="search" id="search" placeholder="🔍 ابحث..." oninput="applyFilter()">
-<div style="display:flex;gap:8px;margin:10px 0"><input id="ghToken" type="password" placeholder="توكن GitHub" style="flex:1;background:#111;border:1px solid #222;border-radius:10px;padding:10px;color:#fff"><button onclick="localStorage.setItem('gh_token',ghToken.value);alert('تم')" style="background:#222;color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer">حفظ</button></div>
 <div class="grid" id="list"></div>
 </div>
 
@@ -61,7 +87,7 @@
 <div class="modal-box">
 <div style="display:flex;justify-content:space-between"><h3 id="mtitle">إضافة فيلم</h3><button onclick="closeModal()" style="background:#222;border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer">✕</button></div>
 <input id="title" placeholder="اسم الفيلم">
-<input id="year" placeholder="السنة">
+<input id="year" placeholder="السنة - مثال 2024">
 <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:10px;margin:6px 0">
 <div style="font-size:11px;color:#888;margin-bottom:8px">اختار التصنيفات (ممكن اكتر من واحد):</div>
 <div class="cat-grid">
@@ -75,7 +101,10 @@
 <label class="cat-label"><input type="checkbox" class="catChk" value="انمي"> انمي</label>
 </div>
 </div>
+<label style="font-size:12px;color:#888">صورة البوستر (ارفع من جهازك):</label>
 <input type="file" id="file" accept="image/*"><img id="preview" style="width:100%;display:none;margin-top:10px;border-radius:10px;max-height:200px;object-fit:cover">
+<div style="text-align:center;color:#666;font-size:11px;margin:8px 0">او</div>
+<input id="posterUrl" placeholder="لينك الصورة مباشر https://...">
 <input id="video" placeholder="رابط المشاهدة">
 <textarea id="desc" placeholder="القصة..." rows="3"></textarea>
 <input type="hidden" id="editId">
@@ -85,24 +114,204 @@
 </div>
 
 <script>
-const supa=supabase.createClient('https://akkroydgqotbavvchiju.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3JveWRncW90YmF2dmNoaWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjY2MDcsImV4cCI6MjEwMjAwMjYwN30.lP10UuBAudqfOeoSpOkfHOXMR1Z24kY68CRNmKUcXpo');
-let allData=[], selectedFile=null, currentCat='الكل';
-const REPO_OWNER='gtmmovies', REPO_NAME='gtmmovies.github.io', FILE_PATH='movies.json';
-ghToken.value=localStorage.getItem('gh_token')||'';
-function openModal(){modal.classList.add('active')}function closeModal(){modal.classList.remove('active')}
-file.addEventListener('change',()=>{selectedFile=file.files[0];let r=new FileReader();r.onload=e=>{preview.src=e.target.result;preview.style.display='block'};r.readAsDataURL(selectedFile)});
-async function uploadPoster(){if(!selectedFile) return window.oldPoster;let fileName=Date.now()+'.jpg';let {error}=await supa.storage.from('posters').upload(fileName,selectedFile);if(error) throw error;let {data}=supa.storage.from('posters').getPublicUrl(fileName);return data.publicUrl;}
-async function updateGitHubJson(){let token=localStorage.getItem('gh_token');if(!token) throw new Error('حط التوكن');let {data}=await supa.from('movies').select('*').order('id',{ascending:false});let b64=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));let getRes=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,{headers:{Authorization:`Bearer ${token}`}});let sha=null;if(getRes.ok){let j=await getRes.json();sha=j.sha}let putRes=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,{method:'PUT',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({message:'update',content:b64,sha})});if(!putRes.ok) throw new Error('فشل GitHub')}
-let isSaving=false;
-async function save(){if(isSaving) return;if(!title.value) return alert('الاسم');let cats=[...document.querySelectorAll('.catChk:checked')].map(c=>c.value).join(', ');if(!cats) return alert('اختار تصنيف واحد على الاقل');isSaving=true;saveBtn.disabled=true;saveBtn.innerText='⏳ بيرفع...';try{let posterUrl=await uploadPoster();let payload={title:title.value,year:year.value,category:cats,poster_url:posterUrl,video_url:video.value,watch_url:video.value,description:desc.value};let res=editId.value?await supa.from('movies').update(payload).eq('id',editId.value):await supa.from('movies').insert([payload]);if(res.error) throw res.error;saveBtn.innerText='⏳ بينشر...';await updateGitHubJson();msg.innerText='✅ اتنشر';closeModal();resetForm();load()}catch(e){msg.innerText='❌ '+e.message;alert(e.message)}finally{isSaving=false;saveBtn.disabled=false;saveBtn.innerText='حفظ ونشر 🚀'}}
-function resetForm(){editId.value='';title.value='';year.value='';video.value='';desc.value='';file.value='';preview.style.display='none';selectedFile=null;window.oldPoster=null;document.querySelectorAll('.catChk').forEach(c=>c.checked=false)}
-async function load(){let {data}=await supa.from('movies').select('*').order('id',{ascending:false});allData=data||[];document.getElementById('c-all').innerText=`(${allData.length})`;document.getElementById('c-ar').innerText=`(${allData.filter(m=>m.category.includes('عربي')).length})`;document.getElementById('c-en').innerText=`(${allData.filter(m=>m.category.includes('اجنبي')).length})`;document.getElementById('c-ser').innerText=`(${allData.filter(m=>m.category.includes('مسلسلات')).length})`;applyFilter()}
-function applyFilter(){let data=allData;if(currentCat!='الكل') data=data.filter(m=>m.category.includes(currentCat));let q=search.value.toLowerCase();if(q) data=data.filter(m=>m.title.toLowerCase().includes(q));render(data)}
-function render(data){list.innerHTML=data.map(m=>`<div class=card><div class=card-actions><button class=icon-btn onclick=startEdit(${m.id})>✏️</button><button class=icon-btn del onclick=del(${m.id})>🗑️</button></div><img src=${m.poster_url} loading=lazy><div class=card-body><b>${m.title}</b><small>${m.category} • ${m.year||''}</small></div></div>`).join('')||'<div style=grid-column:1/-1;text-align:center;color:#666;padding:40px>مفيش افلام في القسم ده</div>'}
-function filterBy(cat, el){currentCat=cat;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');applyFilter()}
-function startEdit(id){let m=allData.find(x=>x.id==id);editId.value=m.id;title.value=m.title;year.value=m.year;video.value=m.video_url;desc.value=m.description;window.oldPoster=m.poster_url;preview.src=m.poster_url;preview.style.display='block';document.querySelectorAll('.catChk').forEach(chk=>chk.checked=m.category.includes(chk.value));document.getElementById('mtitle').innerText='تعديل: '+m.title;openModal()}
-async function del(id){if(!confirm('تمسح؟')) return;await supa.from('movies').delete().eq('id',id);load();updateGitHubJson()}
+const REPO_OWNER='gtmmovies';
+const REPO_NAME='gtmmovies.github.io';
+const FILE_PATH='movies.json';
+const POSTER_FOLDER='posters';
+
+let allData=[], selectedFile=null, currentCat='الكل', fileSha=null;
+const $ = id=>document.getElementById(id);
+$('ghToken').value=localStorage.getItem('gh_token')||'';
+
+function saveToken(){ localStorage.setItem('gh_token',$('ghToken').value); alert('تم حفظ التوكن'); load(); }
+function openModal(){ $('modal').classList.add('active') }
+function closeModal(){ $('modal').classList.remove('active') }
+
+$('file').addEventListener('change',()=>{ selectedFile=$('file').files[0]; let r=new FileReader(); r.onload=e=>{ $('preview').src=e.target.result; $('preview').style.display='block'; }; r.readAsDataURL(selectedFile); });
+
+function b64Encode(str){ return btoa(unescape(encodeURIComponent(str))); }
+function b64Decode(b64){ return decodeURIComponent(escape(atob(b64))); }
+
+async function ghFetch(path, opts={}){
+  let token=localStorage.getItem('gh_token');
+  if(!token) throw new Error('حط توكن GitHub الاول! دوس على انشاء توكن واعمل واحد بصلاحية repo');
+  let headers={ Authorization:`Bearer ${token}`, Accept:'application/vnd.github.v3+json', ...opts.headers };
+  let res=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, { ...opts, headers });
+  if(!res.ok){ let txt=await res.text(); throw new Error('GitHub Error: '+res.status+' '+txt); }
+  return res.json();
+}
+
+async function load(){
+  try{
+    $('status').innerText='⏳ بيحمل الافلام...';
+    // حاول يجيب من GitHub API عشان ياخد الـ sha
+    let data;
+    try{
+      let jsonFile=await ghFetch(FILE_PATH);
+      fileSha=jsonFile.sha;
+      let content=b64Decode(jsonFile.content.replace(/\n/g,''));
+      data=JSON.parse(content);
+    }catch(e){
+      // لو التوكن مش محطوط او الملف مش موجود جرب من الرابط المباشر
+      let rawRes=await fetch(`https://${REPO_OWNER}.github.io/${FILE_PATH}?t=${Date.now()}`);
+      if(!rawRes.ok) throw new Error('movies.json مش موجود');
+      data=await rawRes.json();
+      fileSha=null;
+      // حاول تجيب الـ sha تاني لو فيه توكن
+      if(localStorage.getItem('gh_token')){
+        try{ let jf=await ghFetch(FILE_PATH); fileSha=jf.sha; }catch(_){}
+      }
+    }
+    allData=Array.isArray(data)?data:(data.movies||[]);
+    $('status').innerText=`✅ تم تحميل ${allData.length} فيلم`;
+    $('c-all').innerText=`(${allData.length})`;
+    $('c-ar').innerText=`(${allData.filter(m=>(m.category||'').includes('عربي')).length})`;
+    $('c-en').innerText=`(${allData.filter(m=>(m.category||'').includes('اجنبي')).length})`;
+    $('c-ser').innerText=`(${allData.filter(m=>(m.category||'').includes('مسلسلات')).length})`;
+    applyFilter();
+  }catch(e){
+    $('status').innerText='❌ '+e.message;
+    console.error(e);
+  }
+}
+
+function applyFilter(){
+  let data=[...allData];
+  if(currentCat!='الكل') data=data.filter(m=>(m.category||'').includes(currentCat));
+  let q=$('search').value.toLowerCase().trim();
+  if(q) data=data.filter(m=>(m.title||'').toLowerCase().includes(q));
+  render(data);
+}
+
+function render(data){
+  $('list').innerHTML=data.map(m=>`
+    <div class=card>
+      <div class=card-actions>
+        <button class=icon-btn onclick="startEdit('${m.id}')">✏️</button>
+        <button class=icon-btn del onclick="delMovie('${m.id}')">🗑️</button>
+      </div>
+      <img src="${m.poster_url||m.poster||''}" loading=lazy onerror="this.src='https://via.placeholder.com/300x400?text=No+Image'">
+      <div class=card-body><b>${m.title||'بدون عنوان'}</b><small>${m.category||''} • ${m.year||''}</small></div>
+    </div>
+  `).join('') || '<div style=grid-column:1/-1;text-align:center;color:#666;padding:40px>مفيش افلام في القسم ده</div>';
+}
+
+function filterBy(cat, el){
+  currentCat=cat;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilter();
+}
+
+function startEdit(id){
+  let m=allData.find(x=>String(x.id)==String(id));
+  if(!m) return;
+  $('editId').value=m.id;
+  $('title').value=m.title||'';
+  $('year').value=m.year||'';
+  $('posterUrl').value=m.poster_url||m.poster||'';
+  $('video').value=m.video_url||m.watch_url||'';
+  $('desc').value=m.description||'';
+  window.oldPoster=m.poster_url||m.poster||'';
+  $('preview').src=window.oldPoster;
+  $('preview').style.display=window.oldPoster?'block':'none';
+  document.querySelectorAll('.catChk').forEach(chk=> chk.checked=(m.category||'').includes(chk.value));
+  $('mtitle').innerText='تعديل: '+m.title;
+  openModal();
+}
+
+async function uploadImageIfNeeded(){
+  if(!selectedFile) return $('posterUrl').value.trim() || window.oldPoster || '';
+  // ارفع الصورة للريبو
+  let token=localStorage.getItem('gh_token');
+  let ext=selectedFile.name.split('.').pop()||'jpg';
+  let fileName=`${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`;
+  let path=`${POSTER_FOLDER}/${fileName}`;
+  let reader=new FileReader();
+  let base64=await new Promise(r=>{ reader.onload=()=>r(reader.result.split(',')[1]); reader.readAsDataURL(selectedFile); });
+  await ghFetch(path, { method:'PUT', body: JSON.stringify({ message:`upload poster ${fileName}`, content:base64 }) });
+  // رابط مباشر من GitHub Pages
+  return `https://${REPO_OWNER}.github.io/${path}`;
+}
+
+async function save(){
+  if($('saveBtn').disabled) return;
+  if(!$('title').value.trim()) return alert('اكتب اسم الفيلم');
+  let cats=[...document.querySelectorAll('.catChk:checked')].map(c=>c.value).join(', ');
+  if(!cats) return alert('اختار تصنيف واحد على الاقل');
+  let token=localStorage.getItem('gh_token');
+  if(!token) return alert('حط توكن GitHub الاول');
+
+  $('saveBtn').disabled=true;
+  $('saveBtn').innerText='⏳ بيرفع الصورة...';
+  $('msg').innerText='';
+  try{
+    let posterUrl=await uploadImageIfNeeded();
+    if(!posterUrl) throw new Error('حط صورة او لينك صورة');
+
+    let payload={
+      id: $('editId').value ? String($('editId').value) : String(Date.now()),
+      title: $('title').value.trim(),
+      year: $('year').value.trim(),
+      category: cats,
+      poster_url: posterUrl,
+      poster: posterUrl,
+      video_url: $('video').value.trim(),
+      watch_url: $('video').value.trim(),
+      description: $('desc').value.trim()
+    };
+
+    let newData;
+    if($('editId').value){
+      newData=allData.map(m=> String(m.id)==String($('editId').value) ? {...m, ...payload} : m);
+    }else{
+      newData=[payload, ...allData];
+    }
+
+    $('saveBtn').innerText='⏳ بينشر في GitHub...';
+    // هات احدث sha قبل النشر
+    try{ let jf=await ghFetch(FILE_PATH); fileSha=jf.sha; }catch(_){}
+
+    let b64=b64Encode(JSON.stringify(newData,null,2));
+    let body={ message: $('editId').value?`edit movie ${payload.title}`:`add movie ${payload.title}`, content:b64 };
+    if(fileSha) body.sha=fileSha;
+
+    await ghFetch(FILE_PATH, { method:'PUT', body: JSON.stringify(body) });
+
+    $('msg').innerText='✅ اتنشر بنجاح! استنى دقيقة والصفحة الرئيسية هتتحدث';
+    closeModal();
+    resetForm();
+    setTimeout(load,1500);
+  }catch(e){
+    $('msg').innerText='❌ '+e.message;
+    alert(e.message);
+  }finally{
+    $('saveBtn').disabled=false;
+    $('saveBtn').innerText='حفظ ونشر 🚀';
+  }
+}
+
+function resetForm(){
+  $('editId').value=''; $('title').value=''; $('year').value=''; $('video').value=''; $('desc').value=''; $('posterUrl').value=''; $('file').value=''; $('preview').style.display='none'; selectedFile=null; window.oldPoster=null; document.querySelectorAll('.catChk').forEach(c=>c.checked=false);
+}
+
+async function delMovie(id){
+  if(!confirm('متاكد عايز تمسح الفيلم ده؟')) return;
+  let token=localStorage.getItem('gh_token');
+  if(!token) return alert('حط التوكن الاول');
+  try{
+    $('status').innerText='⏳ بيمسح...';
+    let newData=allData.filter(m=> String(m.id)!=String(id));
+    try{ let jf=await ghFetch(FILE_PATH); fileSha=jf.sha; }catch(_){}
+    let b64=b64Encode(JSON.stringify(newData,null,2));
+    await ghFetch(FILE_PATH, { method:'PUT', body: JSON.stringify({ message:`delete movie ${id}`, content:b64, sha:fileSha }) });
+    allData=newData;
+    applyFilter();
+    $('status').innerText='✅ اتمسح';
+  }catch(e){ alert(e.message); }
+}
+
 load();
 </script>
-</body>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
