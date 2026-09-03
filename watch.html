@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTM Movies - مشاهدة</title>
@@ -35,10 +14,10 @@ body{background:#080808;color:#fff;margin:0}
 .container{max-width:1000px;margin:15px auto;padding:0 12px}
 .player-wrap{position:relative;background:#000;border-radius:16px;overflow:hidden;border:1px solid #1f1f1f;aspect-ratio:16/9}
 .player-wrap iframe,.player-wrap video{width:100%;height:100%;border:none;background:#000}
+.yt-fallback{position:absolute;inset:0;background:#000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#fff;text-align:center;padding:20px}
 .servers{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;background:#111;padding:10px;border-radius:12px;border:1px solid #1f1f1f}
 .server-btn{padding:8px 16px;border-radius:20px;border:1px solid #222;background:#1a1a1a;color:#aaa;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
 .server-btn.active{background:#e50914;color:#fff;border-color:#e50914}
-.server-btn:hover{border-color:#e50914;color:#fff}
 .episodes-box{display:none;background:#111;padding:10px;border-radius:12px;border:1px solid #1f1f1f;margin:12px 0}
 .episodes-box.show{display:block}
 .episodes-head{font-size:13px;font-weight:800;color:#fff;margin-bottom:10px}
@@ -53,13 +32,19 @@ body{background:#080808;color:#fff;margin:0}
 .btn{padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px}
 .btn-back{background:#1a1a1a;color:#fff;border:1px solid #222}
 .btn-dl{background:#e50914;color:#fff}
-.btn-wa{background:#25D366;color:#fff}
 </style>
 </head>
 <body>
 <div class="nav"><b onclick="location.href='index.html'">GTM MOVIES</b><a href="index.html">الرئيسية</a></div>
 <div class="container">
-<div class="player-wrap" id="playerWrap"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#666">جاري تحميل المشغل...</div></div>
+<div class="player-wrap" id="playerWrap">
+<div id="ytFallback" class="yt-fallback">
+<div style="font-size:40px">▶</div>
+<div>الفيديو ده مانع التضمين من يوتيوب (خطأ 153)</div>
+<div style="font-size:12px;color:#888">صاحب الفيديو قافل التشغيل داخل المواقع - الحل: ارفعه على Google Drive</div>
+<a id="ytDirectLink" href="#" target="_blank" style="background:#e50914;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:800">فتح على يوتيوب</a>
+</div>
+</div>
 <div class="episodes-box" id="episodesBox"><div class="episodes-head">الحلقات</div><div class="episodes-list" id="episodesList"></div></div>
 <div class="servers" id="servers">
 <button class="server-btn active" onclick="setServer(0)">سيرفر 1</button>
@@ -71,13 +56,18 @@ body{background:#080808;color:#fff;margin:0}
 </div>
 <script>
 const id = new URLSearchParams(window.location.search).get('id');
-let movie=null, servers=[], currentEp=0;
+let movie=null, servers=[], currentEp=0, currentVideoId=null;
 
 function universalFix(url){
  if(!url) return '';
  url=url.trim();
  let yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/);
- if(yt){ return `https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1`; }
+ if(yt){
+  currentVideoId=yt[1];
+  let origin=encodeURIComponent(location.origin);
+  // اهم حاجة لحل خطأ 153: youtube-nocookie + origin + enablejsapi
+  return `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${origin}&widget_referrer=${origin}`;
+ }
  if(url.includes('drive.google.com')){
   let m=url.match(/\/d\/([^\/]+)/);
   if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
@@ -94,30 +84,39 @@ function universalFix(url){
 }
 
 function makePlayer(url){
- const wrap=document.getElementById('playerWrap'); wrap.innerHTML='';
- if(!url){ wrap.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666">لا يوجد رابط</div>'; return; }
- url=universalFix(url);
- if(url.match(/\.(mp4|webm|m3u8)(\?|$)/i)){
-  if(url.includes('.m3u8')){
-   wrap.innerHTML=`<video id="hlsVideo" controls autoplay playsinline style="width:100%;height:100%"></video>`;
-   let script=document.createElement('script');
-   script.src='https://cdn.jsdelivr.net/npm/hls.js@latest';
-   script.onload=()=>{
-    let video=document.getElementById('hlsVideo');
-    if(Hls.isSupported()){ let hls=new Hls(); hls.loadSource(url); hls.attachMedia(video); }
-    else{ video.src=url; }
-   };
-   document.head.appendChild(script);
-  }else{
-   wrap.innerHTML=`<video controls autoplay playsinline src="${url}" style="width:100%;height:100%"></video>`;
-  }
- }else{
+ const wrap=document.getElementById('playerWrap');
+ // امسح القديم
+ wrap.querySelectorAll('iframe, video').forEach(el=>el.remove());
+ document.getElementById('ytFallback').style.display='none';
+ if(!url){ return; }
+ let fixed=universalFix(url);
+ document.getElementById('ytDirectLink').href=`https://www.youtube.com/watch?v=${currentVideoId||''}`;
+ // لو يوتيوب
+ if(fixed.includes('youtube-nocookie')){
   let ifr=document.createElement('iframe');
-  ifr.src=url;
+  ifr.src=fixed;
   ifr.allowFullscreen=true;
   ifr.allow='autoplay; fullscreen; encrypted-media; picture-in-picture';
   ifr.referrerPolicy='no-referrer';
   ifr.style.background='#000';
+  // لو فشل يحمل بعد 4 ثواني (خطأ 153) اظهر الفولباك
+  let failed=false;
+  let timer=setTimeout(()=>{
+   if(!failed){
+    document.getElementById('ytFallback').style.display='flex';
+   }
+  }, 4000);
+  ifr.onload=()=>{ clearTimeout(timer); };
+  ifr.onerror=()=>{ document.getElementById('ytFallback').style.display='flex'; };
+  wrap.appendChild(ifr);
+ }else if(fixed.match(/\.(mp4|webm)(\?|$)/i)){
+  wrap.innerHTML+=`<video controls autoplay playsinline src="${fixed}" style="width:100%;height:100%"></video><div id="ytFallback" class="yt-fallback"></div>`;
+ }else{
+  let ifr=document.createElement('iframe');
+  ifr.src=fixed;
+  ifr.allowFullscreen=true;
+  ifr.allow='autoplay; fullscreen; encrypted-media; picture-in-picture';
+  ifr.referrerPolicy='no-referrer';
   wrap.appendChild(ifr);
  }
 }
@@ -128,12 +127,10 @@ function buildServers(){
  let u2=ep?(ep.video_url2||movie.video_url2):(movie.video_url2||'');
  servers=[main, u2||main, movie.video_url2||u2||main, movie.download_url||main];
 }
-
 function setServer(i){
  document.querySelectorAll('.server-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
  makePlayer(servers[i]);
 }
-
 function playEp(i){
  currentEp=i; document.querySelectorAll('.ep-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
  buildServers(); makePlayer(servers[0]);
@@ -158,5 +155,5 @@ fetch('movies.json?t='+Date.now()).then(r=>r.json()).then(movies=>{
  document.getElementById('title').innerText=movie.title;
 });
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</body>
 </html>
