@@ -4,56 +4,91 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTM Movies - مشاهدة</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;800;900&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
 <style>
-*{font-family:'Cairo',sans-serif;box-sizing:border-box}
-body{background:#080808;color:#fff;margin:0}
-.nav{height:60px;background:#0e0e0e;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;justify-content:space-between;padding:0 15px;position:sticky;top:0;z-index:100}
-.nav b{color:#e50914;font-size:22px;cursor:pointer}
-.nav a{color:#aaa;text-decoration:none;font-size:13px;background:#1a1a1a;padding:6px 12px;border-radius:20px;border:1px solid #222}
-.container{max-width:1000px;margin:15px auto;padding:0 12px}
-.player-wrap{position:relative;background:#000;border-radius:16px;overflow:hidden;border:1px solid #1f1f1f;aspect-ratio:16/9}
+*{font-family:'Cairo',sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;overflow-x:hidden}
+.heroBg{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;filter:blur(0px) brightness(.35) saturate(1.2);transition:1s}
+.heroOverlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(0deg,#000 10%,rgba(0,0,0,.6) 50%,rgba(0,0,0,.85)),radial-gradient(800px at 50% 0%,rgba(255,255,255,.07),transparent)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;width:100%;z-index:10;background:rgba(0,0,0,.5);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav b{font-family:'Space Grotesk',sans-serif;font-weight:900;letter-spacing:2px;font-size:20px;cursor:pointer}
+.nav b span{background:#fff;color:#000;padding:2px 6px;border-radius:4px;margin-left:4px}
+.nav a{color:#aaa;text-decoration:none;font-size:12px;background:rgba(255,255,255,.06);padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.12)}
+.wrap{max-width:1200px;margin:0 auto;padding:96px 16px 30px 16px}
+.nowPlaying{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.dot{width:8px;height:8px;border-radius:50%;background:#ff2a2a;box-shadow:0 0 12px #ff2a2a;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nowPlaying span{font-size:11px;letter-spacing:3px;color:#ff2a2a;font-weight:800}
+.titleLarge{font-size:clamp(26px,5vw,50px);font-weight:900;line-height:.95;letter-spacing:-1px;margin-bottom:12px;text-transform:uppercase}
+.metaRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;color:#aaa;font-size:12px;align-items:center}
+.metaRow i{font-style:normal;padding:4px 10px;border:1px solid rgba(255,255,255,.15);border-radius:20px;background:rgba(255,255,255,.06)}
+.metaRow i.red{background:#fff;color:#000;border-color:#fff;font-weight:900}
+.theater{position:relative;background:#050505;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 100px rgba(0,0,0,.8)}
+.player-wrap{width:100%;aspect-ratio:16/9;background:#000;position:relative}
 .player-wrap iframe,.player-wrap video{width:100%;height:100%;border:none;background:#000}
-.yt-fallback{position:absolute;inset:0;background:#000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#fff;text-align:center;padding:20px}
-.servers{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;background:#111;padding:10px;border-radius:12px;border:1px solid #1f1f1f}
-.server-btn{padding:8px 16px;border-radius:20px;border:1px solid #222;background:#1a1a1a;color:#aaa;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
-.server-btn.active{background:#e50914;color:#fff;border-color:#e50914}
-.episodes-box{display:none;background:#111;padding:10px;border-radius:12px;border:1px solid #1f1f1f;margin:12px 0}
+.yt-fallback{position:absolute;inset:0;background:#000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#fff;text-align:center;padding:20px;z-index:2}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#0a0a0a;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:10px}
+.servers{display:flex;gap:8px;flex-wrap:wrap}
+.server-btn{padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:#141414;color:#888;font-weight:800;font-size:12px;cursor:pointer;transition:.2s}
+.server-btn.active{background:#fff;color:#000;border-color:#fff}
+.server-btn:hover{color:#fff;border-color:#444}
+.actions{display:flex;gap:8px}
+.btn{padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px}
+.btn-dl{background:#fff;color:#000;border-color:#fff}
+.bottomGrid{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px}
+@media(max-width:900px){.bottomGrid{grid-template-columns:1fr}}
+.card{background:rgba(15,15,15,.8);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px}
+.card h3{font-size:13px;font-weight:900;letter-spacing:1px;margin-bottom:12px;opacity:.8}
+.desc{color:#777;line-height:1.9;font-size:13px}
+.episodes-box{display:none}
 .episodes-box.show{display:block}
-.episodes-head{font-size:13px;font-weight:800;color:#fff;margin-bottom:10px}
-.episodes-list{display:flex;gap:8px;flex-wrap:wrap;max-height:220px;overflow-y:auto}
-.ep-btn{min-width:52px;height:42px;border-radius:10px;border:1px solid #222;background:#1a1a1a;color:#bbb;cursor:pointer;font-size:13px;font-weight:800;display:grid;place-items:center}
-.ep-btn.active{background:#fff;color:#000}
-.info{background:#111;border:1px solid #1f1f1f;padding:18px;border-radius:16px;margin-top:12px}
-.info h1{margin:0 0 6px 0;font-size:20px}
-.meta{color:#777;font-size:12px;margin-bottom:10px}
-.info p{color:#bbb;line-height:1.7;font-size:14px}
-.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.btn{padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px}
-.btn-back{background:#1a1a1a;color:#fff;border:1px solid #222}
-.btn-dl{background:#e50914;color:#fff}
+.episodes-list{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto;padding-left:2px}
+.episodes-list::-webkit-scrollbar{width:3px} .episodes-list::-webkit-scrollbar-thumb{background:#333}
+.ep-btn{display:grid;grid-template-columns:48px 1fr 36px;gap:12px;align-items:center;padding:10px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);cursor:pointer;transition:.2s;color:#bbb}
+.ep-btn:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);transform:translateX(-3px)}
+.ep-btn.active{background:#fff;border-color:#fff;color:#000}
+.ep-btn .n{width:48px;height:48px;border-radius:10px;background:#111;border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;font-weight:900;font-size:14px}
+.ep-btn.active .n{background:#000;color:#fff}
+.ep-btn small{color:#666;font-size:11px;display:block}
+.ep-btn.active small{color:#555}
+.playCircle{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;font-size:12px}
+.ep-btn.active .playCircle{background:#000;color:#fff;border-color:#000}
 </style>
 </head>
 <body>
-<div class="nav"><b onclick="location.href='index.html'">GTM MOVIES</b><a href="index.html">الرئيسية</a></div>
-<div class="container">
+<div class="heroBg" id="heroBg"></div><div class="heroOverlay"></div>
+<div class="nav"><b onclick="location.href='index.html'"><span>GTM</span> MOVIES</b><a href="index.html">الرئيسية ←</a></div>
+<div class="wrap">
+<div class="nowPlaying"><div class="dot"></div><span>NOW PLAYING • CINEMA MODE</span></div>
+<h1 class="titleLarge" id="title">...</h1>
+<div class="metaRow" id="meta"></div>
+
+<div class="theater">
 <div class="player-wrap" id="playerWrap">
 <div id="ytFallback" class="yt-fallback">
 <div style="font-size:40px">▶</div>
 <div>الفيديو ده مانع التضمين من يوتيوب (خطأ 153)</div>
 <div style="font-size:12px;color:#888">صاحب الفيديو قافل التشغيل داخل المواقع - الحل: ارفعه على Google Drive</div>
-<a id="ytDirectLink" href="#" target="_blank" style="background:#e50914;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:800">فتح على يوتيوب</a>
+<a id="ytDirectLink" href="#" target="_blank" style="background:#fff;color:#000;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:800">فتح على يوتيوب</a>
 </div>
 </div>
-<div class="episodes-box" id="episodesBox"><div class="episodes-head">الحلقات</div><div class="episodes-list" id="episodesList"></div></div>
+<div class="bar">
 <div class="servers" id="servers">
-<button class="server-btn active" onclick="setServer(0)">سيرفر 1</button>
-<button class="server-btn" onclick="setServer(1)">سيرفر 2</button>
+<button class="server-btn active" onclick="setServer(0)">SERVER 1</button>
+<button class="server-btn" onclick="setServer(1)">SERVER 2</button>
 <button class="server-btn" onclick="setServer(2)">احتياطي</button>
 <button class="server-btn" onclick="setServer(3)">تحميل</button>
 </div>
-<div class="info"><h1 id="title">...</h1><div class="meta" id="meta"></div><p id="desc"></p><div class="actions"><a class="btn btn-back" href="index.html">رجوع</a><a class="btn btn-dl" id="dlBtn" href="#" target="_blank">تحميل</a></div></div>
+<div class="actions"><a class="btn btn-dl" id="dlBtn" href="#" target="_blank">⬇ DOWNLOAD</a><a class="btn" href="index.html">رجوع</a></div>
 </div>
+</div>
+
+<div class="bottomGrid">
+<div class="card"><h3>القصة</h3><p class="desc" id="desc"></p></div>
+<div class="card episodes-box" id="episodesBox"><h3>الحلقات • EPISODES</h3><div class="episodes-list" id="episodesList"></div></div>
+</div>
+</div>
+
 <script>
 const id = new URLSearchParams(window.location.search).get('id');
 let movie=null, servers=[], currentEp=0, currentVideoId=null;
@@ -65,7 +100,6 @@ function universalFix(url){
  if(yt){
   currentVideoId=yt[1];
   let origin=encodeURIComponent(location.origin);
-  // اهم حاجة لحل خطأ 153: youtube-nocookie + origin + enablejsapi
   return `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${origin}&widget_referrer=${origin}`;
  }
  if(url.includes('drive.google.com')){
@@ -85,13 +119,11 @@ function universalFix(url){
 
 function makePlayer(url){
  const wrap=document.getElementById('playerWrap');
- // امسح القديم
  wrap.querySelectorAll('iframe, video').forEach(el=>el.remove());
  document.getElementById('ytFallback').style.display='none';
  if(!url){ return; }
  let fixed=universalFix(url);
  document.getElementById('ytDirectLink').href=`https://www.youtube.com/watch?v=${currentVideoId||''}`;
- // لو يوتيوب
  if(fixed.includes('youtube-nocookie')){
   let ifr=document.createElement('iframe');
   ifr.src=fixed;
@@ -99,18 +131,16 @@ function makePlayer(url){
   ifr.allow='autoplay; fullscreen; encrypted-media; picture-in-picture';
   ifr.referrerPolicy='no-referrer';
   ifr.style.background='#000';
-  // لو فشل يحمل بعد 4 ثواني (خطأ 153) اظهر الفولباك
-  let failed=false;
   let timer=setTimeout(()=>{
-   if(!failed){
     document.getElementById('ytFallback').style.display='flex';
-   }
   }, 4000);
   ifr.onload=()=>{ clearTimeout(timer); };
   ifr.onerror=()=>{ document.getElementById('ytFallback').style.display='flex'; };
   wrap.appendChild(ifr);
  }else if(fixed.match(/\.(mp4|webm)(\?|$)/i)){
-  wrap.innerHTML+=`<video controls autoplay playsinline src="${fixed}" style="width:100%;height:100%"></video><div id="ytFallback" class="yt-fallback"></div>`;
+  let v=document.createElement('video');
+  v.controls=true; v.autoplay=true; v.playsInline=true; v.src=fixed; v.style.width='100%'; v.style.height='100%';
+  wrap.appendChild(v);
  }else{
   let ifr=document.createElement('iframe');
   ifr.src=fixed;
@@ -132,21 +162,30 @@ function setServer(i){
  makePlayer(servers[i]);
 }
 function playEp(i){
- currentEp=i; document.querySelectorAll('.ep-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
+ currentEp=i; 
+ document.querySelectorAll('.ep-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
  buildServers(); makePlayer(servers[0]);
  document.getElementById('title').innerText=movie.title+` - الحلقة ${i+1}`;
+ window.scrollTo({top:120,behavior:'smooth'});
 }
 
 fetch('movies.json?t='+Date.now()).then(r=>r.json()).then(movies=>{
  let list=Array.isArray(movies)?movies:movies.movies||[];
  movie=list.find(m=>String(m.id)==String(id));
  if(!movie){document.getElementById('title').innerText='مش موجود';return;}
- document.getElementById('meta').innerText=(movie.category||'')+' • '+(movie.year||'');
+ document.getElementById('meta').innerHTML=`<i class="red">${movie.year||''}</i><i>${movie.category||''}</i><i>HD</i><i>CINEMA MODE</i>`;
  document.getElementById('desc').innerText=movie.description||'';
  document.title=movie.title+' - GTM';
+ document.getElementById('heroBg').style.backgroundImage=`url('${movie.poster_url||movie.poster||''}')`;
  if(movie.episodes && movie.episodes.length>0){
   document.getElementById('episodesBox').classList.add('show');
-  document.getElementById('episodesList').innerHTML=movie.episodes.map((e,i)=>`<button class="ep-btn ${i==0?'active':''}" onclick="playEp(${i})">${e.num||i+1}</button>`).join('');
+  document.getElementById('episodesList').innerHTML=movie.episodes.map((e,i)=>`
+   <div class="ep-btn ${i==0?'active':''}" onclick="playEp(${i})">
+    <div class="n">${String(e.num||i+1).padStart(2,'0')}</div>
+    <div><b>${e.title||'الحلقة '+(i+1)}</b><small>${movie.title}</small></div>
+    <div class="playCircle">▶</div>
+   </div>
+  `).join('');
  }
  buildServers();
  document.getElementById('dlBtn').href=movie.download_url||'#';
