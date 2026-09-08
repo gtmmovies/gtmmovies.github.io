@@ -39,6 +39,13 @@
 .epBox{background:#0e0e13;border:1px dashed #333;border-radius:12px;padding:10px;margin-top:8px;max-height:320px;overflow-y:auto}
 .epItem{background:#1a1a24;border:1px solid #2a2a2a;border-radius:10px;padding:10px;margin-bottom:10px;position:relative}
 .delEp{position:absolute;top:6px;left:6px;background:#e50914;color:#fff;border:0;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:11px}
+/* جديد - رفع الصورة */
+.upload-area{border:2px dashed #333;border-radius:12px;padding:12px;text-align:center;background:#0e0e0e;margin:6px 0;transition:.2s;cursor:pointer}
+.upload-area.dragover{border-color:#e50914;background:rgba(229,9,20,.1)}
+.upload-area input{display:none}
+.upload-btns{display:flex;gap:8px;margin:6px 0}
+.small-btn{flex:1;padding:10px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#aaa;cursor:pointer;font-weight:700;font-size:12px}
+.small-btn.active{background:#e50914;color:#fff;border-color:#e50914}
 </style>
 </head>
 <body>
@@ -86,27 +93,46 @@
 <label class="cat-label"><input type="checkbox" class="catChk" value="انمي"> انمي</label>
 </div>
 
-<div class="section-title">الصورة</div>
+<div class="section-title">الصورة - اختار طريقة</div>
+<div class="upload-btns">
+<button class="small-btn active" id="btnModeFile" onclick="setPosterMode('file')">📁 من الجهاز</button>
+<button class="small-btn" id="btnModeLink" onclick="setPosterMode('link')">🔗 لينك</button>
+</div>
+
+<div id="posterFileMode">
+<div class="upload-area" id="uploadArea" onclick="document.getElementById('posterFile').click()">
+<div style="font-size:24px">📤</div>
+<div style="font-size:12px;color:#aaa;margin-top:4px">دوس هنا او اسحب الصورة هنا</div>
+<div style="font-size:10px;color:#666">JPG, PNG, WEBP - هتترفع على GitHub تلقائي</div>
+<input type="file" id="posterFile" accept="image/*">
+</div>
+<div id="fileStatus" style="font-size:11px;color:#e50914;margin:4px 0"></div>
+</div>
+
+<div id="posterLinkMode" style="display:none">
 <input id="posterUrl" placeholder="لينك البوستر https://...">
-<div id="previewWrap" style="display:none"><img id="preview" style="width:100%;border-radius:10px;max-height:200px;object-fit:cover;margin-top:6px"></div>
+</div>
+
+<div id="previewWrap" style="display:none"><img id="preview" style="width:100%;border-radius:10px;max-height:200px;object-fit:cover;margin-top:6px"><div style="font-size:11px;color:#4caf50;margin-top:4px" id="previewInfo"></div></div>
 
 <div id="movieFields">
 <div class="section-title">السيرفرات - فيلم</div>
-<input id="video" placeholder="🎬 سيرفر 1">
+<input id="video" placeholder="🎬 سيرفر 1 - ممكن تليجرام https://t.me/...">
 <input id="video2" placeholder="🎬 سيرفر 2 (اختياري)">
-<input id="dl" placeholder="⬇️ رابط التحميل (اختياري)">
+<input id="dl" placeholder="⬇ رابط التحميل (اختياري)">
 </div>
 
 <div id="seriesFields" style="display:none">
 <div class="section-title">الحلقات - مسلسل</div>
-<div style="font-size:11px;color:#ff8a9a;background:rgba(229,9,20,.1);padding:8px;border-radius:8px;margin-bottom:8px">كل حلقة ليها سيرفر 1 و 2 بتوعها</div>
+<div style="font-size:11px;color:#ff8a9a;background:rgba(229,9,20,.1);padding:8px;border-radius:8px;margin-bottom:8px">كل حلقة ليها سيرفر 1 و 2 بتوعها - تقدر تحط لينك تليجرام بردو</div>
 <div class="epBox" id="epContainer"></div>
 <button onclick="addEpisode()" style="width:100%;background:#1e90ff;color:#fff;border:0;padding:10px;border-radius:8px;margin-top:8px;cursor:pointer;font-weight:800">+ اضافة حلقة</button>
-<input id="seriesDl" placeholder="⬇️ رابط تحميل المسلسل كامل (اختياري)" style="margin-top:10px">
+<input id="seriesDl" placeholder="⬇ رابط تحميل المسلسل كامل (اختياري)" style="margin-top:10px">
 </div>
 
 <textarea id="desc" placeholder="القصة..." rows="3"></textarea>
 <input type="hidden" id="editId">
+<input type="hidden" id="finalPosterUrl">
 <button class="btn-save" id="saveBtn" onclick="save()">حفظ ونشر مباشر 🚀</button>
 <div id="msg" style="font-size:12px;margin-top:8px"></div>
 </div>
@@ -114,7 +140,7 @@
 
 <script>
 const REPO_OWNER='gtmmovies', REPO_NAME='gtmmovies.github.io', FILE_PATH='movies.json';
-let allData=[], currentCat='الكل', fileSha=null, episodes=[], currentType='movie';
+let allData=[], currentCat='الكل', fileSha=null, episodes=[], currentType='movie', posterMode='file';
 const $=id=>document.getElementById(id);
 $('ghToken').value=localStorage.getItem('gh_token')||'';
 function saveToken(){ localStorage.setItem('gh_token',$('ghToken').value.trim()); alert('تم حفظ التوكن'); load(); }
@@ -126,7 +152,54 @@ function setType(t){
  $('movieFields').style.display=t=='movie'?'block':'none';
  $('seriesFields').style.display=t=='series'?'block':'none';
 }
-$('posterUrl').addEventListener('input',()=>{ if($('posterUrl').value){ $('preview').src=$('posterUrl').value; $('previewWrap').style.display='block'; }else{ $('previewWrap').style.display='none'; } });
+function setPosterMode(m){
+ posterMode=m;
+ $('btnModeFile').classList.toggle('active',m=='file');
+ $('btnModeLink').classList.toggle('active',m=='link');
+ $('posterFileMode').style.display=m=='file'?'block':'none';
+ $('posterLinkMode').style.display=m=='link'?'block':'none';
+}
+// ===== رفع الصورة من الجهاز =====
+function handleFile(file){
+ if(!file) return;
+ if(file.size > 5*1024*1024) return alert('الصورة كبيرة اوي - اختار واحدة اقل من 5 ميجا');
+ $('fileStatus').innerText='⏳ بيقرأ الصورة...';
+ let reader=new FileReader();
+ reader.onload=e=>{
+   $('preview').src=e.target.result;
+   $('previewWrap').style.display='block';
+   $('previewInfo').innerText='📁 من الجهاز: '+file.name+' - سيتم رفعها على GitHub عند الحفظ';
+   // هنخزنها مؤقتا base64 والرفع الحقيقي هيحصل عند الحفظ
+   $('finalPosterUrl').dataset.base64=e.target.result;
+   $('finalPosterUrl').dataset.filename=file.name;
+   $('finalPosterUrl').value=''; // هيتحدد بعد الرفع
+   $('fileStatus').innerText='✅ تم اختيار الصورة - هتترفع لما تدوس حفظ';
+   // لو في لينك قديم شيله
+   $('posterUrl').value='';
+ }
+ reader.readAsDataURL(file);
+}
+$('posterFile').addEventListener('change', e=>{ handleFile(e.target.files[0]) });
+let uploadArea=$('uploadArea');
+uploadArea.addEventListener('dragover', e=>{ e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', ()=> uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', e=>{ e.preventDefault(); uploadArea.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+
+// لينك
+$('posterUrl').addEventListener('input',()=>{
+  let val=$('posterUrl').value.trim();
+  if(val){
+    $('preview').src=val;
+    $('previewWrap').style.display='block';
+    $('previewInfo').innerText='🔗 من لينك';
+    $('finalPosterUrl').value=val;
+    $('finalPosterUrl').dataset.base64='';
+  }else{
+    $('previewWrap').style.display='none';
+    $('finalPosterUrl').value='';
+  }
+});
+
 function b64Encode(s){return btoa(unescape(encodeURIComponent(s)))} function b64Decode(b){return decodeURIComponent(escape(atob(b)))}
 async function ghFetch(path, opts={}){
   let token=(localStorage.getItem('gh_token')||'').trim();
@@ -135,6 +208,16 @@ async function ghFetch(path, opts={}){
   let res=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {...opts, headers});
   if(!res.ok){ let t=await res.text(); throw new Error('GitHub '+res.status+': '+t.slice(0,200)); }
   return res.json();
+}
+async function uploadImageToGitHub(base64Data, filename){
+  // base64Data جاي data:image/...;base64,XXXX
+  let pureBase64 = base64Data.split(',')[1];
+  let ext = filename.split('.').pop() || 'jpg';
+  let newName = `images/poster_${Date.now()}_${Math.random().toString(36).substr(2,5)}.${ext}`;
+  let body={ message:'upload poster '+newName, content:pureBase64 };
+  await ghFetch(newName, { method:'PUT', body: JSON.stringify(body) });
+  // الرابط النهائي
+  return `https://${REPO_OWNER}.github.io/${newName}`;
 }
 async function load(){
   try{
@@ -151,7 +234,7 @@ async function load(){
   }catch(e){ $('status').innerText='❌ '+e.message; }
 }
 function applyFilter(){ let d=[...allData]; if(currentCat!='الكل') d=d.filter(m=>(m.category||'').includes(currentCat)); let q=$('search').value.toLowerCase().trim(); if(q) d=d.filter(m=>(m.title||'').toLowerCase().includes(q)); render(d); }
-function render(data){ $('list').innerHTML=data.map(m=>`<div class=card><div class=card-actions><button class=icon-btn onclick="startEdit('${m.id}')">✏️</button><button class=icon-btn del onclick="delMovie('${m.id}')">🗑️</button></div><img src="${m.poster_url||m.poster||''}" loading=lazy><div class=card-body><b>${m.title||''}</b><small>${m.category||''} ${m.episodes?'• 📺'+m.episodes.length:''}</small></div></div>`).join('')||'<div style=grid-column:1/-1;text-align:center;color:#666;padding:40px>فاضي</div>'; }
+function render(data){ $('list').innerHTML=data.map(m=>`<div class=card><div class=card-actions><button class=icon-btn onclick="startEdit('${m.id}')">✏</button><button class=icon-btn del onclick="delMovie('${m.id}')">🗑</button></div><img src="${m.poster_url||m.poster||''}" loading=lazy><div class=card-body><b>${m.title||''}</b><small>${m.category||''} ${m.episodes?'• 📺'+m.episodes.length:''}</small></div></div>`).join('')||'<div style=grid-column:1/-1;text-align:center;color:#666;padding:40px>فاضي</div>'; }
 function filterBy(cat, el){ currentCat=cat; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); applyFilter(); }
 
 function addEpisode(data=null){
@@ -168,7 +251,7 @@ function renderEpisodes(){
     <input value="${ep.title}" oninput="episodes[${i}].title=this.value" placeholder="عنوان الحلقة">
     <input type="number" value="${ep.num||i+1}" oninput="episodes[${i}].num=this.value" placeholder="رقم">
    </div>
-   <input value="${ep.video_url||''}" oninput="episodes[${i}].video_url=this.value" placeholder="سيرفر 1 الحلقة ${i+1}">
+   <input value="${ep.video_url||''}" oninput="episodes[${i}].video_url=this.value" placeholder="سيرفر 1 الحلقة ${i+1} - تليجرام او عادي">
    <input value="${ep.video_url2||''}" oninput="episodes[${i}].video_url2=this.value" placeholder="سيرفر 2 الحلقة ${i+1} (اختياري)">
   </div>
  `).join('');
@@ -177,7 +260,10 @@ function removeEp(i){episodes.splice(i,1);renderEpisodes();}
 
 function startEdit(id){
   let m=allData.find(x=>String(x.id)==String(id)); if(!m) return;
-  $('editId').value=m.id; $('title').value=m.title||''; $('year').value=m.year||''; $('posterUrl').value=m.poster_url||m.poster||''; if($('posterUrl').value){$('preview').src=$('posterUrl').value; $('previewWrap').style.display='block';}
+  $('editId').value=m.id; $('title').value=m.title||''; $('year').value=m.year||''; 
+  $('posterUrl').value=m.poster_url||m.poster||''; 
+  $('finalPosterUrl').value=m.poster_url||m.poster||'';
+  if($('posterUrl').value){$('preview').src=$('posterUrl').value; $('previewWrap').style.display='block'; $('previewInfo').innerText='صورة حالية'; setPosterMode('link');}
   $('desc').value=m.description||''; document.querySelectorAll('.catChk').forEach(chk=> chk.checked=(m.category||'').includes(chk.value));
   if(m.episodes && m.episodes.length>0){
     setType('series'); episodes=m.episodes.map(e=>({...e})); renderEpisodes(); $('seriesDl').value=m.download_url||'';
@@ -193,7 +279,16 @@ async function save(){
   if(!(localStorage.getItem('gh_token')||'').trim()) return alert('حط التوكن');
   $('saveBtn').disabled=true; $('saveBtn').innerText='⏳ بينشر...'; $('msg').innerText='';
   try{
-    let posterUrl=$('posterUrl').value.trim(); if(!posterUrl) throw new Error('حط لينك الصورة');
+    let posterUrl='';
+    // لو في صورة من الجهاز
+    if($('finalPosterUrl').dataset.base64){
+      $('msg').innerText='⏳ بيرفع الصورة على GitHub...';
+      posterUrl = await uploadImageToGitHub($('finalPosterUrl').dataset.base64, $('finalPosterUrl').dataset.filename||'poster.jpg');
+    }else{
+      posterUrl = $('finalPosterUrl').value.trim() || $('posterUrl').value.trim();
+    }
+    if(!posterUrl) throw new Error('حط صورة - من الجهاز او لينك');
+
     let payload={
       id: $('editId').value ? String($('editId').value) : String(Date.now()),
       title: $('title').value.trim(),
@@ -227,7 +322,7 @@ async function save(){
   }catch(e){ $('msg').innerText='❌ '+e.message; alert(e.message); }
   finally{ $('saveBtn').disabled=false; $('saveBtn').innerText='حفظ ونشر مباشر 🚀'; }
 }
-function resetForm(){ $('editId').value=''; $('title').value=''; $('year').value=''; $('posterUrl').value=''; $('video').value=''; $('video2').value=''; $('dl').value=''; $('desc').value=''; $('seriesDl').value=''; $('previewWrap').style.display='none'; document.querySelectorAll('.catChk').forEach(c=>c.checked=false); episodes=[]; renderEpisodes(); setType('movie'); }
+function resetForm(){ $('editId').value=''; $('title').value=''; $('year').value=''; $('posterUrl').value=''; $('finalPosterUrl').value=''; $('finalPosterUrl').dataset.base64=''; $('video').value=''; $('video2').value=''; $('dl').value=''; $('desc').value=''; $('seriesDl').value=''; $('previewWrap').style.display='none'; $('fileStatus').innerText=''; document.querySelectorAll('.catChk').forEach(c=>c.checked=false); episodes=[]; renderEpisodes(); setType('movie'); setPosterMode('file'); }
 async function delMovie(id){ if(!confirm('تمسح؟')) return; try{ $('status').innerText='⏳ بيمسح...'; let nd=allData.filter(m=> String(m.id)!=String(id)); try{ let jf=await ghFetch(FILE_PATH); fileSha=jf.sha; }catch(_){} let b64=b64Encode(JSON.stringify(nd,null,2)); await ghFetch(FILE_PATH, { method:'PUT', body: JSON.stringify({ message:'delete '+id, content:b64, sha:fileSha }) }); allData=nd; applyFilter(); $('status').innerText='✅ اتمسح'; }catch(e){ alert(e.message); } }
 load();
 renderEpisodes();
