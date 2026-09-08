@@ -1,26 +1,32 @@
 [
   {
     "id": "1788382126647",
-    "title": "بنج كلي",
+    "title": "القصة الكاملة",
     "year": "2026",
     "category": "مسلسلات",
     "poster_url": "https://gtmmovies.github.io/posters/1788382365208.png",
     "poster": "https://gtmmovies.github.io/posters/1788382365208.png",
-    "video_url": "https:\\/\\/wwa.liiivideo.com\\/embed-6kodmze0pkl9.html",
-    "watch_url": "https:\\/\\/wwa.liiivideo.com\\/embed-6kodmze0pkl9.html",
-    "description": "المسلسل يسلط الضوء على الصراعات والمعضلات اليومية التي تمر داخل المستشفيات، سواء كانت قضايا طبية، أخطاء، قرارات صعبة أو مواقف إنسانية مؤثرة تجمع بين التوتر والإثارة والدراما.",
+    "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
+    "watch_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
+    "description": "في إطار درامي تشويقي يعتمد على أحداث واقعية. تتناول الأحداث مجموعة من قصص منفصلة، تكشف تفاصيل وأسرار قضايا شهيرة. ويتناول العمل حكايات بارزة مثل \"لعبة جهنم\" و\"ما لم يُحكَ عن بني مزار\" و\"سفاح المرج\" و\"ريا وسكينة\" برؤية جديدة.",
     "episodes": [
       {
         "num": 1,
         "title": "الحلقة 1",
-        "video_url": "https:\\/\\/wwa.liiivideo.com\\/embed-6kodmze0pkl9.html",
+        "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
         "video_url2": ""
       },
       {
         "num": 2,
         "title": "الحلقة 2",
-        "video_url": "https://vidspeed.org//embed-tuea1053j4p1.html",
+        "video_url": "https://vipserver.liiivideo.com/embed-65z9p0a9vwgs.html",
         "video_url2": "https:\\/\\/ok.ru\\/videoembed\\/15676694268533"
+      },
+      {
+        "num": 3,
+        "title": "الحلقة 3",
+        "video_url": "https://vipserver.liiivideo.com/embed-6ja8aygnh0fc.html",
+        "video_url2": ""
       }
     ],
     "download_url": "",
