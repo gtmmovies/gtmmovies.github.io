@@ -1,592 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTM Movies — Netflix Style</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --black:#141414;
-    --black-2:#181818;
-    --black-3:#232323;
-    --red:#e50914;
-    --red-hover:#f40612;
-    --white:#ffffff;
-    --muted:#808080;
-    --muted-2:#b3b3b3;
-    --border:#2f2f2f;
-  }
+  :root{--black:#0a0a0a;--black2:#141414;--red:#e50914;--white:#fff;--muted:#9a9a9a}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--black);
-    color:var(--white);
-    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-  /* Scrollbar */
-  ::-webkit-scrollbar{width:8px;height:8px}
-  ::-webkit-scrollbar-track{background:var(--black)}
-  ::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
-  ::-webkit-scrollbar-thumb:hover{background:#444}
+  body{background:var(--black);color:#fff;font-family:'Cairo','Tajawal',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
 
-  /* Header - Netflix top nav */
-  #siteHeader{
-    position:fixed;top:0;left:0;right:0;z-index:100;
-    height:68px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 60px;
-    background:linear-gradient(180deg, rgba(0,0,0,.7) 10%, transparent);
-    transition:background .4s;
-  }
-  #siteHeader.scrolled{
-    background:#141414;
-  }
-  .nav-left{display:flex;align-items:center;gap:32px}
-  .logo{
-    font-family:'Bebas Neue', sans-serif;
-    font-size:32px;letter-spacing:.5px;
-    color:var(--red);text-decoration:none;
-    line-height:1;
-  }
-  .nav-links{display:flex;gap:20px;list-style:none}
-  .nav-links a{
-    color:#e5e5e5;font-size:14px;font-weight:400;text-decoration:none;
-    transition:color .2s;
-  }
-  .nav-links a:hover,.nav-links a.active{color:var(--white);font-weight:500}
-  .nav-right{display:flex;align-items:center;gap:22px}
-  .search-wrap{
-    position:relative;display:flex;align-items:center;
-  }
-  #search{
-    background:rgba(0,0,0,.75);
-    border:1px solid rgba(255,255,255,.5);
-    color:#fff;font-size:14px;
-    width:240px;padding:8px 40px 8px 36px;
-    outline:none;
-    transition:width .3s, border-color .3s;
-  }
-  #search::placeholder{color:var(--muted-2)}
-  #search:focus{width:280px;border-color:#fff;background:#000}
-  .search-icon{
-    position:absolute;left:10px;top:50%;transform:translateY(-50%);
-    width:18px;height:18px;pointer-events:none;color:#fff
-  }
-  .avatar{
-    width:32px;height:32px;border-radius:4px;
-    background:var(--red);display:grid;place-items:center;
-    font-weight:700;font-size:12px;cursor:pointer;
-  }
+  /* Header */
+  #siteHeader{position:fixed;top:0;right:0;left:0;z-index:100;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 3%;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
+  #siteHeader.scrolled{background:rgba(10,10,10,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-left{display:flex;align-items:center;gap:28px}
+  .logo{font-weight:900;font-size:26px;letter-spacing:.5px;color:var(--red);text-decoration:none}
+  .nav-links{display:flex;gap:18px;list-style:none}
+  .nav-links a{color:#ccc;font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
+  .nav-links a:hover{color:#fff}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  #search{background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;width:260px;padding:9px 38px 9px 12px;outline:none;border-radius:4px;font-family:'Cairo',sans-serif;font-weight:600}
+  #search::placeholder{color:#888}
+  #search:focus{border-color:#fff;background:#000;width:300px}
+  .avatar{width:30px;height:30px;border-radius:4px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:11px}
 
-  /* HERO / BILLBOARD - True Netflix */
-  .billboard{
-    position:relative;
-    width:100%;height:92vh;min-height:580px;max-height:900px;
-    overflow:hidden;
-    background:#000;
-  }
-  #heroBg{
-    position:absolute;inset:0;
-    background-size:cover;background-position:center top;
-    transform:scale(1.02);
-    transition:transform 8s ease;
-  }
-  .billboard:hover #heroBg{transform:scale(1.06)}
-  /* Netflix Vignettes */
-  .billboard::before{
-    content:'';position:absolute;inset:0;z-index:1;
-    background:
-      linear-gradient(77deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.45) 40%, transparent 85%),
-      linear-gradient(0deg, #141414 0%, transparent 50%),
-      linear-gradient(180deg, rgba(0,0,0,.6) 0%, transparent 20%);
-  }
-  .billboard-bottom-fade{
-    position:absolute;left:0;right:0;bottom:0;height:40%;z-index:2;
-    background:linear-gradient(0deg, #141414 0%, rgba(20,20,20,.85) 25%, transparent 100%);
-    pointer-events:none;
-  }
-  #heroContent{
-    position:relative;z-index:2;
-    height:100%;
-    display:flex;flex-direction:column;justify-content:flex-end;
-    padding:0 60px 140px;
-    max-width:800px;
-  }
-  .hero-eyebrow{
-    display:flex;align-items:center;gap:8px;
-    margin-bottom:14px;
-  }
-  .hero-eyebrow span:first-child{
-    font-family:'Bebas Neue';color:var(--muted-2);letter-spacing:4px;font-size:14px;
-  }
-  .hero-badge{
-    background:var(--red);color:#fff;font-size:10px;font-weight:800;letter-spacing:1px;
-    padding:2px 6px;border-radius:2px;
-  }
-  .hero-title{
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight:900;line-height:.95;letter-spacing:-1px;
-    text-shadow:2px 2px 4px rgba(0,0,0,.6);
-    margin-bottom:16px;
-  }
-  .hero-meta{
-    display:flex;align-items:center;gap:12px;
-    color:#fff;font-size:15px;font-weight:500;margin-bottom:16px;
-  }
-  .hero-meta .match{color:#46d369;font-weight:700}
-  .hero-meta .maturity{
-    border:1px solid rgba(255,255,255,.4);padding:0 6px;font-size:12px;
-  }
-  .hero-desc{
-    color:#fff;font-size:18px;line-height:1.45;font-weight:400;
-    text-shadow:1px 1px 2px rgba(0,0,0,.5);
-    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
-    max-width:540px;margin-bottom:28px;
-  }
-  .hero-actions{display:flex;gap:12px}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    height:44px;padding:0 28px;border-radius:4px;
-    font-size:16px;font-weight:700;letter-spacing:.2px;
-    border:none;cursor:pointer;transition:all .2s;text-decoration:none;
-  }
+  /* HERO SLIDER - RIGHT SIDE TEXT */
+  .billboard{position:relative;width:100%;height:88vh;min-height:560px;max-height:860px;overflow:hidden;background:#000}
+  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease, transform 8s ease;transform:scale(1.03);pointer-events:none}
+  .hero-slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
+  .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
+  .hero-slide::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.75) 28%,rgba(0,0,0,.25) 62%,transparent 88%),linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.6) 30%,transparent 70%),linear-gradient(180deg,rgba(0,0,0,.5),transparent 25%)}
+  .hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;padding:0 3%;padding-top:70px;max-width:62%}
+  .hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .hero-eyebrow b{color:var(--red);font-size:20px;font-weight:900;letter-spacing:1px}
+  .hero-eyebrow span{color:#bbb;font-size:11px;letter-spacing:3px;font-weight:800}
+  .hero-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,4.2vw,54px);font-weight:900;line-height:1.05;letter-spacing:-.5px;text-shadow:0 4px 20px rgba(0,0,0,.8);margin-bottom:14px;color:#fff}
+  .hero-meta{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:800;margin-bottom:14px;flex-wrap:wrap}
+  .hero-meta .match{color:#46d369;font-weight:900}
+  .hero-meta .maturity{border:1px solid rgba(255,255,255,.5);padding:1px 7px;font-size:11px;font-weight:900}
+  .hero-desc{color:#d1d1d1;font-size:15px;line-height:1.85;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-width:560px;margin-bottom:22px;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+  .hero-actions{display:flex;gap:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 26px;border-radius:4px;font-size:15px;font-weight:900;letter-spacing:.2px;border:none;cursor:pointer;transition:.2s;text-decoration:none;font-family:'Cairo',sans-serif}
   .btn-play{background:#fff;color:#000}
-  .btn-play:hover{background:rgba(255,255,255,.75)}
+  .btn-play:hover{background:rgba(255,255,255,.8)}
   .btn-info{background:rgba(109,109,110,.7);color:#fff;backdrop-filter:blur(2px)}
   .btn-info:hover{background:rgba(109,109,110,.4)}
-  .btn svg{width:26px;height:26px}
-  .hero-volume{
-    position:absolute;right:60px;bottom:130px;z-index:3;
-    width:36px;height:36px;border:1px solid rgba(255,255,255,.7);border-radius:50%;
-    display:grid;place-items:center;background:transparent;color:rgba(255,255,255,.7);
-    cursor:pointer;transition:all .2s;
-  }
-  .hero-volume:hover{border-color:#fff;color:#fff;background:rgba(0,0,0,.3)}
-  .hero-age{
-    position:absolute;right:0;bottom:130px;z-index:3;
-    display:flex;align-items:center;gap:12px;
-  }
-  .age-box{
-    background:#33333399;border-left:3px solid #dcdcdc;
-    padding:4px 36px 4px 12px;font-size:14px;
-  }
 
-  /* MAIN */
-  main{position:relative;z-index:3;margin-top:-80px;padding:0 0 60px;background:transparent}
-  
-  /* Chips / Categories - Netflix pill filters? Actually Netflix uses row filters but we keep chips as category nav */
-  .chips-wrap{
-    padding:0 60px;margin-bottom:18px;
-    display:flex;align-items:center;gap:8px;
-    overflow-x:auto;scrollbar-width:none;
-  }
-  .chips-wrap::-webkit-scrollbar{display:none}
-  #chips{display:flex;gap:8px}
-  .chip{
-    white-space:nowrap;
-    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
-    color:#fff;font-size:13px;font-weight:500;
-    padding:6px 14px;border-radius:20px;cursor:pointer;
-    transition:all .2s;
-  }
-  .chip:hover{background:rgba(255,255,255,.2)}
-  .chip.active{background:#fff;color:#000;border-color:#fff;font-weight:700}
+  /* Hero Controls */
+  .hero-dots{position:absolute;left:3%;bottom:110px;z-index:5;display:flex;gap:8px;align-items:center}
+  .hero-dot{width:22px;height:4px;border-radius:4px;background:rgba(255,255,255,.25);cursor:pointer;transition:.3s;border:none}
+  .hero-dot.active{background:var(--red);width:32px;box-shadow:0 0 10px rgba(229,9,20,.5)}
+  .hero-arrows{position:absolute;left:3%;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
+  .hero-arrow{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.4);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;font-size:18px}
+  .hero-arrow:hover{background:#fff;color:#000;border-color:#fff}
+  .hero-counter{position:absolute;left:3%;bottom:135px;z-index:5;color:#888;font-size:11px;font-weight:800;letter-spacing:1px}
+  .billboard-bottom-fade{position:absolute;left:0;right:0;bottom:0;height:35%;z-index:2;background:linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.9) 30%,transparent 100%);pointer-events:none}
 
-  /* ROWS */
-  #rows{display:flex;flex-direction:column;gap:38px;padding:0 0}
-  .row-section{position:relative;padding:0 60px}
-  .row-header{
-    display:flex;align-items:center;gap:10px;margin-bottom:14px;
-  }
-  .row-red-line{width:3px;height:18px;background:var(--red);border-radius:2px;flex-shrink:0}
-  .row-title{
-    font-size:21px;font-weight:700;letter-spacing:.2px;color:#e5e5e5;
-  }
-  .row-title:hover{color:#fff}
-  .row-count{color:var(--muted);font-size:13px;margin-left:8px}
+  /* Categories */
+  #chips{position:relative;z-index:4;display:flex;gap:8px;padding:14px 3%;background:var(--black);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
+  #chips::-webkit-scrollbar{display:none}
+  .chip{white-space:nowrap;padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:12px;font-weight:800;cursor:pointer;transition:.2s}
+  .chip.active{background:#fff;color:#000;border-color:#fff}
+  .chip:hover{color:#fff;border-color:rgba(255,255,255,.2)}
+
+  /* Rows */
+  #rows{padding:10px 0 40px}
+  .row-section{margin-bottom:8px}
+  .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 10px}
+  .row-red-line{width:3px;height:18px;background:var(--red);border-radius:3px;box-shadow:0 0 10px rgba(229,9,20,.4)}
+  .row-title{font-size:17px;font-weight:900;letter-spacing:-.2px}
+  .row-count{font-size:11px;color:#555;font-weight:700;margin-right:auto}
   .row-track-wrap{position:relative}
-  .row-track{
-    display:flex;gap:8px;overflow-x:auto;overflow-y:visible;
-    scrollbar-width:none;padding:6px 0 20px;
-    scroll-behavior:smooth;
-  }
+  .row-track{display:flex;gap:10px;overflow-x:auto;padding:4px 3% 28px;scrollbar-width:none;scroll-behavior:smooth}
   .row-track::-webkit-scrollbar{display:none}
-  .row-arrow{
-    position:absolute;top:0;bottom:20px;width:60px;z-index:2;
-    background:rgba(20,20,20,.6);border:none;
-    color:#fff;font-size:28px;cursor:pointer;
-    display:grid;place-items:center;opacity:0;transition:opacity .2s;
-  }
+  .row-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:36px;height:90px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:28px;cursor:pointer;opacity:0;transition:.2s;backdrop-filter:blur(4px)}
   .row-track-wrap:hover .row-arrow{opacity:1}
-  .row-arrow:hover{background:rgba(20,20,20,.8)}
-  .row-arrow.left{left:0}
-  .row-arrow.right{right:0}
+  .row-arrow.left{right:0;border-radius:8px 0 0 8px}
+  .row-arrow.right{left:0;border-radius:0 8px 8px 0}
 
-  /* CARD - Netflix 2024 true card */
-  .card{
-    position:relative;flex:0 0 auto;
-    width: 260px; /* 16:9ish */
-    aspect-ratio:16/9;
-    border-radius:4px;overflow:hidden;
-    background:var(--black-2);
-    cursor:pointer;
-    transform-origin:center bottom;
-    transition:transform .35s cubic-bezier(.4,0,.2,1), box-shadow .35s, border-color .2s;
-    border:1px solid transparent;
-  }
-  .card img{
-    width:100%;height:100%;object-fit:cover;display:block;
-    transition:transform .4s;
-  }
-  .card:hover{
-    transform:scale(1.38);
-    z-index:10;
-    border-color:var(--red);
-    box-shadow:0 12px 28px rgba(0,0,0,.8), 0 0 0 1px var(--red);
-  }
-  .card:hover img{transform:scale(1.05)}
-  /* Hover overlay = Netflix expanded */
-  .card-overlay{
-    position:absolute;inset:auto 0 0 0;
-    padding:10px;
-    background:linear-gradient(0deg, rgba(0,0,0,.9) 0%, transparent 100%);
-    opacity:0;transform:translateY(6px);
-    transition:all .3s;
-  }
-  .card:hover .card-overlay{opacity:1;transform:translateY(0)}
-  .card-actions{
-    display:flex;gap:6px;margin-bottom:8px;
-  }
-  .card-icon{
-    width:30px;height:30px;border-radius:50%;
-    display:grid;place-items:center;
-    background:var(--black-3);border:1px solid rgba(255,255,255,.4);
-    color:#fff;
-  }
-  .card-icon.play{background:#fff;color:#000;border-color:#fff}
-  .card-title{
-    font-size:12px;font-weight:700;line-height:1.2;color:#fff;
-    display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
-  }
-  .card-meta{
-    display:flex;align-items:center;gap:5px;margin-top:4px;
-  }
-  .card-meta span{font-size:10px;color:var(--muted-2)}
-  .card-meta .green{color:#46d369;font-weight:700}
-  .card-meta .dot{width:3px;height:3px;background:#666;border-radius:50%}
-  .card-meta .badge{border:1px solid #777;padding:0 4px;font-size:8px}
-  /* Top 10 number */
-  .card-rank{
-    position:absolute;left:-2px;bottom:-4px;
-    font-size:100px;font-weight:900;line-height:.8;
-    font-family:'Bebas Neue';
-    color:#000;
-    -webkit-text-stroke:2px #595959;
-    text-stroke:2px #595959;
-    z-index:1;pointer-events:none;
-  }
+  .card{min-width:200px;width:200px;border-radius:6px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.06);flex-shrink:0;text-decoration:none;color:#fff;transition:.3s;position:relative}
+  .card:hover{transform:translateY(-6px) scale(1.02);border-color:rgba(229,9,20,.5);box-shadow:0 16px 30px rgba(0,0,0,.6);z-index:3}
+  .card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#111}
+  .card-overlay{padding:9px 10px 10px}
+  .card-title{font-size:12px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card-meta{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:10px;color:#777;font-weight:700}
+  .card-meta .green{color:#46d369;font-weight:900}
+  .card-meta .badge{border:1px solid rgba(255,255,255,.3);padding:0 4px;font-size:9px}
+  .card-meta .dot{width:3px;height:3px;background:#555;border-radius:50%}
 
-  /* Empty / Loading */
-  .skeleton-row{display:flex;gap:8px;padding:0 60px}
-  .skeleton-card{width:260px;aspect-ratio:16/9;background:#222;border-radius:4px;animation:pulse 1.2s infinite}
-  @keyframes pulse{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
-
-  /* Footer minimal netflix */
-  footer{
-    padding:40px 60px 30px;color:#808080;font-size:11px;
-    border-top:1px solid #222;
-  }
-  .footer-links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:16px;max-width:800px}
-  .footer-links a{color:#808080;text-decoration:none}
-  .footer-links a:hover{text-decoration:underline}
-
-  /* Responsive */
-  @media(max-width:1200px){
-    #siteHeader,#heroContent,.row-section,.chips-wrap,footer{padding-left:32px;padding-right:32px}
-    .card{width:220px}
-  }
-  @media(max-width:768px){
-    #siteHeader{padding:0 16px;height:56px}
-    .nav-links{display:none}
-    #search{width:180px}
-    .billboard{height:78vh;min-height:460px}
-    #heroContent{padding:0 16px 80px}
-    .hero-desc{font-size:14px;-webkit-line-clamp:2}
-    .hero-actions .btn{height:36px;padding:0 18px;font-size:14px}
-    .hero-volume,.hero-age{display:none}
-    .row-section{padding:0 16px}
-    .chips-wrap{padding:0 16px}
-    footer{padding:24px 16px}
-    .card{width:168px}
-    .card:hover{transform:scale(1.15)}
+  @media(max-width:900px){
+    #siteHeader{padding:0 3%;height:62px}.nav-links{display:none}#search{width:160px}.hero-content{max-width:85%;padding-right:3%}
+    .hero-title{font-size:28px}.hero-desc{font-size:13px;line-height:1.7;-webkit-line-clamp:2}
+    .hero-dots{bottom:80px}.hero-counter{bottom:100px}
+    .card{min-width:150px;width:150px}
   }
 </style>
 </head>
 <body>
-
 <header id="siteHeader">
   <div class="nav-left">
-    <a class="logo" href="#">GTM MOVIES</a>
+    <a class="logo" href="index.html">GTM MOVIES</a>
     <ul class="nav-links">
-      <li><a class="active" href="#">Home</a></li>
-      <li><a href="#">TV Shows</a></li>
-      <li><a href="#">Movies</a></li>
-      <li><a href="#">New & Popular</a></li>
-      <li><a href="#">My List</a></li>
-      <li><a href="#">Browse by Languages</a></li>
+      <li><a class="active" href="#">الرئيسية</a></li>
+      <li><a href="#">افلام</a></li>
+      <li><a href="#">مسلسلات</a></li>
+      <li><a href="#">جديد</a></li>
     </ul>
   </div>
   <div class="nav-right">
-    <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.5-3.5"/></svg>
-      <input id="search" type="text" placeholder="Titles, people, genres" autocomplete="off" />
-    </div>
+    <input id="search" placeholder="عناوين، اشخاص، تصنيفات">
     <div class="avatar">G</div>
   </div>
 </header>
 
 <div class="billboard" id="billboard">
-  <div id="heroBg"></div>
   <div class="billboard-bottom-fade"></div>
-  <div id="heroContent">
-    <!-- JS will inject -->
-    <div class="hero-eyebrow"><span>N</span><span style="color:#b3b3b3;font-size:11px;letter-spacing:3px">SERIES • NETFLIX ORIGINALS STYLE</span></div>
-    <h1 class="hero-title">Loading GTM Movies...</h1>
+  <div class="hero-counter" id="heroCounter">1 / 10</div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-arrows">
+    <button class="hero-arrow" onclick="heroPrev()">‹</button>
+    <button class="hero-arrow" onclick="heroNext()">›</button>
   </div>
-  <button class="hero-volume" aria-label="Mute">🔊</button>
-  <div class="hero-age"><div class="age-box">16+</div></div>
 </div>
 
-<main>
-  <div class="chips-wrap"><div id="chips"></div></div>
-  <div id="rows">
-    <div class="skeleton-row"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
-  </div>
-</main>
-
-<footer>
-  <div class="footer-links">
-    <a href="#">Audio Description</a><a href="#">Help Center</a><a href="#">Gift Cards</a><a href="#">Terms of Use</a><a href="#">Privacy</a><a href="#">Corporate Information</a><a href="#">Audio and Subtitles</a><a href="#">Contact GTM</a>
-  </div>
-  <div>© 1997-2025 GTM Movies, Inc.</div>
-</footer>
+<div id="chips"></div>
+<div id="rows"><div style="padding:40px 3%;color:#666">⏳ جاري تحميل الأفلام...</div></div>
 
 <script>
-// ---- DATA FETCH ----
-let ALL_MOVIES = [];
-let activeCategory = 'All';
+let ALL_MOVIES=[], HERO_MOVIES=[], heroIndex=0, heroTimer=null;
+const $=id=>document.getElementById(id);
 
 async function loadMovies(){
   try{
-    const res = await fetch('movies.json', {cache:'no-store'});
-    if(!res.ok) throw new Error('movies.json not found');
-    const data = await res.json();
-    ALL_MOVIES = Array.isArray(data) ? data : (data.movies || data.results || []);
-  }catch(e){
-    console.warn('Using demo fallback', e);
-    ALL_MOVIES = [
-      {id:1,title:"The Night Agent", description:"A low-level FBI agent works in the basement of the White House, manning a phone that never rings — until the night that it does.", genre:"Thriller", year:2024, rating:"95% Match", poster:"https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600", backdrop:"https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1400"},
-      {id:2,title:"Red Horizon", description:"When a satellite engineer discovers a hidden signal, world powers race to control the last safe orbital corridor.", genre:"Sci-Fi", year:2024, rating:"92% Match", poster:"https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600", backdrop:"https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400"},
-      {id:3,title:"Money Heist Legacy", description:"The professor's next generation plans the impossible.", genre:"Action", year:2023, rating:"98% Match", poster:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600", backdrop:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400"},
-      {id:4,title:"Dark Waters", description:"Deep sea mystery thriller on the edge of human knowledge.", genre:"Horror", year:2024, rating:"88% Match", poster:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600", backdrop:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400"},
-      {id:5,title:"The Crown Reign", description:"Power, secrets and elegance — politics has never been so personal.", genre:"Drama", year:2023, rating:"97% Match", poster:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600", backdrop:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400"},
-      {id:6,title:"Midnight Loop", description:"Every night he relives the crash. Every morning he tries to stop it.", genre:"Sci-Fi", year:2024, rating:"90% Match", poster:"https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600", backdrop:"https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1400"},
-      {id:7,title:"Berlin Syndicate", description:"Undercover in Europe's dark finance network.", genre:"Thriller", year:2023, rating:"93% Match", poster:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600", backdrop:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400"},
-      {id:8,title:"Comedy Gold", description:"Four friends, one podcast, infinite bad decisions.", genre:"Comedy", year:2024, rating:"85% Match", poster:"https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=600", backdrop:"https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=1400"},
-    ];
-  }
+    let r=await fetch('./movies.json?v='+Date.now(),{cache:'no-store'});
+    if(r.ok){
+      let j=await r.json();
+      let list=Array.isArray(j)?j:j.movies||[];
+      if(list.length>0){ ALL_MOVIES=list; init(); return; }
+    }
+  }catch(e){}
+  // fallback demo if json missing
+  ALL_MOVIES=[
+    {id:'1',title:'مشاهدة مسلسل بنج كلي الموسم الاول',year:'2026',category:'مسلسلات, دراما',poster:'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600',description:'المسلسل يسلط الضوء على الصراعات والمشكلات اليومية التي تمر داخل المستشفيات سواء كانت قضايا طبية، أخطاء، قرارات صعبة أو مواقف إنسانية مؤثرة تجمع بين التوتر والإثارة'},
+    {id:'2',title:'فيلم الدشاش',year:'2025',category:'افلام عربي, اكشن',poster:'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600',description:'اكشن مصري جديد'},
+  ];
   init();
 }
 
-function getCategories(){
-  const set = new Set(ALL_MOVIES.map(m => (m.genre||m.category||'Popular').split(',')[0].trim()));
-  return ['All', ...Array.from(set).slice(0,12)];
-}
-
 function init(){
+  // اخر 10 افلام ضيفها
+  HERO_MOVIES = ALL_MOVIES.slice(0,10);
+  renderHeroSlider();
   renderChips();
-  renderHero();
   renderRows();
-  setupSearch();
   setupHeaderScroll();
+  setupSearch();
+  startHeroAuto();
 }
 
-function renderChips(){
-  const cats = getCategories();
-  const el = document.getElementById('chips');
-  el.innerHTML = cats.map(c => `<button class="chip ${c===activeCategory?'active':''}" data-cat="${c}">${c}</button>`).join('');
-  el.querySelectorAll('.chip').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      activeCategory = b.dataset.cat;
-      el.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      renderRows();
-    });
-  });
-}
-
-function pickHero(){
-  return ALL_MOVIES.find(m=>m.backdrop||m.poster) || ALL_MOVIES[0];
-}
-
-function renderHero(){
-  const m = pickHero();
-  if(!m) return;
-  const bg = document.getElementById('heroBg');
-  const img = m.backdrop || m.banner || m.poster || m.image || '';
-  if(img) bg.style.backgroundImage = `url('${img}')`;
-
-  const content = document.getElementById('heroContent');
-  const title = m.title || m.name || 'Untitled';
-  const desc = m.description || m.overview || m.plot || 'Watch now on GTM Movies. Top rated original series and blockbuster movies, curated for you.';
-  const year = m.year || m.release_year || '2024';
-  const rating = m.rating || m.match || '98% Match';
-  const genre = (m.genre||'Drama').split(',')[0];
-
-  content.innerHTML = `
-    <div class="hero-eyebrow"><span style="color:#e50914;font-family:'Bebas Neue';font-size:22px;margin-right:2px;">N</span><span style="color:#b3b3b3;font-size:11px;letter-spacing:3px;text-transform:uppercase">SERIES • ${genre}</span></div>
-    <h1 class="hero-title">${escapeHtml(title)}</h1>
-    <div class="hero-meta">
-      <span class="match">${escapeHtml(String(rating))}</span>
-      <span>${year}</span>
-      <span class="maturity">16+</span>
-      <span>4K</span>
-      <span>HDR</span>
-    </div>
-    <p class="hero-desc">${escapeHtml(desc)}</p>
-    <div class="hero-actions">
-      <a class="btn btn-play" href="movie.html?id=${m.id}">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14l11-7-11-7z"/></svg> Play
-      </a>
-      <a class="btn btn-info" href="movie.html?id=${m.id}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> More Info
-      </a>
-    </div>
-  `;
-}
-
-function groupByCategory(list){
-  const groups = {};
-  list.forEach(m=>{
-    const g = (m.genre || m.category || 'Popular').split(',')[0].trim() || 'Popular';
-    if(!groups[g]) groups[g]=[];
-    groups[g].push(m);
-  });
-  // Ensure stable Netflix order
-  const order = ['Trending Now','Top 10','Action','Thriller','Drama','Sci-Fi','Comedy','Horror','Popular'];
-  const sortedKeys = Object.keys(groups).sort((a,b)=>{
-    let ia = order.indexOf(a); let ib = order.indexOf(b);
-    if(ia===-1) ia=999; if(ib===-1) ib=999;
-    return ia-ib;
-  });
-  // Always insert some special rows
-  if(list.length>=6){
-    groups['Trending Now'] = [...list].sort(()=>.5-Math.random()).slice(0,12);
-    groups['Top 10 on GTM Today'] = [...list].slice(0,10);
-  }
-  const finalOrder = ['Trending Now','Top 10 on GTM Today', ...sortedKeys.filter(k=>!['Trending Now','Top 10 on GTM Today'].includes(k))];
-  return {groups, order:finalOrder.filter(k=>groups[k])};
-}
-
-function renderRows(filterText=''){
-  const container = document.getElementById('rows');
-  let list = ALL_MOVIES;
-  if(activeCategory!=='All'){
-    list = list.filter(m=> (m.genre||'').toLowerCase().includes(activeCategory.toLowerCase()));
-  }
-  if(filterText){
-    const q = filterText.toLowerCase();
-    list = list.filter(m=> (m.title||'').toLowerCase().includes(q) || (m.genre||'').toLowerCase().includes(q) || (m.description||'').toLowerCase().includes(q));
-  }
-  if(!list.length){
-    container.innerHTML = `<div style="padding:40px 60px;color:#777">No titles found for "${escapeHtml(filterText||activeCategory)}"</div>`;
-    return;
-  }
-  const {groups, order} = groupByCategory(list);
-  container.innerHTML = order.map((cat, idx)=>{
-    const movies = groups[cat];
-    const isTop10 = cat.toLowerCase().includes('top 10');
-    return `
-      <section class="row-section">
-        <div class="row-header">
-          <div class="row-red-line"></div>
-          <h2 class="row-title">${escapeHtml(cat)}</h2>
-          <span class="row-count">${movies.length} titles</span>
+function renderHeroSlider(){
+  const board=$('billboard');
+  // احذف القديم
+  board.querySelectorAll('.hero-slide').forEach(e=>e.remove());
+  HERO_MOVIES.forEach((m,i)=>{
+    const img=m.poster_url||m.poster||m.image||'';
+    const slide=document.createElement('div');
+    slide.className='hero-slide'+(i==0?' active':'');
+    slide.innerHTML=`
+      <div class="hero-bg" style="background-image:url('${img}')"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow"><b>N</b><span>${(m.category||'دراما').split(',')[0].toUpperCase()} • مسلسل</span></div>
+        <h1 class="hero-title">${escapeHtml(m.title||'')}</h1>
+        <div class="hero-meta">
+          <span class="match">98% Match</span>
+          <span>${m.year||2026}</span>
+          <span class="maturity">+16</span>
+          <span>4K</span>
+          <span>HDR</span>
         </div>
-        <div class="row-track-wrap">
-          <button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button>
-          <div class="row-track">
-            ${movies.map((m,i)=> cardHtml(m, isTop10?i+1:null)).join('')}
-          </div>
-          <button class="row-arrow right" onclick="scrollRow(this,1)">›</button>
-        </div>
-      </section>
-    `;
-  }).join('');
-}
-
-function cardHtml(m, rank){
-  const img = m.poster || m.image || m.backdrop || '';
-  const title = m.title || m.name || 'Untitled';
-  const match = m.rating || m.match || `${Math.floor(85+Math.random()*13)}% Match`;
-  const year = m.year || 2024;
-  return `
-    <a class="card" href="movie.html?id=${m.id}" title="${escapeHtml(title)}">
-      ${rank?`<div class="card-rank">${rank}</div>`:''}
-      <img loading="lazy" src="${img}" alt="${escapeHtml(title)}" onerror="this.src='https://via.placeholder.com/260x146/181818/e50914?text=${encodeURIComponent(title)}'">
-      <div class="card-overlay">
-        <div class="card-actions">
-          <span class="card-icon play">▶</span>
-          <span class="card-icon">+</span>
-          <span class="card-icon">♡</span>
-          <span class="card-icon" style="margin-left:auto">⌄</span>
-        </div>
-        <div class="card-title">${escapeHtml(title)}</div>
-        <div class="card-meta">
-          <span class="green">${escapeHtml(String(match))}</span>
-          <span class="dot"></span>
-          <span class="badge">16+</span>
-          <span class="dot"></span>
-          <span>${year}</span>
-          <span class="dot"></span>
-          <span>HD</span>
+        <p class="hero-desc">${escapeHtml((m.description||'').slice(0,180))}</p>
+        <div class="hero-actions">
+          <a class="btn btn-play" href="movie.html?id=${m.id}">▶ تشغيل</a>
+          <a class="btn btn-info" href="movie.html?id=${m.id}">ⓘ معلومات اكثر</a>
         </div>
       </div>
-    </a>
-  `;
-}
-
-function setupSearch(){
-  const input = document.getElementById('search');
-  let t;
-  input.addEventListener('input', ()=>{
-    clearTimeout(t);
-    t = setTimeout(()=> renderRows(input.value.trim()), 220);
+    `;
+    board.insertBefore(slide, board.firstChild);
   });
+  // dots
+  const dots=$('heroDots');
+  dots.innerHTML=HERO_MOVIES.map((_,i)=>`<button class="hero-dot ${i==0?'active':''}" onclick="goHero(${i})"></button>`).join('');
+  updateCounter();
 }
 
-function setupHeaderScroll(){
-  const h = document.getElementById('siteHeader');
-  window.addEventListener('scroll', ()=>{
-    if(window.scrollY>10) h.classList.add('scrolled');
-    else h.classList.remove('scrolled');
+function goHero(i){
+  heroIndex=i;
+  document.querySelectorAll('.hero-slide').forEach((el,idx)=>el.classList.toggle('active',idx==i));
+  document.querySelectorAll('.hero-dot').forEach((el,idx)=>el.classList.toggle('active',idx==i));
+  updateCounter();
+  restartHeroAuto();
+}
+function heroNext(){ goHero((heroIndex+1)%HERO_MOVIES.length); }
+function heroPrev(){ goHero((heroIndex-1+HERO_MOVIES.length)%HERO_MOVIES.length); }
+function updateCounter(){ $('heroCounter').innerText=(heroIndex+1)+' / '+HERO_MOVIES.length; }
+function startHeroAuto(){ heroTimer=setInterval(heroNext,5000); }
+function restartHeroAuto(){ clearInterval(heroTimer); startHeroAuto(); }
+
+function getCats(m){return (m.category||'').split(',').map(s=>s.trim()).filter(Boolean);}
+function getAllCats(list){let set=new Set();list.forEach(m=>getCats(m).forEach(c=>set.add(c)));return [...set];}
+
+function renderChips(){
+  let cats=['الكل',...getAllCats(ALL_MOVIES)];
+  $('chips').innerHTML=cats.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
+}
+function filterCat(el,c){
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); el.classList.add('active');
+  if(c=='الكل') renderRows();
+  else renderRows(ALL_MOVIES.filter(m=>getCats(m).includes(c)));
+}
+
+function renderRows(list=ALL_MOVIES){
+  if(!list.length){ $('rows').innerHTML=`<div style="padding:40px 3%;color:#777">لا يوجد نتائج</div>`; return; }
+  // ترتيب: احدث الاضافات اول صف
+  let cats=getAllCats(list);
+  let html=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">أحدث 10 إضافات</h2><span class="row-count">${Math.min(10,list.length)} عنوان</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${list.slice(0,10).map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
+  cats.forEach(cat=>{
+    let arr=list.filter(m=>getCats(m).includes(cat));
+    if(arr.length>0) html+=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">${cat}</h2><span class="row-count">${arr.length}</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${arr.map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
   });
+  $('rows').innerHTML=html;
 }
-
-function scrollRow(btn, dir){
-  const track = btn.parentElement.querySelector('.row-track');
-  track.scrollBy({left: dir* (track.clientWidth*0.8), behavior:'smooth'});
+function cardHtml(m){
+  const img=m.poster_url||m.poster||'';
+  return `<a class="card" href="movie.html?id=${m.id}"><img loading="lazy" src="${img}" alt="${escapeHtml(m.title)}" onerror="this.src='https://via.placeholder.com/300x170/181818/666?text=GTM'"><div class="card-overlay"><div class="card-title">${escapeHtml(m.title)}</div><div class="card-meta"><span class="green">${m.year||2026}</span><span class="dot"></span><span class="badge">HD</span><span class="dot"></span><span>${(m.category||'').split(',')[0]||''}</span></div></div></a>`;
 }
-
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-// Kick
+function scrollRow(btn,dir){ const track=btn.parentElement.querySelector('.row-track'); track.scrollBy({left: dir* (track.clientWidth*0.8), behavior:'smooth'}); }
+function setupSearch(){ const input=$('search'); let t; input.addEventListener('input',()=>{ clearTimeout(t); t=setTimeout(()=>{ let q=input.value.trim().toLowerCase(); if(!q){renderRows(); return;} let f=ALL_MOVIES.filter(m=>(m.title||'').toLowerCase().includes(q)); renderRows(f); },220); }); }
+function setupHeaderScroll(){ const h=$('siteHeader'); window.addEventListener('scroll',()=>{ if(window.scrollY>10) h.classList.add('scrolled'); else h.classList.remove('scrolled'); }); }
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 loadMovies();
 </script>
 </body>
