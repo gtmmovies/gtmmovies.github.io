@@ -139,7 +139,7 @@ async function load(){
    </div>
   </div>
   <div class="info">
-   <div class="eyebrow"><b>N</b><span>${cats[0]||'فيلم'} • ${movie.year||''}</span></div>
+   <div class="eyebrow"><b>G</b><span>${cats[0]||'فيلم'} • ${movie.year||''}</span></div>
    <div class="badges">${cats.map(c=>`<span class="badge ${c.includes('عربي')||c.includes('اجنبي')?'red':''}">${c}</span>`).join('')}</div>
    <h1>${movie.title}</h1>
    <div class="meta"><span class="year">${movie.year||'2025'}</span><span class="match">98% Match</span><span>HD 1080p</span><span>4K • HDR</span><span>${cats[0]||'افلام'}</span></div>
