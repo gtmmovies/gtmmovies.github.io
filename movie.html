@@ -11,41 +11,97 @@
 <meta property="og:image" id="og-image" content="">
 <meta property="og:url" id="og-url" content="">
 <link rel="canonical" id="canonical" href="">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@800;900&display=swap" rel="stylesheet">
 <script type="application/ld+json" id="json-ld"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#050507;color:#fff}
-header{position:fixed;top:0;width:100%;z-index:10;display:flex;align-items:center;padding:14px 4%;background:rgba(0,0,0,.5);backdrop-filter:blur(15px)}
-.logo{font-size:26px;font-weight:900;background:linear-gradient(90deg,#e50914,#ff3d5a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:90px 4% 40px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.4);transform:scale(1.1)}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 25%,rgba(5,5,7,.7) 60%,rgba(5,5,7,.2)),linear-gradient(0deg,#050507 5%,transparent 60%);z-index:1}
-.content{position:relative;z-index:2;display:flex;gap:40px;align-items:flex-start;max-width:1200px;width:100%}
-.poster{width:320px;min-width:320px;height:480px;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.8)}
-.poster img{width:100%;height:100%;object-fit:cover}
-.info{flex:1;padding-top:20px}
-.badge{display:inline-flex;gap:6px;align-items:center;background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.3);color:#ff4d5e;padding:6px 12px;border-radius:30px;font-size:12px;font-weight:800;margin-bottom:10px;margin-left:6px}
-.info h1{font-size:56px;font-weight:900;line-height:.95;margin-bottom:12px}
-.meta{display:flex;gap:8px;color:#aaa;font-size:14px;margin-bottom:18px;flex-wrap:wrap}
-.meta span{background:rgba(255,255,255,.08);padding:4px 10px;border-radius:6px}
-.desc{color:#d0d0d0;line-height:1.9;font-size:16px;margin-bottom:30px;max-width:600px}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{padding:16px 36px;border-radius:40px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:.3s;font-size:16px;cursor:pointer;border:none}
-.btn-play{background:#fff;color:#000}.btn-play:hover{transform:scale(1.05)}
-.btn-back{background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(10px)}
-.similar{padding:40px 4%;border-top:1px solid rgba(255,255,255,.07)}
-.similar h2{font-size:22px;margin-bottom:16px}
-.slider{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
+:root{--black:#0a0a0a;--black2:#141414;--red:#e50914;--line:rgba(255,255,255,.08)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Tajawal',sans-serif}
+body{background:var(--black);color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
+
+/* Header نفس الرئيسية */
+header{position:fixed;top:0;width:100%;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 3%;height:70px;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
+header.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.logo{font-size:24px;font-weight:900;color:var(--red);letter-spacing:.5px;cursor:pointer}
+.nav-right{display:flex;gap:12px;align-items:center}
+.btn-hd{padding:6px 12px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:800}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:88px 3% 50px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:blur(22px) brightness(.35) saturate(1.2);transform:scale(1.15)}
+.hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,var(--black) 8%,rgba(10,10,10,.85) 35%,rgba(10,10,10,.25) 70%,rgba(10,10,10,.1)),linear-gradient(0deg,var(--black) 8%,rgba(10,10,10,0) 55%)}
+.content{position:relative;z-index:2;display:flex;gap:42px;align-items:flex-start;max-width:1280px;width:100%;margin:0 auto}
+
+/* Poster - يبان كامل */
+.poster-wrap{width:340px;min-width:340px;position:relative}
+.poster{width:100%;aspect-ratio:2/3;border-radius:16px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 70px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06) inset;position:relative}
+.poster img{width:100%;height:100%;object-fit:cover;object-position:center;display:block} /* cover بس الكارت 2/3 فالبوستر هيبان كامل */
+.poster::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:16px;pointer-events:none}
+.poster-badge{position:absolute;top:10px;right:10px;z-index:2;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:900;letter-spacing:.5px}
+
+.info{flex:1;padding-top:10px;min-width:0}
+.eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.eyebrow b{color:var(--red);font-size:18px;font-weight:900}
+.eyebrow span{color:#aaa;font-size:11px;letter-spacing:3px;font-weight:800}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#ccc;font-size:12px;font-weight:800}
+.badge.red{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.3);color:#ff5563}
+.info h1{font-family:'Tajawal',sans-serif;font-size:clamp(32px,4.5vw,58px);font-weight:900;line-height:.95;letter-spacing:-.5px;margin-bottom:14px;text-shadow:0 4px 20px rgba(0,0,0,.6)}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.meta span{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:800;color:#bbb}
+.meta span.year{background:#fff;color:#000;border-color:#fff;font-weight:900}
+.meta span.match{color:#46d369;border-color:rgba(70,211,105,.25);background:rgba(70,211,105,.1)}
+.desc{color:#c8c8c8;line-height:1.95;font-size:15px;font-weight:600;margin-bottom:28px;max-width:620px}
+.desc strong{color:#fff}
+
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.btn{padding:14px 32px;border-radius:8px;font-weight:900;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:.25s;border:none;cursor:pointer;text-decoration:none;font-family:'Cairo',sans-serif}
+.btn-play{background:#fff;color:#000;box-shadow:0 10px 30px rgba(255,255,255,.15)}
+.btn-play:hover{transform:translateY(-2px);background:#e6e6e6;box-shadow:0 14px 35px rgba(255,255,255,.2)}
+.btn-back{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px)}
+.btn-back:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+
+.extra{display:flex;gap:22px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
+.extra-item{display:flex;flex-direction:column;gap:4px}
+.extra-item small{color:#666;font-size:10px;font-weight:800;letter-spacing:1px}
+.extra-item b{font-size:13px;font-weight:800;color:#ddd}
+
+/* Similar */
+.similar{padding:32px 3% 50px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.01),transparent)}
+.similar-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.similar-head i{width:3px;height:18px;background:var(--red);border-radius:3px;display:inline-block;box-shadow:0 0 10px rgba(229,9,20,.4)}
+.similar-head h2{font-size:18px;font-weight:900}
+.similar-head span{margin-right:auto;color:#555;font-size:11px;font-weight:700}
+.slider{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;scroll-behavior:smooth}
 .slider::-webkit-scrollbar{display:none}
-.card{min-width:170px;width:170px;height:255px;border-radius:14px;overflow:hidden;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,.06)}
-.card img{width:100%;height:100%;object-fit:cover}
-.card:hover{transform:translateY(-8px);border-color:#e50914}
-@media(max-width:900px){.content{flex-direction:column;align-items:center}.poster{width:260px;min-width:260px;height:390px}.info h1{font-size:38px}}
+.card{min-width:170px;width:170px;border-radius:10px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:.3s;flex-shrink:0;position:relative}
+.card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#111;transition:.4s}
+.card:hover{transform:translateY(-6px);border-color:rgba(229,9,20,.5);box-shadow:0 16px 30px rgba(0,0,0,.6)}
+.card:hover img{transform:scale(1.04)}
+.card-info{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Mobile */
+@media(max-width:900px){
+  header{height:62px}
+  .hero{padding:70px 4% 30px;align-items:flex-start}
+  .content{flex-direction:column;align-items:center;gap:22px}
+  .poster-wrap{width:78%;min-width:auto;max-width:300px;margin:0 auto}
+  .poster{border-radius:14px;aspect-ratio:2/3}
+  .poster img{object-fit:cover}
+  .info{width:100%;text-align:center;padding-top:0}
+  .eyebrow,.badges,.meta,.btns,.extra{justify-content:center}
+  .info h1{font-size:30px;line-height:1.1}
+  .desc{font-size:14px;line-height:1.8;margin:0 auto 22px;text-align:center;max-width:100%}
+  .btns{width:100%}.btns .btn{flex:1;min-width:140px;padding:13px 18px;font-size:14px}
+  .extra{justify-content:center}
+  .similar{padding:22px 3% 40px}
+  .card{min-width:130px;width:130px}
+}
 </style>
 </head>
 <body>
-<header><div class="logo" onclick="location.href='index.html'">GTM MOVIES</div></header>
+<header id="siteHeader"><div class="logo" onclick="location.href='index.html'">GTM MOVIES</div><div class="nav-right"><div class="btn-hd">HD 1080p</div><a href="index.html" style="color:#aaa;font-size:13px;font-weight:800">رجوع ←</a></div></header>
 <div class="hero" id="hero"><div class="hero-bg" id="heroBg"></div><div class="content" id="content">جاري التحميل...</div></div>
 <div class="similar" id="similar"></div>
 <script>
@@ -58,7 +114,7 @@ async function load(){
   let r=await fetch('./movies.json?v='+Date.now(),{cache:'no-store'});
   if(r.ok){let all=await r.json(); let list=Array.isArray(all)?all:all.movies||[]; movie=list.find(x=>String(x.id)==String(id)); window._all=list;}
  }catch(e){console.error(e)}
- if(!movie){document.getElementById('content').innerHTML='<div style="padding:50px">الفيلم مش موجود - <a href=index.html style=color:#e50914>رجوع</a></div>';return}
+ if(!movie){document.getElementById('content').innerHTML='<div style="padding:50px;text-align:center;width:100%">الفيلم مش موجود - <a href=index.html style=color:#e50914>رجوع للرئيسية</a></div>';return}
 
  const cats=getCats(movie);
  const pageTitle=`مشاهدة ${movie.title} ${movie.year?`(${movie.year})`:''} - GTM MOVIES`;
@@ -76,23 +132,39 @@ async function load(){
 
  document.getElementById('heroBg').style.backgroundImage=`url('${movie.poster_url||movie.poster}')`;
  document.getElementById('content').innerHTML=`
-  <div class="poster"><img src="${movie.poster_url||movie.poster}" alt="${movie.title}"></div>
+  <div class="poster-wrap">
+   <div class="poster">
+     <img src="${movie.poster_url||movie.poster}" alt="${movie.title}">
+     <div class="poster-badge">HD • ${movie.year||'2026'}</div>
+   </div>
+  </div>
   <div class="info">
-   <div style="margin-bottom:8px">${cats.map(c=>`<span class="badge">${c}</span>`).join('')}</div>
+   <div class="eyebrow"><b>N</b><span>${cats[0]||'فيلم'} • ${movie.year||''}</span></div>
+   <div class="badges">${cats.map(c=>`<span class="badge ${c.includes('عربي')||c.includes('اجنبي')?'red':''}">${c}</span>`).join('')}</div>
    <h1>${movie.title}</h1>
-   <div class="meta"><span>${movie.year||'2025'}</span><span>HD 1080p</span><span>${cats[0]||'افلام'}</span></div>
-   <div class="desc">${movie.description||'استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES.'}</div>
+   <div class="meta"><span class="year">${movie.year||'2025'}</span><span class="match">98% Match</span><span>HD 1080p</span><span>4K • HDR</span><span>${cats[0]||'افلام'}</span></div>
+   <div class="desc">${movie.description||'استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES. قصة مشوقة واحداث مثيرة بجودة عالية بدون اعلانات مزعجة.'}</div>
    <div class="btns">
     <a class="btn btn-play" href="watch.html?id=${movie.id}">▶ مشاهدة الان</a>
-    <a class="btn btn-back" href="index.html">← رجوع</a>
+    <a class="btn btn-back" href="index.html">ⓘ رجوع للقائمة</a>
+   </div>
+   <div class="extra">
+    <div class="extra-item"><small>السنة</small><b>${movie.year||'2026'}</b></div>
+    <div class="extra-item"><small>الجودة</small><b>1080p Full HD</b></div>
+    <div class="extra-item"><small>التصنيف</small><b>${cats.join(' • ')}</b></div>
+    <div class="extra-item"><small>المشاهدة</small><b>مجانية</b></div>
    </div>
   </div>
  `;
 
  let all=window._all||[];
- let similar=all.filter(m=>String(m.id)!=String(id) && getCats(m).some(c=>cats.includes(c))).slice(0,10);
- if(similar.length==0) similar=all.filter(m=>String(m.id)!=String(id)).slice(0,8);
- document.getElementById('similar').innerHTML=`<h2>افلام مشابهة قد تعجبك</h2><div class="slider">${similar.map(m=>`<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url||m.poster}" alt="${m.title}" loading="lazy"></div>`).join('')}</div>`;
+ let similar=all.filter(m=>String(m.id)!=String(id) && getCats(m).some(c=>cats.includes(c))).slice(0,12);
+ if(similar.length==0) similar=all.filter(m=>String(m.id)!=String(id)).slice(0,10);
+ document.getElementById('similar').innerHTML=`<div class="similar-head"><i></i><h2>افلام مشابهة قد تعجبك</h2><span>${similar.length} عنوان</span></div><div class="slider">${similar.map(m=>`<div class="card" onclick="location.href='movie.html?id=${m.id}'"><img src="${m.poster_url||m.poster}" alt="${m.title}" loading="lazy"><div class="card-info">${m.title}</div></div>`).join('')}</div>`;
+
+ window.addEventListener('scroll',()=>{
+   document.getElementById('siteHeader').classList.toggle('scrolled',window.scrollY>10);
+ });
 }
 load();
 </script>
