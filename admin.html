@@ -23,7 +23,7 @@
 }
 </style>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GTM ADMIN — STYLE A DARK MINIMAL + SEASONS</title>
+<title>GTM MOVIES ADMIN</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&family=JetBrains+Mono:wght@700&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -113,13 +113,13 @@ button,input,textarea,select{font:inherit}
 </head>
 <body>
 <div class="topbar">
-<div class="logo"><span class="gtm">GTM</span> <span class="admin">ADMIN V13 SEASONS</span></div>
+<div class="logo"><span class="gtm">GTM</span> <span class="admin">SIDI GABER</span></div>
 <button class="btn-add" onclick="openModal()">+ NEW TITLE</button>
 </div>
 <div class="container">
 <div class="meta-row">
 <div class="token-box">
-<input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx">
+<input id="ghToken" type="password" placeholder="Password">
 <button onclick="saveToken()">SAVE TOKEN</button>
 </div>
 <div class="counts">
@@ -310,7 +310,7 @@ async function load(){
   }catch(e){ $('status').innerText='ERROR: '+e.message; }
 }
 function applyFilter(){ let d=[...allData]; if(currentCat!='الكل') d=d.filter(m=>(m.category||'').includes(currentCat)); let q=$('search').value.toLowerCase().trim(); if(q) d=d.filter(m=>(m.title||'').toLowerCase().includes(q)); render(d); }
-function render(data){ $('list').innerHTML=data.map(m=>`<div class=card>${m.season?`<div class=season-badge>S${m.season}</div>`:''}<img src="${m.poster_url||m.poster||''}" loading=lazy><div class=card-body><b>${m.title||''}${m.season?` - م${m.season}`:''}</b><small>${m.category||''} ${m.episodes?'• '+m.episodes.length+' EP':''} ${m.seasonTitle?`• ${m.seasonTitle}`:''}</small></div><div class=card-actions><button class=btn-edit onclick="startEdit('${m.id}')">✏ تعديل</button><button class=btn-del onclick="delMovie('${m.id}')">🗑 حذف</button></div></div>`).join('')||'<div style=grid-column:1/-1;text-align:center;color:#555;padding:60px;background:#0A0A0A;border-radius:32px;border:1px dashed #1A1A1A;font-family:JetBrains Mono,monospace">EMPTY - ADD FIRST TITLE</div>'; }
+function render(data){ $('list').innerHTML=data.map(m=>`<div class=card>${m.season?`<div class=season-badge>S${m.season}</div>`:''}<img src="${m.poster_url||m.poster||''}" loading=lazy><div class=card-body><b>${m.title||''}${m.season?` - م${m.season}`:''}</b><small>${m.category||''} ${m.episodes?'• '+m.episodes.length+' EP':''} ${m.seasonTitle?`• ${m.seasonTitle}`:''}</small></div><div class=card-actions><button class=btn-edit onclick="startEdit('${m.id}')">✍ تعديل</button><button class=btn-del onclick="delMovie('${m.id}')">📤 حذف</button></div></div>`).join('')||'<div style=grid-column:1/-1;text-align:center;color:#555;padding:60px;background:#0A0A0A;border-radius:32px;border:1px dashed #1A1A1A;font-family:JetBrains Mono,monospace">EMPTY - ADD FIRST TITLE</div>'; }
 function filterBy(cat, el){ currentCat=cat; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); applyFilter(); }
 
 function addEpisode(data=null){
