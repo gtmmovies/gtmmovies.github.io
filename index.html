@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GTM MOVIES</title>
+<title>GTM Movies — Netflix Style</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{--black:#0a0a0a;--black2:#141414;--red:#e50914;--white:#fff;--muted:#9a9a9a}
@@ -11,8 +11,6 @@
   html{scroll-behavior:smooth}
   body{background:var(--black);color:#fff;font-family:'Cairo','Tajawal',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
-
-  /* Header */
   #siteHeader{position:fixed;top:0;right:0;left:0;z-index:100;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 3%;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
   #siteHeader.scrolled{background:rgba(10,10,10,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
   .nav-left{display:flex;align-items:center;gap:28px}
@@ -25,8 +23,6 @@
   #search::placeholder{color:#888}
   #search:focus{border-color:#fff;background:#000;width:300px}
   .avatar{width:30px;height:30px;border-radius:4px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:11px}
-
-  /* HERO SLIDER - RIGHT SIDE TEXT */
   .billboard{position:relative;width:100%;height:88vh;min-height:560px;max-height:860px;overflow:hidden;background:#000}
   .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease, transform 8s ease;transform:scale(1.03);pointer-events:none}
   .hero-slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
@@ -34,8 +30,8 @@
   .hero-slide::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.75) 28%,rgba(0,0,0,.25) 62%,transparent 88%),linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.6) 30%,transparent 70%),linear-gradient(180deg,rgba(0,0,0,.5),transparent 25%)}
   .hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;padding:0 3%;padding-top:70px;max-width:62%}
   .hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-  .hero-eyebrow b{color:var(--red);font-size:20px;font-weight:900;letter-spacing:1px}
-  .hero-eyebrow span{color:#bbb;font-size:11px;letter-spacing:3px;font-weight:800}
+  .hero-eyebrow b{color:var(--red);font-size:18px;font-weight:900;letter-spacing:1px}
+  .hero-eyebrow span{color:#bbb;font-size:12px;letter-spacing:.5px;font-weight:800}
   .hero-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,4.2vw,54px);font-weight:900;line-height:1.05;letter-spacing:-.5px;text-shadow:0 4px 20px rgba(0,0,0,.8);margin-bottom:14px;color:#fff}
   .hero-meta{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:800;margin-bottom:14px;flex-wrap:wrap}
   .hero-meta .match{color:#46d369;font-weight:900}
@@ -47,8 +43,6 @@
   .btn-play:hover{background:rgba(255,255,255,.8)}
   .btn-info{background:rgba(109,109,110,.7);color:#fff;backdrop-filter:blur(2px)}
   .btn-info:hover{background:rgba(109,109,110,.4)}
-
-  /* Hero Controls */
   .hero-dots{position:absolute;left:3%;bottom:110px;z-index:5;display:flex;gap:8px;align-items:center}
   .hero-dot{width:22px;height:4px;border-radius:4px;background:rgba(255,255,255,.25);cursor:pointer;transition:.3s;border:none}
   .hero-dot.active{background:var(--red);width:32px;box-shadow:0 0 10px rgba(229,9,20,.5)}
@@ -57,15 +51,11 @@
   .hero-arrow:hover{background:#fff;color:#000;border-color:#fff}
   .hero-counter{position:absolute;left:3%;bottom:135px;z-index:5;color:#888;font-size:11px;font-weight:800;letter-spacing:1px}
   .billboard-bottom-fade{position:absolute;left:0;right:0;bottom:0;height:35%;z-index:2;background:linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.9) 30%,transparent 100%);pointer-events:none}
-
-  /* Categories */
   #chips{position:relative;z-index:4;display:flex;gap:8px;padding:14px 3%;background:var(--black);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
   #chips::-webkit-scrollbar{display:none}
-  .chip{white-space:nowrap;padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:12px;font-weight:800;cursor:pointer;transition:.2s}
+  .chip{white-space:nowrap;padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
   .chip.active{background:#fff;color:#000;border-color:#fff}
   .chip:hover{color:#fff;border-color:rgba(255,255,255,.2)}
-
-  /* Rows */
   #rows{padding:10px 0 40px}
   .row-section{margin-bottom:8px}
   .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 10px}
@@ -75,62 +65,98 @@
   .row-track-wrap{position:relative}
   .row-track{display:flex;gap:10px;overflow-x:auto;padding:4px 3% 28px;scrollbar-width:none;scroll-behavior:smooth}
   .row-track::-webkit-scrollbar{display:none}
-  .row-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:36px;height:90px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:28px;cursor:pointer;opacity:0;transition:.2s;backdrop-filter:blur(4px)}
-  .row-track-wrap:hover .row-arrow{opacity:1}
-  .row-arrow.left{right:0;border-radius:8px 0 0 8px}
-  .row-arrow.right{left:0;border-radius:0 8px 8px 0}
-
-  .card{min-width:200px;width:200px;border-radius:6px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.06);flex-shrink:0;text-decoration:none;color:#fff;transition:.3s;position:relative}
-  .card:hover{transform:translateY(-6px) scale(1.02);border-color:rgba(229,9,20,.5);box-shadow:0 16px 30px rgba(0,0,0,.6);z-index:3}
-  .card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#111}
-  .card-overlay{padding:9px 10px 10px}
+  .row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:70px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:3;transition:.2s;backdrop-filter:blur(4px);display:none}
+  .row-track-wrap:hover .row-arrow{display:grid;place-items:center}
+  .row-arrow.left{left:0;border-radius:0 8px 8px 0}
+  .row-arrow.right{right:0;border-radius:8px 0 0 8px}
+  .card{position:relative;min-width:185px;width:185px;border-radius:6px;overflow:hidden;background:#181818;flex-shrink:0;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,.04)}
+  .card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#111;transition:.35s}
+  .card:hover{transform:scale(1.05);z-index:2;box-shadow:0 12px 30px rgba(0,0,0,.7);border-color:rgba(255,255,255,.15)}
+  .card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.3) 45%,transparent 75%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;opacity:0;transition:.25s}
+  .card:hover .card-overlay{opacity:1}
   .card-title{font-size:12px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .card-meta{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:10px;color:#777;font-weight:700}
-  .card-meta .green{color:#46d369;font-weight:900}
+  .card-meta{font-size:10px;color:#aaa;margin-top:4px;display:flex;gap:6px;align-items:center}
+  .card-meta .green{color:#46d369}
+  .card-meta .dot{width:3px;height:3px;background:#666;border-radius:50%}
   .card-meta .badge{border:1px solid rgba(255,255,255,.3);padding:0 4px;font-size:9px}
-  .card-meta .dot{width:3px;height:3px;background:#555;border-radius:50%}
-
-  @media(max-width:900px){
-    #siteHeader{padding:0 3%;height:62px}.nav-links{display:none}#search{width:160px}.hero-content{max-width:85%;padding-right:3%}
-    .hero-title{font-size:28px}.hero-desc{font-size:13px;line-height:1.7;-webkit-line-clamp:2}
-    .hero-dots{bottom:80px}.hero-counter{bottom:100px}
-    .card{min-width:150px;width:150px}
-  }
 </style>
 </head>
 <body>
-<header id="siteHeader">
+<div id="siteHeader">
   <div class="nav-left">
     <a class="logo" href="index.html">GTM MOVIES</a>
-    <ul class="nav-links">
-      <li><a class="active" href="#">الرئيسية</a></li>
-      <li><a href="#">افلام</a></li>
-      <li><a href="#">مسلسلات</a></li>
-      <li><a href="#">جديد</a></li>
-    </ul>
+    <ul class="nav-links"><li><a href="#">الرئيسية</a></li><li><a href="#">افلام</a></li><li><a href="#">مسلسلات</a></li><li><a href="#">جديد</a></li></ul>
   </div>
   <div class="nav-right">
-    <input id="search" placeholder="عناوين، اشخاص، تصنيفات">
+    <input id="search" placeholder="عناوين، اشخاص، انواع">
     <div class="avatar">G</div>
   </div>
-</header>
+</div>
 
 <div class="billboard" id="billboard">
-  <div class="billboard-bottom-fade"></div>
-  <div class="hero-counter" id="heroCounter">1 / 10</div>
   <div class="hero-dots" id="heroDots"></div>
   <div class="hero-arrows">
-    <button class="hero-arrow" onclick="heroPrev()">‹</button>
-    <button class="hero-arrow" onclick="heroNext()">›</button>
+    <button class="hero-arrow" onclick="heroPrev()">›</button>
+    <button class="hero-arrow" onclick="heroNext()">‹</button>
   </div>
+  <div class="hero-counter" id="heroCounter"></div>
+  <div class="billboard-bottom-fade"></div>
 </div>
 
 <div id="chips"></div>
 <div id="rows"><div style="padding:40px 3%;color:#666">⏳ جاري تحميل الأفلام...</div></div>
 
 <script>
+// === FIXED V15: الفصل بين الاقسام والتصنيف ===
 let ALL_MOVIES=[], HERO_MOVIES=[], heroIndex=0, heroTimer=null;
 const $=id=>document.getElementById(id);
+
+// الاقسام الاساسية اللي تظهر في الرئيسية بس
+const MAIN_SECTIONS = [
+  {id:'arabic_movies', label:'افلام عربية', keywords:['افلام عربي','افلام عربية']},
+  {id:'foreign_movies', label:'افلام اجنبية', keywords:['افلام اجنبي','افلام اجنبية']},
+  {id:'arabic_series', label:'مسلسلات عربية', keywords:['مسلسلات عربي','مسلسلات عربية']},
+  {id:'foreign_series', label:'مسلسلات اجنبية', keywords:['مسلسلات اجنبي','مسلسلات اجنبية']},
+];
+
+// التصنيفات اللي تظهر جوه صفحة الفيلم بس
+const GENRES = ['اكشن','كوميدي','رعب','دراما','اثارة','تشويق واثارة','تشويق وإثارة','مغامرة','رومانسي','انمي'];
+
+function getCats(m){return (m.category||'').split(',').map(s=>s.trim()).filter(Boolean);}
+function getGenres(m){ return getCats(m).filter(c=>GENRES.includes(c) || (!isMainSection(c))); }
+function isMainSection(cat){
+  return MAIN_SECTIONS.some(s=>s.keywords.includes(cat) || s.label===cat);
+}
+function getSection(m){
+  const cats=getCats(m);
+  for(let sec of MAIN_SECTIONS){
+    if(cats.some(c=>sec.keywords.includes(c) || sec.label===c)) return sec.label;
+  }
+  // لو ملقاش يرجع اول قسم لقاه
+  return cats.find(c=>isMainSection(c)) || '';
+}
+function getDisplayGenre(m){
+  const cats=getCats(m);
+  // اول تصنيف مش قسم
+  const genres = cats.filter(c=> !isMainSection(c));
+  if(genres.length>0) return genres[0];
+  return '';
+}
+function getTypeLabel(m){
+  if(m.type === 'series') return 'مسلسل';
+  if(m.type === 'movie') return 'فيلم';
+  const sec = getSection(m);
+  if(sec.includes('مسلسل')) return 'مسلسل';
+  if(sec.includes('افلام')) return 'فيلم';
+  if(m.episodes && m.episodes.length>0) return 'مسلسل';
+  return 'فيلم';
+}
+function matchesSection(movie, sectionLabel){
+  const secDef = MAIN_SECTIONS.find(s=>s.label===sectionLabel);
+  if(!secDef) return false;
+  const cats=getCats(movie);
+  return cats.some(c=>secDef.keywords.includes(c) || secDef.label===c);
+}
 
 async function loadMovies(){
   try{
@@ -141,14 +167,13 @@ async function loadMovies(){
       if(list.length>0){ ALL_MOVIES=list; init(); return; }
     }
   }catch(e){}
-  // fallback demo if json missing
   ALL_MOVIES=[
+    {id:'1',title:'الكلاب السبعة',year:'2026',category:'اكشن, افلام عربية',type:'movie',poster:'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600',description:'تدور الاحداث حول خالد العزازي'},
   ];
   init();
 }
 
 function init(){
-  // اخر 10 افلام ضيفها
   HERO_MOVIES = ALL_MOVIES.slice(0,10);
   renderHeroSlider();
   renderChips();
@@ -160,16 +185,19 @@ function init(){
 
 function renderHeroSlider(){
   const board=$('billboard');
-  // احذف القديم
   board.querySelectorAll('.hero-slide').forEach(e=>e.remove());
   HERO_MOVIES.forEach((m,i)=>{
     const img=m.poster_url||m.poster||m.image||'';
+    const genre = getDisplayGenre(m);
+    const typeLabel = getTypeLabel(m);
+    const eyebrow = genre ? `${genre} • ${typeLabel}` : typeLabel;
+    const seasonTxt = m.season ? ` • الموسم ${m.season}` : '';
     const slide=document.createElement('div');
     slide.className='hero-slide'+(i==0?' active':'');
     slide.innerHTML=`
       <div class="hero-bg" style="background-image:url('${img}')"></div>
       <div class="hero-content">
-        <div class="hero-eyebrow"><b>G</b><span>${(m.category||'دراما').split(',')[0].toUpperCase()} • مسلسل</span></div>
+        <div class="hero-eyebrow"><b>G</b><span>${escapeHtml(eyebrow)}${seasonTxt}</span></div>
         <h1 class="hero-title">${escapeHtml(m.title||'')}</h1>
         <div class="hero-meta">
           <span class="match">98% Match</span>
@@ -187,7 +215,6 @@ function renderHeroSlider(){
     `;
     board.insertBefore(slide, board.firstChild);
   });
-  // dots
   const dots=$('heroDots');
   dots.innerHTML=HERO_MOVIES.map((_,i)=>`<button class="hero-dot ${i==0?'active':''}" onclick="goHero(${i})"></button>`).join('');
   updateCounter();
@@ -206,33 +233,30 @@ function updateCounter(){ $('heroCounter').innerText=(heroIndex+1)+' / '+HERO_MO
 function startHeroAuto(){ heroTimer=setInterval(heroNext,5000); }
 function restartHeroAuto(){ clearInterval(heroTimer); startHeroAuto(); }
 
-function getCats(m){return (m.category||'').split(',').map(s=>s.trim()).filter(Boolean);}
-function getAllCats(list){let set=new Set();list.forEach(m=>getCats(m).forEach(c=>set.add(c)));return [...set];}
-
 function renderChips(){
-  let cats=['الكل',...getAllCats(ALL_MOVIES)];
-  $('chips').innerHTML=cats.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
+  // بس الاقسام الاربعة + الكل - مفيش تصنيفات هنا
+  const chips=['الكل', ...MAIN_SECTIONS.map(s=>s.label)];
+  $('chips').innerHTML=chips.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
 }
 function filterCat(el,c){
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); el.classList.add('active');
   if(c=='الكل') renderRows();
-  else renderRows(ALL_MOVIES.filter(m=>getCats(m).includes(c)));
+  else renderRows(ALL_MOVIES.filter(m=>matchesSection(m,c)));
 }
 
 function renderRows(list=ALL_MOVIES){
   if(!list.length){ $('rows').innerHTML=`<div style="padding:40px 3%;color:#777">لا يوجد نتائج</div>`; return; }
-  // ترتيب: احدث الاضافات اول صف
-  let cats=getAllCats(list);
   let html=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">أحدث 10 إضافات</h2><span class="row-count">${Math.min(10,list.length)} عنوان</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${list.slice(0,10).map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
-  cats.forEach(cat=>{
-    let arr=list.filter(m=>getCats(m).includes(cat));
-    if(arr.length>0) html+=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">${cat}</h2><span class="row-count">${arr.length}</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${arr.map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
+  MAIN_SECTIONS.forEach(sec=>{
+    let arr=list.filter(m=>matchesSection(m,sec.label));
+    if(arr.length>0) html+=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">${sec.label}</h2><span class="row-count">${arr.length}</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${arr.map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
   });
   $('rows').innerHTML=html;
 }
 function cardHtml(m){
   const img=m.poster_url||m.poster||'';
-  return `<a class="card" href="movie.html?id=${m.id}"><img loading="lazy" src="${img}" alt="${escapeHtml(m.title)}" onerror="this.src='https://via.placeholder.com/300x170/181818/666?text=GTM'"><div class="card-overlay"><div class="card-title">${escapeHtml(m.title)}</div><div class="card-meta"><span class="green">${m.year||2026}</span><span class="dot"></span><span class="badge">HD</span><span class="dot"></span><span>${(m.category||'').split(',')[0]||''}</span></div></div></a>`;
+  const genre=getDisplayGenre(m) || getSection(m);
+  return `<a class="card" href="movie.html?id=${m.id}"><img loading="lazy" src="${img}" alt="${escapeHtml(m.title)}" onerror="this.src='https://via.placeholder.com/300x170/181818/666?text=GTM'"><div class="card-overlay"><div class="card-title">${escapeHtml(m.title)}</div><div class="card-meta"><span class="green">${m.year||2026}</span><span class="dot"></span><span class="badge">HD</span><span class="dot"></span><span>${escapeHtml(genre)}</span></div></div></a>`;
 }
 function scrollRow(btn,dir){ const track=btn.parentElement.querySelector('.row-track'); track.scrollBy({left: dir* (track.clientWidth*0.8), behavior:'smooth'}); }
 function setupSearch(){ const input=$('search'); let t; input.addEventListener('input',()=>{ clearTimeout(t); t=setTimeout(()=>{ let q=input.value.trim().toLowerCase(); if(!q){renderRows(); return;} let f=ALL_MOVIES.filter(m=>(m.title||'').toLowerCase().includes(q)); renderRows(f); },220); }); }
@@ -240,11 +264,5 @@ function setupHeaderScroll(){ const h=$('siteHeader'); window.addEventListener('
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 loadMovies();
 </script>
-  <footer style="text-align:center; padding:20px; margin-top:30px; background:#111; color:#fff;">
-  <a href="about.html" style="color:#fff; margin:0 10px;">من نحن</a> |
-  <a href="contact.html" style="color:#fff; margin:0 10px;">اتصل بنا</a> |
-  <a href="privacy.html" style="color:#fff; margin:0 10px;">سياسة الخصوصية</a>
-  <p>© 2026 GTM Movies</p>
-</footer>
 </body>
 </html>
