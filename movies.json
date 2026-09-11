@@ -29,7 +29,7 @@
     "id": "1789075213759",
     "title": "لعبة وقلبت بجد",
     "year": "",
-    "category": "دراما, مسلسلات عربية",
+    "category": "دراما, مسلسلات عربي",
     "poster_url": "https://gtmmovies.github.io/images/poster_1789075211294_lkvla.jpg",
     "poster": "https://gtmmovies.github.io/images/poster_1789075211294_lkvla.jpg",
     "description": "تنقلب حياة شريف وشروق رأسًا على عقب بسبب إدمان أولادهما لأحد الألعاب الإلكترونية، ويناقش المسلسل تأثير السوشيال ميديا والألعاب الإلكترونية على حياة العائلة واستقرارها.",
@@ -287,7 +287,7 @@
     "id": "1788907955195",
     "title": "مشاهدة  مسلسل  بنج كلي  الموسم الاول",
     "year": "2026",
-    "category": "اثارة, مسلسلات عربي",
+    "category": "تشويق و اثارة, مسلسلات عربية",
     "poster_url": "https://gtmmovies.github.io/images/poster_1788907951339_3yazl.png",
     "poster": "https://gtmmovies.github.io/images/poster_1788907951339_3yazl.png",
     "description": "المسلسل يسلط الضوء على الصراعات والمعضلات اليومية التي تمر داخل المستشفيات، سواء كانت قضايا طبية، أخطاء، قرارات صعبة أو مواقف إنسانية مؤثرة تجمع بين التوتر والإثارة والدراما...",
@@ -425,7 +425,7 @@
     "id": "1788382126647",
     "title": "القصة الكاملة",
     "year": "2026",
-    "category": "مسلسلات",
+    "category": "تشويق و اثارة, مسلسلات عربية",
     "poster_url": "https://gtmmovies.github.io/images/poster_1788889340792_a2lsr.jpg",
     "poster": "https://gtmmovies.github.io/images/poster_1788889340792_a2lsr.jpg",
     "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
@@ -436,19 +436,25 @@
         "num": 1,
         "title": "الحلقة 1",
         "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
-        "video_url2": ""
+        "video_url2": "",
+        "download_url": "",
+        "season": 1
       },
       {
         "num": 2,
         "title": "الحلقة 2",
         "video_url": "https://vipserver.liiivideo.com/embed-65z9p0a9vwgs.html",
-        "video_url2": "https:\\/\\/ok.ru\\/videoembed\\/15676694268533"
+        "video_url2": "https:\\/\\/ok.ru\\/videoembed\\/15676694268533",
+        "download_url": "",
+        "season": 1
       },
       {
         "num": 3,
         "title": "الحلقة 3",
         "video_url": "https://vipserver.liiivideo.com/embed-6ja8aygnh0fc.html",
-        "video_url2": ""
+        "video_url2": "",
+        "download_url": "",
+        "season": 1
       }
     ],
     "download_url": "",
