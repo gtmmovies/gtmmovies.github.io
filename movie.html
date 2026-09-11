@@ -19,34 +19,28 @@
 body{background:var(--black);color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
-
-/* Header نفس الرئيسية */
 header{position:fixed;top:0;width:100%;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 3%;height:70px;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
 header.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
 .logo{font-size:24px;font-weight:900;color:var(--red);letter-spacing:.5px;cursor:pointer}
 .nav-right{display:flex;gap:12px;align-items:center}
 .btn-hd{padding:6px 12px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:800}
-
-/* HERO */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:88px 3% 50px;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:blur(22px) brightness(.35) saturate(1.2);transform:scale(1.15)}
 .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,var(--black) 8%,rgba(10,10,10,.85) 35%,rgba(10,10,10,.25) 70%,rgba(10,10,10,.1)),linear-gradient(0deg,var(--black) 8%,rgba(10,10,10,0) 55%)}
 .content{position:relative;z-index:2;display:flex;gap:42px;align-items:flex-start;max-width:1280px;width:100%;margin:0 auto}
-
-/* Poster - يبان كامل */
 .poster-wrap{width:340px;min-width:340px;position:relative}
 .poster{width:100%;aspect-ratio:2/3;border-radius:16px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 70px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06) inset;position:relative}
-.poster img{width:100%;height:100%;object-fit:cover;object-position:center;display:block} /* cover بس الكارت 2/3 فالبوستر هيبان كامل */
+.poster img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .poster::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:16px;pointer-events:none}
 .poster-badge{position:absolute;top:10px;right:10px;z-index:2;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:900;letter-spacing:.5px}
-
 .info{flex:1;padding-top:10px;min-width:0}
 .eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .eyebrow b{color:var(--red);font-size:18px;font-weight:900}
-.eyebrow span{color:#aaa;font-size:11px;letter-spacing:3px;font-weight:800}
+.eyebrow span{color:#aaa;font-size:12px;letter-spacing:.3px;font-weight:800}
 .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .badge{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#ccc;font-size:12px;font-weight:800}
-.badge.red{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.3);color:#ff5563}
+.badge.genre{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.3);color:#ff7a86}
+.badge.section{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#fff}
 .info h1{font-family:'Tajawal',sans-serif;font-size:clamp(32px,4.5vw,58px);font-weight:900;line-height:.95;letter-spacing:-.5px;margin-bottom:14px;text-shadow:0 4px 20px rgba(0,0,0,.6)}
 .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
 .meta span{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:800;color:#bbb}
@@ -54,20 +48,16 @@ header.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-
 .meta span.match{color:#46d369;border-color:rgba(70,211,105,.25);background:rgba(70,211,105,.1)}
 .desc{color:#c8c8c8;line-height:1.95;font-size:15px;font-weight:600;margin-bottom:28px;max-width:620px}
 .desc strong{color:#fff}
-
 .btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
 .btn{padding:14px 32px;border-radius:8px;font-weight:900;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:.25s;border:none;cursor:pointer;text-decoration:none;font-family:'Cairo',sans-serif}
 .btn-play{background:#fff;color:#000;box-shadow:0 10px 30px rgba(255,255,255,.15)}
 .btn-play:hover{transform:translateY(-2px);background:#e6e6e6;box-shadow:0 14px 35px rgba(255,255,255,.2)}
 .btn-back{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px)}
 .btn-back:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
-
 .extra{display:flex;gap:22px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
 .extra-item{display:flex;flex-direction:column;gap:4px}
 .extra-item small{color:#666;font-size:10px;font-weight:800;letter-spacing:1px}
 .extra-item b{font-size:13px;font-weight:800;color:#ddd}
-
-/* Similar */
 .similar{padding:32px 3% 50px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.01),transparent)}
 .similar-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .similar-head i{width:3px;height:18px;background:var(--red);border-radius:3px;display:inline-block;box-shadow:0 0 10px rgba(229,9,20,.4)}
@@ -80,8 +70,6 @@ header.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-
 .card:hover{transform:translateY(-6px);border-color:rgba(229,9,20,.5);box-shadow:0 16px 30px rgba(0,0,0,.6)}
 .card:hover img{transform:scale(1.04)}
 .card-info{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* Mobile */
 @media(max-width:900px){
   header{height:62px}
   .hero{padding:70px 4% 30px;align-items:flex-start}
@@ -106,7 +94,40 @@ header.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-
 <div class="similar" id="similar"></div>
 <script>
 const id=new URLSearchParams(location.search).get('id');
+const MAIN_SECTIONS = [
+  {label:'افلام عربية', keywords:['افلام عربي','افلام عربية']},
+  {label:'افلام اجنبية', keywords:['افلام اجنبي','افلام اجنبية']},
+  {label:'مسلسلات عربية', keywords:['مسلسلات عربي','مسلسلات عربية']},
+  {label:'مسلسلات اجنبية', keywords:['مسلسلات اجنبي','مسلسلات اجنبية']},
+];
+const GENRES = ['اكشن','كوميدي','رعب','دراما','اثارة','تشويق واثارة','تشويق وإثارة','مغامرة','رومانسي','انمي'];
+
 function getCats(m){return (m.category||'افلام').split(',').map(s=>s.trim()).filter(Boolean);}
+function isMainSection(cat){ return MAIN_SECTIONS.some(s=>s.keywords.includes(cat) || s.label===cat); }
+function getSection(m){
+  const cats=getCats(m);
+  for(let sec of MAIN_SECTIONS){
+    if(cats.some(c=>sec.keywords.includes(c) || sec.label===c)) return sec.label;
+  }
+  return cats.find(c=>isMainSection(c)) || '';
+}
+function getGenres(m){
+  return getCats(m).filter(c=> !isMainSection(c));
+}
+function getTypeLabel(m){
+  if(m.type === 'series') return 'مسلسل';
+  if(m.type === 'movie') return 'فيلم';
+  const sec = getSection(m);
+  if(sec.includes('مسلسل')) return 'مسلسل';
+  if(sec.includes('افلام')) return 'فيلم';
+  if(m.episodes && m.episodes.length>0) return 'مسلسل';
+  return 'فيلم';
+}
+function getDisplayGenre(m){
+  const g = getGenres(m);
+  if(g.length>0) return g.join(' • ');
+  return '';
+}
 
 async function load(){
  let movie=null;
@@ -117,6 +138,9 @@ async function load(){
  if(!movie){document.getElementById('content').innerHTML='<div style="padding:50px;text-align:center;width:100%">الفيلم مش موجود - <a href=index.html style=color:#e50914>رجوع للرئيسية</a></div>';return}
 
  const cats=getCats(movie);
+ const genres=getGenres(movie);
+ const section=getSection(movie);
+ const typeLabel=getTypeLabel(movie);
  const pageTitle=`مشاهدة ${movie.title} ${movie.year?`(${movie.year})`:''} - GTM MOVIES`;
  const pageDesc=(movie.description||`شاهد فيلم ${movie.title} بجودة عالية`).slice(0,160);
  const pageUrl=`https://gtmmovies.github.io/movie.html?id=${movie.id}`;
@@ -139,20 +163,25 @@ async function load(){
    </div>
   </div>
   <div class="info">
-   <div class="eyebrow"><b>G</b><span>${cats[0]||'فيلم'} • ${movie.year||''}</span></div>
-   <div class="badges">${cats.map(c=>`<span class="badge ${c.includes('عربي')||c.includes('اجنبي')?'red':''}">${c}</span>`).join('')}</div>
-   <h1>${movie.title}</h1>
-   <div class="meta"><span class="year">${movie.year||'2025'}</span><span class="match">98% Match</span><span>HD 1080p</span><span>4K • HDR</span><span>${cats[0]||'افلام'}</span></div>
-   <div class="desc">${movie.description||'استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES. قصة مشوقة واحداث مثيرة بجودة عالية بدون اعلانات مزعجة.'}</div>
+   <div class="eyebrow"><b>G</b><span>${getDisplayGenre(movie) ? getDisplayGenre(movie)+' • ' : ''}${typeLabel}${movie.season?` • الموسم ${movie.season}`:''} • ${section}</span></div>
+   <div class="badges">
+     ${genres.map(c=>`<span class="badge genre">${c}</span>`).join('')}
+     ${section?`<span class="badge section">${section}</span>`:''}
+   </div>
+   <h1>${movie.title}${movie.seasonTitle?`<div style="font-size:16px;color:#aaa;margin-top:8px">${movie.seasonTitle}</div>`:''}</h1>
+   <div class="meta"><span class="year">${movie.year||'2025'}</span><span class="match">98% Match</span><span>HD 1080p</span><span>4K • HDR</span><span>${typeLabel}</span></div>
+   <div class="desc">${movie.description||'استمتع بالمشاهدة بجودة عالية وحصريا على GTM MOVIES.'}</div>
    <div class="btns">
     <a class="btn btn-play" href="watch.html?id=${movie.id}">▶ مشاهدة الان</a>
     <a class="btn btn-back" href="index.html">ⓘ رجوع للقائمة</a>
    </div>
    <div class="extra">
     <div class="extra-item"><small>السنة</small><b>${movie.year||'2026'}</b></div>
+    <div class="extra-item"><small>النوع</small><b>${typeLabel}</b></div>
+    <div class="extra-item"><small>القسم</small><b>${section||'افلام'}</b></div>
+    <div class="extra-item"><small>التصنيف</small><b>${genres.join(' • ')||'عام'}</b></div>
+    ${movie.season?`<div class="extra-item"><small>الموسم</small><b>${movie.season} - ${movie.seasonTitle||''}</b></div>`:''}
     <div class="extra-item"><small>الجودة</small><b>1080p Full HD</b></div>
-    <div class="extra-item"><small>التصنيف</small><b>${cats.join(' • ')}</b></div>
-    <div class="extra-item"><small>المشاهدة</small><b>مجانية</b></div>
    </div>
   </div>
  `;
