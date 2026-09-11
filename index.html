@@ -6,13 +6,13 @@
 <title>GTM Movies — Netflix Style</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#0a0a0a;--black2:#141414;--red:#e50914;--white:#fff;--muted:#9a9a9a}
+  :root{--black:#070709;--black2:#101011;--red:#e50914;--white:#fff;--muted:#9a9a9a}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--black);color:#fff;font-family:'Cairo','Tajawal',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
   #siteHeader{position:fixed;top:0;right:0;left:0;z-index:100;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 3%;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
-  #siteHeader.scrolled{background:rgba(10,10,10,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+  #siteHeader.scrolled{background:rgba(7,7,9,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
   .nav-left{display:flex;align-items:center;gap:28px}
   .logo{font-weight:900;font-size:26px;letter-spacing:.5px;color:var(--red);text-decoration:none}
   .nav-links{display:flex;gap:18px;list-style:none}
@@ -56,29 +56,142 @@
   .chip{white-space:nowrap;padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
   .chip.active{background:#fff;color:#000;border-color:#fff}
   .chip:hover{color:#fff;border-color:rgba(255,255,255,.2)}
-  #rows{padding:10px 0 40px}
-  .row-section{margin-bottom:8px}
-  .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 10px}
+  #rows{padding:18px 0 40px}
+  .row-section{margin-bottom:22px}
+  .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 12px}
   .row-red-line{width:3px;height:18px;background:var(--red);border-radius:3px;box-shadow:0 0 10px rgba(229,9,20,.4)}
-  .row-title{font-size:17px;font-weight:900;letter-spacing:-.2px}
+  .row-title{font-size:18px;font-weight:900;letter-spacing:-.2px}
   .row-count{font-size:11px;color:#555;font-weight:700;margin-right:auto}
   .row-track-wrap{position:relative}
-  .row-track{display:flex;gap:10px;overflow-x:auto;padding:4px 3% 28px;scrollbar-width:none;scroll-behavior:smooth}
+  .row-track{display:flex;gap:14px;overflow-x:auto;padding:4px 3% 18px;scrollbar-width:none;scroll-behavior:smooth}
   .row-track::-webkit-scrollbar{display:none}
   .row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:70px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:3;transition:.2s;backdrop-filter:blur(4px);display:none}
   .row-track-wrap:hover .row-arrow{display:grid;place-items:center}
   .row-arrow.left{left:0;border-radius:0 8px 8px 0}
   .row-arrow.right{right:0;border-radius:8px 0 0 8px}
-  .card{position:relative;min-width:185px;width:185px;border-radius:6px;overflow:hidden;background:#181818;flex-shrink:0;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,.04)}
-  .card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#111;transition:.35s}
-  .card:hover{transform:scale(1.05);z-index:2;box-shadow:0 12px 30px rgba(0,0,0,.7);border-color:rgba(255,255,255,.15)}
-  .card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.3) 45%,transparent 75%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;opacity:0;transition:.25s}
+
+  /* ===== NEW CARDS - RAIQ STYLE - FULL POSTER ===== */
+  .card{
+    position:relative;
+    min-width:168px;
+    width:168px;
+    background:transparent;
+    flex-shrink:0;
+    cursor:pointer;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+    text-decoration:none;
+  }
+  .card-poster{
+    width:100%;
+    aspect-ratio:2/3.1;
+    border-radius:12px;
+    overflow:hidden;
+    background:#121214;
+    position:relative;
+    box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .card-poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover; /* يبين البوستر كامل من غير قص الوجه */
+    object-position:center top;
+    display:block;
+    background:#0f0f10;
+    transition:.45s cubic-bezier(.2,.8,.2,1);
+  }
+  .card:hover{
+    transform:translateY(-6px);
+  }
+  .card:hover .card-poster{
+    box-shadow:0 18px 40px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.08) inset;
+    transform:scale(1.03);
+  }
+  .card:hover .card-poster img{
+    transform:scale(1.06);
+    filter:brightness(1.08);
+  }
+  .card-badge-top{
+    position:absolute;
+    top:8px;
+    right:8px;
+    z-index:2;
+    background:rgba(0,0,0,.68);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.12);
+    color:#fff;
+    font-size:10px;
+    font-weight:900;
+    padding:4px 9px;
+    border-radius:20px;
+    letter-spacing:.3px;
+  }
+  .card-badge-hd{
+    position:absolute;
+    top:8px;
+    left:8px;
+    z-index:2;
+    background:#fff;
+    color:#000;
+    font-size:9px;
+    font-weight:900;
+    padding:3px 7px;
+    border-radius:4px;
+  }
+  .card-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 40%,transparent 70%);
+    opacity:0;
+    transition:.3s;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:14px;
+  }
   .card:hover .card-overlay{opacity:1}
-  .card-title{font-size:12px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .card-meta{font-size:10px;color:#aaa;margin-top:4px;display:flex;gap:6px;align-items:center}
-  .card-meta .green{color:#46d369}
-  .card-meta .dot{width:3px;height:3px;background:#666;border-radius:50%}
-  .card-meta .badge{border:1px solid rgba(255,255,255,.3);padding:0 4px;font-size:9px}
+  .card-play{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#fff;
+    color:#000;
+    display:grid;
+    place-items:center;
+    font-size:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+    transform:translateY(8px);
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .card:hover .card-play{transform:translateY(0)}
+  .card-info{
+    padding:10px 2px 0;
+  }
+  .card-title{
+    font-size:13px;
+    font-weight:800;
+    line-height:1.3;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    color:#eaeaea;
+  }
+  .card:hover .card-title{color:#fff}
+  .card-meta{
+    font-size:11px;
+    color:#7a7a7a;
+    margin-top:3px;
+    display:flex;
+    gap:6px;
+    align-items:center;
+    font-weight:700;
+  }
+  .card-meta .year{color:#999}
+  .card-meta .dot{width:3px;height:3px;background:#333;border-radius:50%}
+  @media(max-width:600px){
+    .card{min-width:132px;width:132px}
+    .card-poster{border-radius:10px}
+  }
 </style>
 </head>
 <body>
@@ -107,37 +220,27 @@
 <div id="rows"><div style="padding:40px 3%;color:#666">⏳ جاري تحميل الأفلام...</div></div>
 
 <script>
-// === FIXED V15: الفصل بين الاقسام والتصنيف ===
 let ALL_MOVIES=[], HERO_MOVIES=[], heroIndex=0, heroTimer=null;
 const $=id=>document.getElementById(id);
-
-// الاقسام الاساسية اللي تظهر في الرئيسية بس
 const MAIN_SECTIONS = [
   {id:'arabic_movies', label:'افلام عربية', keywords:['افلام عربي','افلام عربية']},
   {id:'foreign_movies', label:'افلام اجنبية', keywords:['افلام اجنبي','افلام اجنبية']},
   {id:'arabic_series', label:'مسلسلات عربية', keywords:['مسلسلات عربي','مسلسلات عربية']},
   {id:'foreign_series', label:'مسلسلات اجنبية', keywords:['مسلسلات اجنبي','مسلسلات اجنبية']},
 ];
-
-// التصنيفات اللي تظهر جوه صفحة الفيلم بس
 const GENRES = ['اكشن','كوميدي','رعب','دراما','اثارة','تشويق واثارة','تشويق وإثارة','مغامرة','رومانسي','انمي'];
 
 function getCats(m){return (m.category||'').split(',').map(s=>s.trim()).filter(Boolean);}
-function getGenres(m){ return getCats(m).filter(c=>GENRES.includes(c) || (!isMainSection(c))); }
-function isMainSection(cat){
-  return MAIN_SECTIONS.some(s=>s.keywords.includes(cat) || s.label===cat);
-}
+function isMainSection(cat){ return MAIN_SECTIONS.some(s=>s.keywords.includes(cat) || s.label===cat); }
 function getSection(m){
   const cats=getCats(m);
   for(let sec of MAIN_SECTIONS){
     if(cats.some(c=>sec.keywords.includes(c) || sec.label===c)) return sec.label;
   }
-  // لو ملقاش يرجع اول قسم لقاه
   return cats.find(c=>isMainSection(c)) || '';
 }
 function getDisplayGenre(m){
   const cats=getCats(m);
-  // اول تصنيف مش قسم
   const genres = cats.filter(c=> !isMainSection(c));
   if(genres.length>0) return genres[0];
   return '';
@@ -234,7 +337,6 @@ function startHeroAuto(){ heroTimer=setInterval(heroNext,5000); }
 function restartHeroAuto(){ clearInterval(heroTimer); startHeroAuto(); }
 
 function renderChips(){
-  // بس الاقسام الاربعة + الكل - مفيش تصنيفات هنا
   const chips=['الكل', ...MAIN_SECTIONS.map(s=>s.label)];
   $('chips').innerHTML=chips.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
 }
@@ -255,8 +357,21 @@ function renderRows(list=ALL_MOVIES){
 }
 function cardHtml(m){
   const img=m.poster_url||m.poster||'';
-  const genre=getDisplayGenre(m) || getSection(m);
-  return `<a class="card" href="movie.html?id=${m.id}"><img loading="lazy" src="${img}" alt="${escapeHtml(m.title)}" onerror="this.src='https://via.placeholder.com/300x170/181818/666?text=GTM'"><div class="card-overlay"><div class="card-title">${escapeHtml(m.title)}</div><div class="card-meta"><span class="green">${m.year||2026}</span><span class="dot"></span><span class="badge">HD</span><span class="dot"></span><span>${escapeHtml(genre)}</span></div></div></a>`;
+  const genre=getDisplayGenre(m);
+  const year=m.year||'';
+  const typeLabel=getTypeLabel(m);
+  return `<a class="card" href="movie.html?id=${m.id}">
+    <div class="card-poster">
+      <img loading="lazy" src="${img}" alt="${escapeHtml(m.title)}" onerror="this.src='https://via.placeholder.com/300x450/181818/666?text=GTM'">
+      <div class="card-badge-top">${escapeHtml(genre || typeLabel)}</div>
+      <div class="card-badge-hd">HD</div>
+      <div class="card-overlay"><div class="card-play">▶</div></div>
+    </div>
+    <div class="card-info">
+      <div class="card-title">${escapeHtml(m.title)}</div>
+      <div class="card-meta"><span class="year">${year}</span><span class="dot"></span><span>${typeLabel}</span></div>
+    </div>
+  </a>`;
 }
 function scrollRow(btn,dir){ const track=btn.parentElement.querySelector('.row-track'); track.scrollBy({left: dir* (track.clientWidth*0.8), behavior:'smooth'}); }
 function setupSearch(){ const input=$('search'); let t; input.addEventListener('input',()=>{ clearTimeout(t); t=setTimeout(()=>{ let q=input.value.trim().toLowerCase(); if(!q){renderRows(); return;} let f=ALL_MOVIES.filter(m=>(m.title||'').toLowerCase().includes(q)); renderRows(f); },220); }); }
