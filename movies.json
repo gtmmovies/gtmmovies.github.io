@@ -4,10 +4,10 @@
     "title": "ما لم يحك عن بني مزار",
     "year": "2026",
     "category": "اثارة, مسلسلات عربي",
-    "poster_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-    "poster": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
+    "poster_url": "https://gtmmovies.github.io/images/poster_1789106962421_vdxxm.jpg",
+    "poster": "https://gtmmovies.github.io/images/poster_1789106962421_vdxxm.jpg",
     "description": "🤫",
-    "season": 2,
+    "season": 1,
     "seasonTitle": "القصة الثانية",
     "episodes": [
       {
@@ -16,7 +16,7 @@
         "video_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
         "video_url2": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
         "download_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-        "season": 2
+        "season": 1
       }
     ],
     "download_url": "",
@@ -425,7 +425,7 @@
     "id": "1788382126647",
     "title": "القصة الكاملة",
     "year": "2026",
-    "category": "اثارة, مسلسلات عربي",
+    "category": "مسلسلات",
     "poster_url": "https://gtmmovies.github.io/images/poster_1788889340792_a2lsr.jpg",
     "poster": "https://gtmmovies.github.io/images/poster_1788889340792_a2lsr.jpg",
     "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
@@ -436,32 +436,24 @@
         "num": 1,
         "title": "الحلقة 1",
         "video_url": "https://vipserver.liiivideo.com/embed-2oimkuuw5rx8.html",
-        "video_url2": "",
-        "download_url": "",
-        "season": 1
+        "video_url2": ""
       },
       {
         "num": 2,
         "title": "الحلقة 2",
         "video_url": "https://vipserver.liiivideo.com/embed-65z9p0a9vwgs.html",
-        "video_url2": "https:\\/\\/ok.ru\\/videoembed\\/15676694268533",
-        "download_url": "",
-        "season": 1
+        "video_url2": "https:\\/\\/ok.ru\\/videoembed\\/15676694268533"
       },
       {
         "num": 3,
         "title": "الحلقة 3",
         "video_url": "https://vipserver.liiivideo.com/embed-6ja8aygnh0fc.html",
-        "video_url2": "",
-        "download_url": "",
-        "season": 1
+        "video_url2": ""
       }
     ],
     "download_url": "",
     "type": "series",
-    "video_url2": "",
-    "season": 1,
-    "seasonTitle": "القصة الاولي"
+    "video_url2": ""
   },
   {
     "id": "10",
