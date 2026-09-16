@@ -243,6 +243,13 @@
     #socialBar{padding:14px 3%;gap:10px}
     .social-btn{height:48px;max-width:none}
   }
+    /* === حل مشكلة اعلان 728 على الموبايل === */
+  .ad-desktop-only{ display:flex; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
+  .ad-mobile-only{ display:none; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
+  @media(max-width:768px){
+    .ad-desktop-only{ display:none !important; }
+    .ad-mobile-only{ display:flex !important; }
+  }
 </style>
 </head>
 <body>
@@ -278,7 +285,8 @@
     <span class="social-label"><b>القناة الرسمية واتساب</b><small>انضم الآن • حصريات</small></span>
   </a>
 </div>
-<!--كود اعلاني --><div class="gtm-ad-wrap">
+<!-- اعلان 1 - للكمبيوتر فقط 728x90 -->
+<div class="ad-desktop-only" id="ad-728">
 <script>
   atOptions = {
     'key' : '722af435bcd488a1d52a40bbd60815c9',
@@ -289,6 +297,20 @@
   };
 </script>
 <script src="https://www.highrevenueformat.com/722af435bcd488a1d52a40bbd60815c9/invoke.js"></script>
+</div>
+
+<!-- نفس مكان الاعلان بس للموبايل 300x250 - عشان ميبوظش الصفحة -->
+<div class="ad-mobile-only" id="ad-300-top">
+<script>
+  atOptions = {
+    'key' : '6f8a90edbb880326923474345df62c92',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/6f8a90edbb880326923474345df62c92/invoke.js"></script>
 </div>
 
   
