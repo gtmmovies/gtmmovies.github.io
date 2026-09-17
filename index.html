@@ -72,222 +72,44 @@
  .row-track{display:flex;gap:14px;overflow-x:auto;padding:4px 3% 18px;scrollbar-width:none;scroll-behavior:smooth}
  .row-track::-webkit-scrollbar{display:none}
  .row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:70px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:3;transition:.2s;backdrop-filter:blur(4px);display:none}
- .row-track-wrap:hover.row-arrow{display:grid;place-items:center}
+ .row-track-wrap:hover .row-arrow{display:grid;place-items:center}
  .row-arrow.left{left:0;border-radius:0 8px 8px 0}
  .row-arrow.right{right:0;border-radius:8px 0 0 8px}
-
-  /* ===== NEW CARDS - RAIQ STYLE - FULL POSTER ===== */
- .card{
-    position:relative;
-    min-width:168px;
-    width:168px;
-    background:transparent;
-    flex-shrink:0;
-    cursor:pointer;
-    transition:.35s cubic-bezier(.2,.8,.2,1);
-    text-decoration:none;
-  }
- .card-poster{
-    width:100%;
-    aspect-ratio:2/3.1;
-    border-radius:12px;
-    overflow:hidden;
-    background:#121214;
-    position:relative;
-    box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;
-    transition:.35s cubic-bezier(.2,.8,.2,1);
-  }
- .card-poster img{
-    width:100%;
-    height:100%;
-    object-fit:cover; /* يبين البوستر كامل من غير قص الوجه */
-    object-position:center top;
-    display:block;
-    background:#0f0f10;
-    transition:.45s cubic-bezier(.2,.8,.2,1);
-  }
- .card:hover{
-    transform:translateY(-6px);
-  }
- .card:hover.card-poster{
-    box-shadow:0 18px 40px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.08) inset;
-    transform:scale(1.03);
-  }
- .card:hover.card-poster img{
-    transform:scale(1.06);
-    filter:brightness(1.08);
-  }
- .card-badge-top{
-    position:absolute;
-    top:8px;
-    right:8px;
-    z-index:2;
-    background:rgba(0,0,0,.68);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.12);
-    color:#fff;
-    font-size:10px;
-    font-weight:900;
-    padding:4px 9px;
-    border-radius:20px;
-    letter-spacing:.3px;
-  }
- .card-badge-hd{
-    position:absolute;
-    top:8px;
-    left:8px;
-    z-index:2;
-    background:#fff;
-    color:#000;
-    font-size:9px;
-    font-weight:900;
-    padding:3px 7px;
-    border-radius:4px;
-  }
- .card-overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 40%,transparent 70%);
-    opacity:0;
-    transition:.3s;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    padding-bottom:14px;
-  }
- .card:hover.card-overlay{opacity:1}
- .card-play{
-    width:44px;
-    height:44px;
-    border-radius:50%;
-    background:#fff;
-    color:#000;
-    display:grid;
-    place-items:center;
-    font-size:18px;
-    box-shadow:0 8px 20px rgba(0,0,0,.4);
-    transform:translateY(8px);
-    transition:.35s cubic-bezier(.2,.8,.2,1);
-  }
- .card:hover.card-play{transform:translateY(0)}
- .card-info{
-    padding:10px 2px 0;
-  }
- .card-title{
-    font-size:13px;
-    font-weight:800;
-    line-height:1.3;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    color:#eaeaea;
-  }
- .card:hover.card-title{color:#fff}
- .card-meta{
-    font-size:11px;
-    color:#7a7a7a;
-    margin-top:3px;
-    display:flex;
-    gap:6px;
-    align-items:center;
-    font-weight:700;
-  }
- .card-meta.year{color:#999}
- .card-meta.dot{width:3px;height:3px;background:#333;border-radius:50%}
-  @media(max-width:600px){
-   .card{min-width:132px;width:132px}
-   .card-poster{border-radius:10px}
-  }
-
-  /* === زرارين تليجرام وواتساب === */
-  #socialBar{
-    position:relative;
-    z-index:4;
-    display:flex;
-    gap:12px;
-    padding:18px 3%;
-    background:linear-gradient(180deg, rgba(10,10,10,.9), var(--black));
-    border-bottom:1px solid rgba(255,255,255,.06);
-    justify-content:center;
-    align-items:center;
-    flex-wrap:wrap;
-  }
- .social-btn{
-    flex:1;
-    max-width:340px;
-    min-width:160px;
-    height:52px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    font-weight:900;
-    font-size:14px;
-    text-decoration:none;
-    transition:.25s cubic-bezier(.2,.8,.2,1);
-    border:1px solid rgba(255,255,255,.1);
-  }
+ .card{position:relative;min-width:168px;width:168px;background:transparent;flex-shrink:0;cursor:pointer;transition:.35s cubic-bezier(.2,.8,.2,1);text-decoration:none}
+ .card-poster{width:100%;aspect-ratio:2/3.1;border-radius:12px;overflow:hidden;background:#121214;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;transition:.35s cubic-bezier(.2,.8,.2,1)}
+ .card-poster img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;background:#0f0f10;transition:.45s cubic-bezier(.2,.8,.2,1)}
+ .card:hover{transform:translateY(-6px)}
+ .card:hover .card-poster{box-shadow:0 18px 40px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.08) inset;transform:scale(1.03)}
+ .card:hover .card-poster img{transform:scale(1.06);filter:brightness(1.08)}
+ .card-badge-top{position:absolute;top:8px;right:8px;z-index:2;background:rgba(0,0,0,.68);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:10px;font-weight:900;padding:4px 9px;border-radius:20px;letter-spacing:.3px}
+ .card-badge-hd{position:absolute;top:8px;left:8px;z-index:2;background:#fff;color:#000;font-size:9px;font-weight:900;padding:3px 7px;border-radius:4px}
+ .card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 40%,transparent 70%);opacity:0;transition:.3s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px}
+ .card:hover .card-overlay{opacity:1}
+ .card-play{width:44px;height:44px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-size:18px;box-shadow:0 8px 20px rgba(0,0,0,.4);transform:translateY(8px);transition:.35s cubic-bezier(.2,.8,.2,1)}
+ .card:hover .card-play{transform:translateY(0)}
+ .card-info{padding:10px 2px 0}
+ .card-title{font-size:13px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#eaeaea}
+ .card:hover .card-title{color:#fff}
+ .card-meta{font-size:11px;color:#7a7a7a;margin-top:3px;display:flex;gap:6px;align-items:center;font-weight:700}
+ .card-meta .year{color:#999}
+ .card-meta .dot{width:3px;height:3px;background:#333;border-radius:50%}
+  @media(max-width:600px){.card{min-width:132px;width:132px}.card-poster{border-radius:10px}}
+  #socialBar{position:relative;z-index:4;display:flex;gap:12px;padding:18px 3%;background:linear-gradient(180deg, rgba(10,10,10,.9), var(--black));border-bottom:1px solid rgba(255,255,255,.06);justify-content:center;align-items:center;flex-wrap:wrap}
+ .social-btn{flex:1;max-width:340px;min-width:160px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:14px;text-decoration:none;transition:.25s cubic-bezier(.2,.8,.2,1);border:1px solid rgba(255,255,255,.1)}
  .social-btn svg{width:22px;height:22px;flex-shrink:0}
- .social-btn.telegram{
-    background:linear-gradient(135deg,#229ED9,#1a8ac0);
-    color:#fff;
-    border-color:rgba(34,158,217,.4);
-    box-shadow:0 8px 20px rgba(34,158,217,.25);
-  }
- .social-btn.whatsapp{
-    background:linear-gradient(135deg,#25D366,#128C7E);
-    color:#fff;
-    border-color:rgba(37,211,102,.4);
-    box-shadow:0 8px 20px rgba(37,211,102,.25);
-  }
+ .social-btn.telegram{background:linear-gradient(135deg,#229ED9,#1a8ac0);color:#fff;border-color:rgba(34,158,217,.4);box-shadow:0 8px 20px rgba(34,158,217,.25)}
+ .social-btn.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border-color:rgba(37,211,102,.4);box-shadow:0 8px 20px rgba(37,211,102,.25)}
  .social-btn:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.1)}
  .social-label{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}
  .social-label b{font-size:13px}
  .social-label small{font-size:10px;opacity:.8;font-weight:700;margin-top:1px}
-  @media(max-width:600px){
-    #socialBar{padding:14px 3%;gap:10px}
-   .social-btn{height:48px;max-width:none}
-  }
-    /* === حل مشكلة اعلان 728 على الموبايل === */
- .ad-desktop-only{ display:flex; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
- .ad-mobile-only{ display:none; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
-  @media(max-width:768px){
-   .ad-desktop-only{ display:none!important; }
-   .ad-mobile-only{ display:flex!important; }
-  }
+  @media(max-width:600px){#socialBar{padding:14px 3%;gap:10px}.social-btn{height:48px;max-width:none}}
+ .ad-desktop-only{display:flex;justify-content:center;padding:12px 0;background:#070709;width:100%;overflow:hidden}
+ .ad-mobile-only{display:none;justify-content:center;padding:12px 0;background:#070709;width:100%;overflow:hidden}
+  @media(max-width:768px){.ad-desktop-only{display:none!important}.ad-mobile-only{display:flex!important}}
 </style>
-
-<!-- ================= بداية الحماية - ستايل الشاشة السودا ومنع التحديد ================= -->
-<style>
-  *{ -webkit-user-select:none!important; -moz-user-select:none!important; -ms-user-select:none!important; user-select:none!important; }
-  #gtm-black-screen{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:#000;
-    color:#fff;
-    z-index:2147483647;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
-    font-family:'Cairo',sans-serif;
-  }
-  #gtm-black-screen b{font-size:32px; font-weight:900; color:#e50914;}
-  #gtm-black-screen span{font-size:14px; margin-top:10px; color:#999;}
-</style>
-<!-- ================= نهاية الحماية - ستايل الشاشة السودا ومنع التحديد ================= -->
-
 </head>
 <body>
-
-<!-- ================= بداية الحماية - الشاشة السودا اللي هتظهر لما حد يحاول يفتح F12 ================= -->
-<div id="gtm-black-screen">
-  <b>🚫 تم تعطيل الفحص</b>
-  <span>هذا المحتوى محمي - GTM MOVIES</span>
-</div>
-<!-- ================= نهاية الحماية - الشاشة السودا اللي هتظهر لما حد يحاول يفتح F12 ================= -->
 
 <div id="siteHeader">
   <div class="nav-left">
@@ -309,41 +131,27 @@
   <div class="billboard-bottom-fade"></div>
 </div>
 
-<!-- زرارين القنوات الرسمية - في اول الصفحة -->
 <div id="socialBar">
   <a href="https://t.me/+0ahsfzZE4txkNDNk" target="_blank" rel="noopener" class="social-btn telegram">
     <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.12.832.941z"/></svg>
     <span class="social-label"><b>القناة الرسمية تليجرام</b><small>انضم الآن • جديد الافلام</small></span>
   </a>
   <a href="https://whatsapp.com/channel/0029Va6fU0X1yT28NTQGys1l" target="_blank" rel="noopener" class="social-btn whatsapp">
-    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0.16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 6.174 0 11.892 0c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
     <span class="social-label"><b>القناة الرسمية واتساب</b><small>انضم الآن • حصريات</small></span>
   </a>
 </div>
-<!-- اعلان 1 - للكمبيوتر فقط 728x90 -->
+
+<!-- اعلان 1 - ريسبونسف (كمبيوتر 728 / موبايل 300) -->
 <div class="ad-desktop-only" id="ad-728">
 <script>
-  atOptions = {
-    'key' : '722af435bcd488a1d52a40bbd60815c9',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
+  atOptions = {'key':'722af435bcd488a1d52a40bbd60815c9','format':'iframe','height':90,'width':728,'params':{}};
 </script>
 <script src="https://www.highrevenueformat.com/722af435bcd488a1d52a40bbd60815c9/invoke.js"></script>
 </div>
-
-<!-- نفس مكان الاعلان بس للموبايل 300x250 - عشان ميبوظش الصفحة -->
 <div class="ad-mobile-only" id="ad-300-top">
 <script>
-  atOptions = {
-    'key' : '6f8a90edbb880326923474345df62c92',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
+  atOptions = {'key':'6f8a90edbb880326923474345df62c92','format':'iframe','height':250,'width':300,'params':{}};
 </script>
 <script src="https://www.highrevenueformat.com/6f8a90edbb880326923474345df62c92/invoke.js"></script>
 </div>
@@ -351,6 +159,8 @@
 <div id="chips"></div>
 
 <div id="rows"><div style="padding:40px 3%;color:#666">⏳ جاري تحميل الأفلام...</div></div>
+
+
 
 <script>
 let ALL_MOVIES=[], HERO_MOVIES=[], heroIndex=0, heroTimer=null;
@@ -361,8 +171,6 @@ const MAIN_SECTIONS = [
   {id:'arabic_series', label:'مسلسلات عربية', keywords:['مسلسلات عربي','مسلسلات عربية']},
   {id:'foreign_series', label:'مسلسلات اجنبية', keywords:['مسلسلات اجنبي','مسلسلات اجنبية']},
 ];
-const GENRES = ['اكشن','كوميدي','رعب','دراما','اثارة','تشويق واثارة','تشويق وإثارة','مغامرة','رومانسي','انمي'];
-
 function getCats(m){return (m.category||'').split(',').map(s=>s.trim()).filter(Boolean);}
 function isMainSection(cat){ return MAIN_SECTIONS.some(s=>s.keywords.includes(cat) || s.label===cat); }
 function getSection(m){
@@ -393,7 +201,6 @@ function matchesSection(movie, sectionLabel){
   const cats=getCats(movie);
   return cats.some(c=>secDef.keywords.includes(c) || secDef.label===c);
 }
-
 async function loadMovies(){
   try{
     let r=await fetch('./movies.json?v='+Date.now(),{cache:'no-store'});
@@ -408,7 +215,6 @@ async function loadMovies(){
   ];
   init();
 }
-
 function init(){
   HERO_MOVIES = ALL_MOVIES.slice(0,10);
   renderHeroSlider();
@@ -418,7 +224,6 @@ function init(){
   setupSearch();
   startHeroAuto();
 }
-
 function renderHeroSlider(){
   const board=$('billboard');
   board.querySelectorAll('.hero-slide').forEach(e=>e.remove());
@@ -455,7 +260,6 @@ function renderHeroSlider(){
   dots.innerHTML=HERO_MOVIES.map((_,i)=>`<button class="hero-dot ${i==0?'active':''}" onclick="goHero(${i})"></button>`).join('');
   updateCounter();
 }
-
 function goHero(i){
   heroIndex=i;
   document.querySelectorAll('.hero-slide').forEach((el,idx)=>el.classList.toggle('active',idx==i));
@@ -468,17 +272,15 @@ function heroPrev(){ goHero((heroIndex-1+HERO_MOVIES.length)%HERO_MOVIES.length)
 function updateCounter(){ $('heroCounter').innerText=(heroIndex+1)+' / '+HERO_MOVIES.length; }
 function startHeroAuto(){ heroTimer=setInterval(heroNext,5000); }
 function restartHeroAuto(){ clearInterval(heroTimer); startHeroAuto(); }
-
 function renderChips(){
   const chips=['الكل',...MAIN_SECTIONS.map(s=>s.label)];
-  $('chips').innerHTML=chips.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
+  $('chips').innerHTML=chips.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\'")}')">${c}</div>`).join('');
 }
 function filterCat(el,c){
   document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); el.classList.add('active');
   if(c=='الكل') renderRows();
   else renderRows(ALL_MOVIES.filter(m=>matchesSection(m,c)));
 }
-
 function renderRows(list=ALL_MOVIES){
   if(!list.length){ $('rows').innerHTML=`<div style="padding:40px 3%;color:#777">لا يوجد نتائج</div>`; return; }
   let html=`<div class="row-section"><div class="row-header"><div class="row-red-line"></div><h2 class="row-title">أحدث 10 إضافات</h2><span class="row-count">${Math.min(10,list.length)} عنوان</span></div><div class="row-track-wrap"><button class="row-arrow left" onclick="scrollRow(this,-1)">‹</button><div class="row-track">${list.slice(0,10).map(cardHtml).join('')}</div><button class="row-arrow right" onclick="scrollRow(this,1)">›</button></div></div>`;
@@ -512,7 +314,7 @@ function setupHeaderScroll(){ const h=$('siteHeader'); window.addEventListener('
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 loadMovies();
 </script>
- <!-- ===== GTM BLACK LABEL FOOTER - ULTIMATE ===== -->
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@700;900&display=swap');
 .gtm-ultimate-footer{position:relative;width:100%;background:#050505;overflow:hidden;direction:rtl;font-family:'Cairo','Tajawal',sans-serif;isolation:isolate;padding:0 0 30px 0;margin-top:50px}
@@ -559,22 +361,18 @@ loadMovies();
 <footer class="gtm-ultimate-footer">
   <div class="gtm-uf-laser"><div class="gtm-uf-laser-inner"></div></div>
   <div class="gtm-uf-watermark">GTM</div>
-
   <div class="gtm-uf-panel">
     <div class="gtm-uf-glow"></div>
-
     <div class="gtm-uf-logo-row">
       <div class="gtm-uf-logo">GTM <span>MOVIES</span></div>
       <div class="gtm-uf-sublogo">SIDI GABER • Company for Technical Development</div>
     </div>
-
     <div class="gtm-uf-links">
       <a href="about.html">من نحن</a><div class="gtm-uf-sep"></div>
       <a href="contact.html">اتصل بنا</a><div class="gtm-uf-sep"></div>
       <a href="privacy.html"> Privacy Policy </a><div class="gtm-uf-sep"></div>
       <a href="dmca.html">DMCA</a>
     </div>
-
     <div class="gtm-uf-social-title">SITES | GTM MOVIES</div>
     <div class="gtm-uf-socials">
       <a href="https://facebook.com/YOUR_PAGE" target="_blank" class="gtm-uf-icon fb" aria-label="Facebook">
@@ -596,16 +394,14 @@ loadMovies();
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
     </div>
-
     <div class="gtm-uf-bottom">
       <div class="gtm-uf-copy"><div class="gtm-uf-rec"></div> © 2026 GTM MOVIES — جميع الحقوق محفوظة</div>
       <div class="gtm-uf-made">صنع بكل حب للمشاهد العربي <span style="color:#FF0020">♥</span> <span style="width:1px;height:12px;background:rgba(255,255,255,0.1);display:inline-block;margin:0 6px"></span> <b>GTM MOVIES</b></div>
     </div>
   </div>
 </footer>
-  </style>
-  <!--كود اعلاني2 -->
-<!-- === اعلان 2: Native Banner - Responsive === -->
+
+<!-- اعلان 2 - Native -->
 <div class="gtm-ad-wrap native" style="display:flex;justify-content:center;padding:18px 3%;background:#070709;width:100%;overflow:hidden;">
   <div class="gtm-ad-box" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;width:100%;max-width:1100px;">
     <div style="font-size:10px;color:#666;font-weight:800;margin-bottom:10px;">إعلان ممول • Sponsored</div>
@@ -615,66 +411,8 @@ loadMovies();
     </div>
   </div>
 </div>
-<!--كود اعلاني3 -->
-<div class="gtm-ad-wrap" style="display:flex;justify-content:center;align-items:center;padding:20px 3%;background:#0a0a0a;border-top:1px solid rgba(255,255,255,0.06);width:100%;max-width:100vw;overflow:hidden;box-sizing:border-box;">
-  <div style="width:300px;max-width:100%;display:flex;justify-content:center;">
-    <script>
-      atOptions = {
-        'key' : '6f8a90edbb880326923474345df62c92',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="https://www.highrevenueformat.com/6f8a90edbb880326923474345df62c92/invoke.js"></script>
-  </div>
-</div>
 
-<!-- ================= بداية الحماية - كود منع F12 و كليك يمين و الشاشة السودا ================= -->
-<script>
-(function(){
-  const black = document.getElementById('gtm-black-screen');
-  function lockScreen(){
-    if(black) black.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
 
-  // 1- منع كليك يمين
-  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; });
-
-  // 2- منع اختصارات لوحة المفاتيح
-  document.addEventListener('keydown', function(e){
-    // F12
-    if(e.key === 'F12' || e.keyCode === 123){ e.preventDefault(); lockScreen(); return false; }
-    // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
-    if(e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())){ e.preventDefault(); lockScreen(); return false; }
-    if(e.ctrlKey && ['U','S','C','A'].includes(e.key.toUpperCase())){ e.preventDefault(); lockScreen(); return false; }
-  });
-
-  // 3- كشف فتح ادوات المطور عن طريق فرق الحجم
-  setInterval(function(){
-    const wDiff = window.outerWidth - window.innerWidth > 160;
-    const hDiff = window.outerHeight - window.innerHeight > 160;
-    if(wDiff || hDiff){
-      lockScreen();
-    }
-  }, 600);
-
-  // 5- كشف فتح الكونسول عن طريق console.log
-  try{
-    let img = new Image();
-    Object.defineProperty(img, 'id', {
-      get: function(){
-        lockScreen();
-        throw new Error('Blocked');
-      }
-    });
-    console.log(img);
-  }catch(e){}
-})();
-</script>
-<!-- ================= نهاية الحماية - كود منع F12 و كليك يمين و الشاشة السودا ================= -->
 
 </body>
 </html>
