@@ -15,65 +15,65 @@
   ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
   #siteHeader{position:fixed;top:0;right:0;left:0;z-index:100;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 3%;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);transition:.3s}
   #siteHeader.scrolled{background:rgba(7,7,9,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav-left{display:flex;align-items:center;gap:28px}
-  .logo{font-weight:900;font-size:26px;letter-spacing:.5px;color:var(--red);text-decoration:none}
-  .nav-links{display:flex;gap:18px;list-style:none}
-  .nav-links a{color:#ccc;font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
-  .nav-links a:hover{color:#fff}
-  .nav-right{display:flex;align-items:center;gap:16px}
+ .nav-left{display:flex;align-items:center;gap:28px}
+ .logo{font-weight:900;font-size:26px;letter-spacing:.5px;color:var(--red);text-decoration:none}
+ .nav-links{display:flex;gap:18px;list-style:none}
+ .nav-links a{color:#ccc;font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
+ .nav-links a:hover{color:#fff}
+ .nav-right{display:flex;align-items:center;gap:16px}
   #search{background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;width:260px;padding:9px 38px 9px 12px;outline:none;border-radius:4px;font-family:'Cairo',sans-serif;font-weight:600}
   #search::placeholder{color:#888}
   #search:focus{border-color:#fff;background:#000;width:300px}
-  .avatar{width:30px;height:30px;border-radius:4px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:11px}
-  .billboard{position:relative;width:100%;height:88vh;min-height:560px;max-height:860px;overflow:hidden;background:#000}
-  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease, transform 8s ease;transform:scale(1.03);pointer-events:none}
-  .hero-slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
-  .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
-  .hero-slide::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.75) 28%,rgba(0,0,0,.25) 62%,transparent 88%),linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.6) 30%,transparent 70%),linear-gradient(180deg,rgba(0,0,0,.5),transparent 25%)}
-  .hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;padding:0 3%;padding-top:70px;max-width:62%}
-  .hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-  .hero-eyebrow b{color:var(--red);font-size:18px;font-weight:900;letter-spacing:1px}
-  .hero-eyebrow span{color:#bbb;font-size:12px;letter-spacing:.5px;font-weight:800}
-  .hero-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,4.2vw,54px);font-weight:900;line-height:1.05;letter-spacing:-.5px;text-shadow:0 4px 20px rgba(0,0,0,.8);margin-bottom:14px;color:#fff}
-  .hero-meta{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:800;margin-bottom:14px;flex-wrap:wrap}
-  .hero-meta .match{color:#46d369;font-weight:900}
-  .hero-meta .maturity{border:1px solid rgba(255,255,255,.5);padding:1px 7px;font-size:11px;font-weight:900}
-  .hero-desc{color:#d1d1d1;font-size:15px;line-height:1.85;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-width:560px;margin-bottom:22px;text-shadow:0 2px 10px rgba(0,0,0,.7)}
-  .hero-actions{display:flex;gap:10px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 26px;border-radius:4px;font-size:15px;font-weight:900;letter-spacing:.2px;border:none;cursor:pointer;transition:.2s;text-decoration:none;font-family:'Cairo',sans-serif}
-  .btn-play{background:#fff;color:#000}
-  .btn-play:hover{background:rgba(255,255,255,.8)}
-  .btn-info{background:rgba(109,109,110,.7);color:#fff;backdrop-filter:blur(2px)}
-  .btn-info:hover{background:rgba(109,109,110,.4)}
-  .hero-dots{position:absolute;left:3%;bottom:110px;z-index:5;display:flex;gap:8px;align-items:center}
-  .hero-dot{width:22px;height:4px;border-radius:4px;background:rgba(255,255,255,.25);cursor:pointer;transition:.3s;border:none}
-  .hero-dot.active{background:var(--red);width:32px;box-shadow:0 0 10px rgba(229,9,20,.5)}
-  .hero-arrows{position:absolute;left:3%;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
-  .hero-arrow{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.4);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;font-size:18px}
-  .hero-arrow:hover{background:#fff;color:#000;border-color:#fff}
-  .hero-counter{position:absolute;left:3%;bottom:135px;z-index:5;color:#888;font-size:11px;font-weight:800;letter-spacing:1px}
-  .billboard-bottom-fade{position:absolute;left:0;right:0;bottom:0;height:35%;z-index:2;background:linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.9) 30%,transparent 100%);pointer-events:none}
+ .avatar{width:30px;height:30px;border-radius:4px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:11px}
+ .billboard{position:relative;width:100%;height:88vh;min-height:560px;max-height:860px;overflow:hidden;background:#000}
+ .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity.8s ease, transform 8s ease;transform:scale(1.03);pointer-events:none}
+ .hero-slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
+ .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
+ .hero-slide::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.75) 28%,rgba(0,0,0,.25) 62%,transparent 88%),linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.6) 30%,transparent 70%),linear-gradient(180deg,rgba(0,0,0,.5),transparent 25%)}
+ .hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;padding:0 3%;padding-top:70px;max-width:62%}
+ .hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+ .hero-eyebrow b{color:var(--red);font-size:18px;font-weight:900;letter-spacing:1px}
+ .hero-eyebrow span{color:#bbb;font-size:12px;letter-spacing:.5px;font-weight:800}
+ .hero-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,4.2vw,54px);font-weight:900;line-height:1.05;letter-spacing:-.5px;text-shadow:0 4px 20px rgba(0,0,0,.8);margin-bottom:14px;color:#fff}
+ .hero-meta{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:800;margin-bottom:14px;flex-wrap:wrap}
+ .hero-meta.match{color:#46d369;font-weight:900}
+ .hero-meta.maturity{border:1px solid rgba(255,255,255,.5);padding:1px 7px;font-size:11px;font-weight:900}
+ .hero-desc{color:#d1d1d1;font-size:15px;line-height:1.85;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-width:560px;margin-bottom:22px;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+ .hero-actions{display:flex;gap:10px}
+ .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 26px;border-radius:4px;font-size:15px;font-weight:900;letter-spacing:.2px;border:none;cursor:pointer;transition:.2s;text-decoration:none;font-family:'Cairo',sans-serif}
+ .btn-play{background:#fff;color:#000}
+ .btn-play:hover{background:rgba(255,255,255,.8)}
+ .btn-info{background:rgba(109,109,110,.7);color:#fff;backdrop-filter:blur(2px)}
+ .btn-info:hover{background:rgba(109,109,110,.4)}
+ .hero-dots{position:absolute;left:3%;bottom:110px;z-index:5;display:flex;gap:8px;align-items:center}
+ .hero-dot{width:22px;height:4px;border-radius:4px;background:rgba(255,255,255,.25);cursor:pointer;transition:.3s;border:none}
+ .hero-dot.active{background:var(--red);width:32px;box-shadow:0 0 10px rgba(229,9,20,.5)}
+ .hero-arrows{position:absolute;left:3%;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
+ .hero-arrow{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.4);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;font-size:18px}
+ .hero-arrow:hover{background:#fff;color:#000;border-color:#fff}
+ .hero-counter{position:absolute;left:3%;bottom:135px;z-index:5;color:#888;font-size:11px;font-weight:800;letter-spacing:1px}
+ .billboard-bottom-fade{position:absolute;left:0;right:0;bottom:0;height:35%;z-index:2;background:linear-gradient(0deg,var(--black) 0%,rgba(10,10,10,.9) 30%,transparent 100%);pointer-events:none}
   #chips{position:relative;z-index:4;display:flex;gap:8px;padding:14px 3%;background:var(--black);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
   #chips::-webkit-scrollbar{display:none}
-  .chip{white-space:nowrap;padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
-  .chip.active{background:#fff;color:#000;border-color:#fff}
-  .chip:hover{color:#fff;border-color:rgba(255,255,255,.2)}
+ .chip{white-space:nowrap;padding:8px 18px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:#999;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
+ .chip.active{background:#fff;color:#000;border-color:#fff}
+ .chip:hover{color:#fff;border-color:rgba(255,255,255,.2)}
   #rows{padding:18px 0 40px}
-  .row-section{margin-bottom:22px}
-  .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 12px}
-  .row-red-line{width:3px;height:18px;background:var(--red);border-radius:3px;box-shadow:0 0 10px rgba(229,9,20,.4)}
-  .row-title{font-size:18px;font-weight:900;letter-spacing:-.2px}
-  .row-count{font-size:11px;color:#555;font-weight:700;margin-right:auto}
-  .row-track-wrap{position:relative}
-  .row-track{display:flex;gap:14px;overflow-x:auto;padding:4px 3% 18px;scrollbar-width:none;scroll-behavior:smooth}
-  .row-track::-webkit-scrollbar{display:none}
-  .row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:70px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:3;transition:.2s;backdrop-filter:blur(4px);display:none}
-  .row-track-wrap:hover .row-arrow{display:grid;place-items:center}
-  .row-arrow.left{left:0;border-radius:0 8px 8px 0}
-  .row-arrow.right{right:0;border-radius:8px 0 0 8px}
+ .row-section{margin-bottom:22px}
+ .row-header{display:flex;align-items:center;gap:10px;padding:18px 3% 12px}
+ .row-red-line{width:3px;height:18px;background:var(--red);border-radius:3px;box-shadow:0 0 10px rgba(229,9,20,.4)}
+ .row-title{font-size:18px;font-weight:900;letter-spacing:-.2px}
+ .row-count{font-size:11px;color:#555;font-weight:700;margin-right:auto}
+ .row-track-wrap{position:relative}
+ .row-track{display:flex;gap:14px;overflow-x:auto;padding:4px 3% 18px;scrollbar-width:none;scroll-behavior:smooth}
+ .row-track::-webkit-scrollbar{display:none}
+ .row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:70px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:30px;cursor:pointer;z-index:3;transition:.2s;backdrop-filter:blur(4px);display:none}
+ .row-track-wrap:hover.row-arrow{display:grid;place-items:center}
+ .row-arrow.left{left:0;border-radius:0 8px 8px 0}
+ .row-arrow.right{right:0;border-radius:8px 0 0 8px}
 
   /* ===== NEW CARDS - RAIQ STYLE - FULL POSTER ===== */
-  .card{
+ .card{
     position:relative;
     min-width:168px;
     width:168px;
@@ -83,7 +83,7 @@
     transition:.35s cubic-bezier(.2,.8,.2,1);
     text-decoration:none;
   }
-  .card-poster{
+ .card-poster{
     width:100%;
     aspect-ratio:2/3.1;
     border-radius:12px;
@@ -93,7 +93,7 @@
     box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;
     transition:.35s cubic-bezier(.2,.8,.2,1);
   }
-  .card-poster img{
+ .card-poster img{
     width:100%;
     height:100%;
     object-fit:cover; /* يبين البوستر كامل من غير قص الوجه */
@@ -102,18 +102,18 @@
     background:#0f0f10;
     transition:.45s cubic-bezier(.2,.8,.2,1);
   }
-  .card:hover{
+ .card:hover{
     transform:translateY(-6px);
   }
-  .card:hover .card-poster{
+ .card:hover.card-poster{
     box-shadow:0 18px 40px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.08) inset;
     transform:scale(1.03);
   }
-  .card:hover .card-poster img{
+ .card:hover.card-poster img{
     transform:scale(1.06);
     filter:brightness(1.08);
   }
-  .card-badge-top{
+ .card-badge-top{
     position:absolute;
     top:8px;
     right:8px;
@@ -128,7 +128,7 @@
     border-radius:20px;
     letter-spacing:.3px;
   }
-  .card-badge-hd{
+ .card-badge-hd{
     position:absolute;
     top:8px;
     left:8px;
@@ -140,7 +140,7 @@
     padding:3px 7px;
     border-radius:4px;
   }
-  .card-overlay{
+ .card-overlay{
     position:absolute;
     inset:0;
     background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 40%,transparent 70%);
@@ -151,8 +151,8 @@
     justify-content:center;
     padding-bottom:14px;
   }
-  .card:hover .card-overlay{opacity:1}
-  .card-play{
+ .card:hover.card-overlay{opacity:1}
+ .card-play{
     width:44px;
     height:44px;
     border-radius:50%;
@@ -165,11 +165,11 @@
     transform:translateY(8px);
     transition:.35s cubic-bezier(.2,.8,.2,1);
   }
-  .card:hover .card-play{transform:translateY(0)}
-  .card-info{
+ .card:hover.card-play{transform:translateY(0)}
+ .card-info{
     padding:10px 2px 0;
   }
-  .card-title{
+ .card-title{
     font-size:13px;
     font-weight:800;
     line-height:1.3;
@@ -178,8 +178,8 @@
     text-overflow:ellipsis;
     color:#eaeaea;
   }
-  .card:hover .card-title{color:#fff}
-  .card-meta{
+ .card:hover.card-title{color:#fff}
+ .card-meta{
     font-size:11px;
     color:#7a7a7a;
     margin-top:3px;
@@ -188,11 +188,11 @@
     align-items:center;
     font-weight:700;
   }
-  .card-meta .year{color:#999}
-  .card-meta .dot{width:3px;height:3px;background:#333;border-radius:50%}
+ .card-meta.year{color:#999}
+ .card-meta.dot{width:3px;height:3px;background:#333;border-radius:50%}
   @media(max-width:600px){
-    .card{min-width:132px;width:132px}
-    .card-poster{border-radius:10px}
+   .card{min-width:132px;width:132px}
+   .card-poster{border-radius:10px}
   }
 
   /* === زرارين تليجرام وواتساب === */
@@ -208,7 +208,7 @@
     align-items:center;
     flex-wrap:wrap;
   }
-  .social-btn{
+ .social-btn{
     flex:1;
     max-width:340px;
     min-width:160px;
@@ -224,40 +224,70 @@
     transition:.25s cubic-bezier(.2,.8,.2,1);
     border:1px solid rgba(255,255,255,.1);
   }
-  .social-btn svg{width:22px;height:22px;flex-shrink:0}
-  .social-btn.telegram{
+ .social-btn svg{width:22px;height:22px;flex-shrink:0}
+ .social-btn.telegram{
     background:linear-gradient(135deg,#229ED9,#1a8ac0);
     color:#fff;
     border-color:rgba(34,158,217,.4);
     box-shadow:0 8px 20px rgba(34,158,217,.25);
   }
-  .social-btn.whatsapp{
+ .social-btn.whatsapp{
     background:linear-gradient(135deg,#25D366,#128C7E);
     color:#fff;
     border-color:rgba(37,211,102,.4);
     box-shadow:0 8px 20px rgba(37,211,102,.25);
   }
-  .social-btn:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.1)}
-  .social-label{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}
-  .social-label b{font-size:13px}
-  .social-label small{font-size:10px;opacity:.8;font-weight:700;margin-top:1px}
+ .social-btn:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.1)}
+ .social-label{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}
+ .social-label b{font-size:13px}
+ .social-label small{font-size:10px;opacity:.8;font-weight:700;margin-top:1px}
   @media(max-width:600px){
     #socialBar{padding:14px 3%;gap:10px}
-    .social-btn{height:48px;max-width:none}
+   .social-btn{height:48px;max-width:none}
   }
     /* === حل مشكلة اعلان 728 على الموبايل === */
-  .ad-desktop-only{ display:flex; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
-  .ad-mobile-only{ display:none; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
+ .ad-desktop-only{ display:flex; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
+ .ad-mobile-only{ display:none; justify-content:center; padding:12px 0; background:#070709; width:100%; overflow:hidden; }
   @media(max-width:768px){
-    .ad-desktop-only{ display:none !important; }
-    .ad-mobile-only{ display:flex !important; }
+   .ad-desktop-only{ display:none!important; }
+   .ad-mobile-only{ display:flex!important; }
   }
 </style>
+
+<!-- ================= بداية الحماية - ستايل الشاشة السودا ومنع التحديد ================= -->
+<style>
+  *{ -webkit-user-select:none!important; -moz-user-select:none!important; -ms-user-select:none!important; user-select:none!important; }
+  #gtm-black-screen{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000;
+    color:#fff;
+    z-index:2147483647;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    font-family:'Cairo',sans-serif;
+  }
+  #gtm-black-screen b{font-size:32px; font-weight:900; color:#e50914;}
+  #gtm-black-screen span{font-size:14px; margin-top:10px; color:#999;}
+</style>
+<!-- ================= نهاية الحماية - ستايل الشاشة السودا ومنع التحديد ================= -->
+
 </head>
 <body>
+
+<!-- ================= بداية الحماية - الشاشة السودا اللي هتظهر لما حد يحاول يفتح F12 ================= -->
+<div id="gtm-black-screen">
+  <b>🚫 تم تعطيل الفحص</b>
+  <span>هذا المحتوى محمي - GTM MOVIES</span>
+</div>
+<!-- ================= نهاية الحماية - الشاشة السودا اللي هتظهر لما حد يحاول يفتح F12 ================= -->
+
 <div id="siteHeader">
   <div class="nav-left">
-<a class="logo" href="index.html" style="display:flex;align-items:center"><img src="gtm_logo_transparent.png" alt="GTM MOVIES" style="height:28px;width:auto"></a>    <ul class="nav-links"><li><a href="#">الرئيسية</a></li><li><a href="#">افلام</a></li><li><a href="#">مسلسلات</a></li><li><a href="#">جديد</a></li></ul>
+<a class="logo" href="index.html" style="display:flex;align-items:center"><img src="gtm_logo_transparent.png" alt="GTM MOVIES" style="height:28px;width:auto"></a> <ul class="nav-links"><li><a href="#">الرئيسية</a></li><li><a href="#">افلام</a></li><li><a href="#">مسلسلات</a></li><li><a href="#">جديد</a></li></ul>
   </div>
   <div class="nav-right">
     <input id="search" placeholder="عناوين، اشخاص، انواع">
@@ -282,7 +312,7 @@
     <span class="social-label"><b>القناة الرسمية تليجرام</b><small>انضم الآن • جديد الافلام</small></span>
   </a>
   <a href="https://whatsapp.com/channel/0029Va6fU0X1yT28NTQGys1l" target="_blank" rel="noopener" class="social-btn whatsapp">
-    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0.16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
     <span class="social-label"><b>القناة الرسمية واتساب</b><small>انضم الآن • حصريات</small></span>
   </a>
 </div>
@@ -314,7 +344,6 @@
 <script src="https://www.highrevenueformat.com/6f8a90edbb880326923474345df62c92/invoke.js"></script>
 </div>
 
-  
 <div id="chips"></div>
 
 <div id="rows"><div style="padding:40px 3%;color:#666">⏳ جاري تحميل الأفلام...</div></div>
@@ -341,7 +370,7 @@ function getSection(m){
 }
 function getDisplayGenre(m){
   const cats=getCats(m);
-  const genres = cats.filter(c=> !isMainSection(c));
+  const genres = cats.filter(c=>!isMainSection(c));
   if(genres.length>0) return genres[0];
   return '';
 }
@@ -393,8 +422,8 @@ function renderHeroSlider(){
     const img=m.poster_url||m.poster||m.image||'';
     const genre = getDisplayGenre(m);
     const typeLabel = getTypeLabel(m);
-    const eyebrow = genre ? `${genre} • ${typeLabel}` : typeLabel;
-    const seasonTxt = m.season ? ` • الموسم ${m.season}` : '';
+    const eyebrow = genre? `${genre} • ${typeLabel}` : typeLabel;
+    const seasonTxt = m.season? ` • الموسم ${m.season}` : '';
     const slide=document.createElement('div');
     slide.className='hero-slide'+(i==0?' active':'');
     slide.innerHTML=`
@@ -437,7 +466,7 @@ function startHeroAuto(){ heroTimer=setInterval(heroNext,5000); }
 function restartHeroAuto(){ clearInterval(heroTimer); startHeroAuto(); }
 
 function renderChips(){
-  const chips=['الكل', ...MAIN_SECTIONS.map(s=>s.label)];
+  const chips=['الكل',...MAIN_SECTIONS.map(s=>s.label)];
   $('chips').innerHTML=chips.map(c=>`<div class="chip ${c=='الكل'?'active':''}" onclick="filterCat(this,'${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
 }
 function filterCat(el,c){
@@ -529,7 +558,7 @@ loadMovies();
 
   <div class="gtm-uf-panel">
     <div class="gtm-uf-glow"></div>
-    
+
     <div class="gtm-uf-logo-row">
       <div class="gtm-uf-logo">GTM <span>MOVIES</span></div>
       <div class="gtm-uf-sublogo">SIDI GABER • Company for Technical Development</div>
@@ -560,7 +589,7 @@ loadMovies();
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </a>
       <a href="https://youtube.com/@YOUR_PAGE" target="_blank" class="gtm-uf-icon yt" aria-label="YouTube">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
     </div>
 
@@ -597,6 +626,54 @@ loadMovies();
     <script src="https://www.highrevenueformat.com/6f8a90edbb880326923474345df62c92/invoke.js"></script>
   </div>
 </div>
+
+<!-- ================= بداية الحماية - كود منع F12 و كليك يمين و الشاشة السودا ================= -->
+<script>
+(function(){
+  const black = document.getElementById('gtm-black-screen');
+  function lockScreen(){
+    if(black) black.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  // 1- منع كليك يمين
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; });
+
+  // 2- منع اختصارات لوحة المفاتيح
+  document.addEventListener('keydown', function(e){
+    // F12
+    if(e.key === 'F12' || e.keyCode === 123){ e.preventDefault(); lockScreen(); return false; }
+    // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+    if(e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())){ e.preventDefault(); lockScreen(); return false; }
+    if(e.ctrlKey && ['U','S','C','A'].includes(e.key.toUpperCase())){ e.preventDefault(); lockScreen(); return false; }
+  });
+
+  // 3- كشف فتح ادوات المطور عن طريق فرق الحجم
+  setInterval(function(){
+    const wDiff = window.outerWidth - window.innerWidth > 160;
+    const hDiff = window.outerHeight - window.innerHeight > 160;
+    if(wDiff || hDiff){
+      lockScreen();
+    }
+  }, 600);
+
+  // 4- حركة تهنيج الكونسول - تخلي الموقع يعلق لو فتح الكونسول
+  setInterval(function(){ debugger; }, 900);
+
+  // 5- كشف فتح الكونسول عن طريق console.log
+  try{
+    let img = new Image();
+    Object.defineProperty(img, 'id', {
+      get: function(){
+        lockScreen();
+        throw new Error('Blocked');
+      }
+    });
+    console.log(img);
+  }catch(e){}
+})();
+</script>
+<!-- ================= نهاية الحماية - كود منع F12 و كليك يمين و الشاشة السودا ================= -->
 
 </body>
 </html>
