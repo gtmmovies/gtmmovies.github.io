@@ -1,5 +1,47 @@
 [
   {
+    "id": "1789839997907",
+    "title": "مشاهدة مسلسل خمسين خمسين",
+    "year": "2026",
+    "category": "اكشن, كوميدي, دراما, مسلسلات عربية",
+    "poster_url": "https://gtmmovies.github.io/images/poster_1789839994121_fagg9.png",
+    "poster": "https://gtmmovies.github.io/images/poster_1789839994121_fagg9.png",
+    "description": "تدور الأحداث حول \"رانيا\" (كندة علوش)، وهي خريجة كلية حقوق قررت ترك عملها المهني لتتفرغ لتربية ابنها \"رامي\" ورعاية أسرتها. تنقلب حياة رانيا فجأة عندما يختفي زوجها ويترك لها رسالة يدعي فيها سفره بسبب ديون وأزمات مالية طاحنا...",
+    "season": 1,
+    "seasonTitle": "الموسم الاول",
+    "episodes": [
+      {
+        "num": 1,
+        "title": "الحلقة 1",
+        "video_url": "https://vipserver.liiivideo.com/embed-ll6vf4wzh2cc.html",
+        "video_url2": "https://www.ok.ru/videoembed/15750456609358",
+        "download_url": "https://rtt.rreeee.workers.dev/embed-eeyyn9abgwui.html",
+        "season": 1
+      },
+      {
+        "num": 2,
+        "title": "الحلقة 2",
+        "video_url": "https://vipserver.liiivideo.com/embed-y662fejwxc7k.html",
+        "video_url2": "https://www.ok.ru/videoembed/15750463359566",
+        "download_url": "https://rtt.rreeee.workers.dev/embed-xahdu6ugf4se.html",
+        "season": 1
+      },
+      {
+        "num": 3,
+        "title": "الحلقة 3",
+        "video_url": "https://vipserver.liiivideo.com/embed-oa31he1ce0hq.html",
+        "video_url2": "https://www.ok.ru/videoembed/15750473517646",
+        "download_url": "https://rtt.rreeee.workers.dev/embed-porj3a11azv0.html",
+        "season": 1
+      }
+    ],
+    "download_url": "",
+    "type": "series",
+    "video_url": "https://vipserver.liiivideo.com/embed-ll6vf4wzh2cc.html",
+    "watch_url": "https://vipserver.liiivideo.com/embed-ll6vf4wzh2cc.html",
+    "video_url2": "https://www.ok.ru/videoembed/15750456609358"
+  },
+  {
     "id": "1789593071098",
     "title": "الست لما",
     "year": "2026",
