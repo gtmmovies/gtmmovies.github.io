@@ -253,7 +253,7 @@
     "id": "1789103423351",
     "title": "ما لم يحك عن بني مزار",
     "year": "2026",
-    "category": "اثارة, مسلسلات عربي",
+    "category": "مسلسلات عربية",
     "poster_url": "https://gtmmovies.github.io/images/poster_1789106962421_vdxxm.jpg",
     "poster": "https://gtmmovies.github.io/images/poster_1789106962421_vdxxm.jpg",
     "description": "🤫",
@@ -263,17 +263,33 @@
       {
         "num": 1,
         "title": "الحلقة 1",
-        "video_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-        "video_url2": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-        "download_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
+        "video_url": "https://vipserver.liiivideo.com/embed-x34xh50o0z3b.html",
+        "video_url2": "https://rtty.ali32026.workers.dev/embed-2ssw6xrdgj1x.html",
+        "download_url": "https://musalsalatflah.com/watch58.html?series=El-Qessa-El-Kamla-Drama-Ma-Lam-Yohka-An-Bani-Mazar&episode=1",
+        "season": 1
+      },
+      {
+        "num": 2,
+        "title": "الحلقة 2",
+        "video_url": "https://vipserver.liiivideo.com/embed-uaequpvrt4x6.html",
+        "video_url2": "https://rtt.rreeee.workers.dev/embed-rv1k6850jcbd.html",
+        "download_url": "https://musalsalatflah.com/watch58.html?series=El-Qessa-El-Kamla-Drama-Ma-Lam-Yohka-An-Bani-Mazar&episode=2",
+        "season": 1
+      },
+      {
+        "num": 3,
+        "title": "الحلقة 3",
+        "video_url": "https://vipserver.liiivideo.com/embed-mrsknsgqxbxk.html",
+        "video_url2": "https://rtt.rttre.workers.dev/embed-vn5a26ro1l9l.html",
+        "download_url": "https://musalsalatflah.com/watch58.html?series=El-Qessa-El-Kamla-Drama-Ma-Lam-Yohka-An-Bani-Mazar&episode=3",
         "season": 1
       }
     ],
     "download_url": "",
     "type": "series",
-    "video_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-    "watch_url": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk",
-    "video_url2": "https://drive.google.com/file/d/1P3A9szmHMjo6U-b15kba-o-6gqRjJ5hQ/view?usp=drivesdk"
+    "video_url": "https://vipserver.liiivideo.com/embed-x34xh50o0z3b.html",
+    "watch_url": "https://vipserver.liiivideo.com/embed-x34xh50o0z3b.html",
+    "video_url2": "https://rtty.ali32026.workers.dev/embed-2ssw6xrdgj1x.html"
   },
   {
     "id": "1789075213759",
