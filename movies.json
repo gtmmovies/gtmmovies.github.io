@@ -1,5 +1,39 @@
 [
   {
+    "id": "1792165087544",
+    "title": "طالع نازل",
+    "year": "2026",
+    "category": "تشويق و اثارة, مسلسلات عربية",
+    "poster_url": "https://gtmmovies.github.io/images/poster_1792165082386_gunk9.webp",
+    "poster": "https://gtmmovies.github.io/images/poster_1792165082386_gunk9.webp",
+    "description": "انشاء موقع GTM MOVIES 🍿",
+    "season": 1,
+    "seasonTitle": "الموسم الاول",
+    "episodes": [
+      {
+        "num": 1,
+        "title": "الحلقة 1",
+        "video_url": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html",
+        "video_url2": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html",
+        "download_url": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html",
+        "season": 1
+      },
+      {
+        "num": 2,
+        "title": "الحلقة 2",
+        "video_url": "https://vipserver.liiivideo.com/embed-xvq8hwr76qxy.html",
+        "video_url2": "https://vipserver.liiivideo.com/embed-xvq8hwr76qxy.html",
+        "download_url": "",
+        "season": 1
+      }
+    ],
+    "download_url": "",
+    "type": "series",
+    "video_url": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html",
+    "watch_url": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html",
+    "video_url2": "https://vipserver.liiivideo.com/embed-hx2sdz8tb1iz.html"
+  },
+  {
     "id": "1790540133481",
     "title": "مشاهدة فيلم شيش دو",
     "year": "2026",
