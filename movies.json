@@ -844,7 +844,9 @@
     ],
     "download_url": "",
     "type": "series",
-    "video_url2": ""
+    "video_url2": "",
+    "season": 1,
+    "seasonTitle": "القصة الاول"
   },
   {
     "id": "10",
