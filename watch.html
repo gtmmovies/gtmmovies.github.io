@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTM Movies - مشاهدة</title>
@@ -75,53 +54,16 @@ body{background:#000;color:#fff;overflow-x:hidden}
 .ep-btn.active small{color:#555}
 .playCircle{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;font-size:12px}
 .ep-btn.active .playCircle{background:#000;color:#fff;border-color:#000}
-
-/* === زرارين تليجرام وواتساب - نفس ستايل الرئيسية === */
-#socialBar{
-  display:flex;
-  gap:12px;
-  padding:0 0 18px 0;
-  justify-content:flex-start;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.social-btn{
-  flex:1;
-  max-width:340px;
-  min-width:160px;
-  height:52px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  font-weight:900;
-  font-size:14px;
-  text-decoration:none;
-  transition:.25s cubic-bezier(.2,.8,.2,1);
-  border:1px solid rgba(255,255,255,.1);
-}
+#socialBar{display:flex;gap:12px;padding:0 0 18px 0;justify-content:flex-start;align-items:center;flex-wrap:wrap;}
+.social-btn{flex:1;max-width:340px;min-width:160px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:14px;text-decoration:none;transition:.25s cubic-bezier(.2,.8,.2,1);border:1px solid rgba(255,255,255,.1);}
 .social-btn svg{width:22px;height:22px;flex-shrink:0}
-.social-btn.telegram{
-  background:linear-gradient(135deg,#229ED9,#1a8ac0);
-  color:#fff;
-  border-color:rgba(34,158,217,.4);
-  box-shadow:0 8px 20px rgba(34,158,217,.25);
-}
-.social-btn.whatsapp{
-  background:linear-gradient(135deg,#25D366,#128C7E);
-  color:#fff;
-  border-color:rgba(37,211,102,.4);
-  box-shadow:0 8px 20px rgba(37,211,102,.25);
-}
+.social-btn.telegram{background:linear-gradient(135deg,#229ED9,#1a8ac0);color:#fff;border-color:rgba(34,158,217,.4);box-shadow:0 8px 20px rgba(34,158,217,.25);}
+.social-btn.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border-color:rgba(37,211,102,.4);box-shadow:0 8px 20px rgba(37,211,102,.25);}
 .social-btn:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.1);box-shadow:0 12px 30px rgba(0,0,0,.4)}
 .social-label{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}
 .social-label b{font-size:13px}
 .social-label small{font-size:10px;opacity:.8;font-weight:700;margin-top:1px}
-@media(max-width:600px){
-  #socialBar{gap:10px}
-  .social-btn{height:48px;max-width:none}
-}
+@media(max-width:600px){#socialBar{gap:10px}.social-btn{height:48px;max-width:none}}
 </style>
 </head>
 <body>
@@ -131,8 +73,6 @@ body{background:#000;color:#fff;overflow-x:hidden}
 <div class="nowPlaying"><div class="dot"></div><span>NOW PLAYING • CINEMA MODE</span></div>
 <h1 class="titleLarge" id="title">...</h1>
 <div class="metaRow" id="meta"></div>
-
-<!-- زرارين القنوات الرسمية - هنا كمان -->
 <div id="socialBar">
   <a href="https://t.me/+0ahsfzZE4txkNDNk" target="_blank" rel="noopener" class="social-btn telegram">
     <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.12.832.941z"/></svg>
@@ -143,7 +83,6 @@ body{background:#000;color:#fff;overflow-x:hidden}
     <span class="social-label"><b>القناة الرسمية واتساب</b><small>انضم الآن • حصريات</small></span>
   </a>
 </div>
-
 <div class="theater">
 <div class="player-wrap" id="playerWrap">
 <div id="ytFallback" class="yt-fallback">
@@ -157,18 +96,16 @@ body{background:#000;color:#fff;overflow-x:hidden}
 <div class="servers" id="servers">
 <button class="server-btn active" onclick="setServer(0)">SERVER 1</button>
 <button class="server-btn" onclick="setServer(1)">SERVER 2</button>
-<button class="server-btn" onclick="setServer(3)">SERVER 3</button>
+<button class="server-btn" onclick="setServer(2)">SERVER 3</button>
 </div>
 <div class="actions"><a class="btn btn-dl" id="dlBtn" href="#" target="_blank">⬇ DOWNLOAD</a><a class="btn" href="index.html">رجوع</a></div>
 </div>
 </div>
-
 <div class="bottomGrid">
 <div class="card"><h3>القصة</h3><p class="desc" id="desc"></p></div>
 <div class="card episodes-box" id="episodesBox"><h3>الحلقات • EPISODES</h3><div class="episodes-list" id="episodesList"></div></div>
 </div>
 </div>
-
 <script>
 const id = new URLSearchParams(window.location.search).get('id');
 let movie=null, servers=[], currentEp=0, currentVideoId=null;
@@ -176,7 +113,6 @@ let movie=null, servers=[], currentEp=0, currentVideoId=null;
 function universalFix(url){
  if(!url) return '';
  url=url.trim();
- // TELEGRAM - نسيبه زي ما هو عشان نعالجه في makePlayer
  if(url.includes('t.me')) return url;
  let yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/);
  if(yt){
@@ -206,8 +142,6 @@ function makePlayer(url){
  if(!url) return;
  let fixed=universalFix(url);
  document.getElementById('ytDirectLink').href=`https://www.youtube.com/watch?v=${currentVideoId||''}`;
-
- // ========= TELEGRAM WIDGET LOGIC (PHP to JS) =========
  if(fixed.includes('t.me')){
    let m = fixed.match(/t\.me\/([^\/]+)\/(\d+)/);
    if(m){
@@ -216,7 +150,6 @@ function makePlayer(url){
      tgDiv.className = 'tg-wrap';
      tgDiv.innerHTML = `<div style="width:100%;max-width:600px"><script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${post}" data-width="100%" data-dark="1"><\/script></div>`;
      wrap.appendChild(tgDiv);
-     // لازم نعمل append لل script يدوي عشان يشتغل
      let s = document.createElement('script');
      s.async = true;
      s.src = 'https://telegram.org/js/telegram-widget.js?22';
@@ -227,8 +160,6 @@ function makePlayer(url){
      return;
    }
  }
- // =====================================================
-
  if(fixed.includes('youtube-nocookie')){
   let ifr=document.createElement('iframe');
   ifr.src=fixed;
@@ -256,9 +187,20 @@ function makePlayer(url){
 
 function buildServers(){
  let ep=movie.episodes?movie.episodes[currentEp]:null;
- let main=ep?(ep.video_url||movie.video_url):(movie.watch_url||movie.video_url||'');
- let u2=ep?(ep.video_url2||movie.video_url2):(movie.video_url2||'');
- servers=[main, u2||main, movie.video_url2||u2||main, movie.download_url||main];
+ if(ep){
+   servers=[ep.video_url, ep.video_url2, ep.video_url3];
+   document.getElementById('dlBtn').href = ep.download_url || movie.download_url || '#';
+   document.getElementById('dlBtn').style.display = (ep.download_url || movie.download_url) ? 'inline-flex' : 'none';
+ } else {
+   let main = movie.watch_url||movie.video_url||'';
+   servers=[main];
+   document.getElementById('dlBtn').href=movie.download_url||'#';
+   document.getElementById('dlBtn').style.display=movie.download_url?'inline-flex':'none';
+ }
+ document.querySelectorAll('.server-btn').forEach((b,idx)=>{
+   b.style.display = servers[idx] ? 'inline-flex' : 'none';
+   b.classList.toggle('active', idx===0);
+ });
 }
 function setServer(i){
  document.querySelectorAll('.server-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
@@ -267,7 +209,8 @@ function setServer(i){
 function playEp(i){
  currentEp=i; 
  document.querySelectorAll('.ep-btn').forEach((b,idx)=>b.classList.toggle('active',idx==i));
- buildServers(); makePlayer(servers[0]);
+ buildServers();
+ setServer(0);
  document.getElementById('title').innerText=movie.title+` - الحلقة ${i+1}`;
  window.scrollTo({top:120,behavior:'smooth'});
 }
@@ -291,14 +234,10 @@ fetch('movies.json?t='+Date.now()).then(r=>r.json()).then(movies=>{
   `).join('');
  }
  buildServers();
- document.getElementById('dlBtn').href=movie.download_url||'#';
- document.getElementById('dlBtn').style.display=movie.download_url?'inline-flex':'none';
  makePlayer(servers[0]);
  document.getElementById('title').innerText=movie.title;
 });
 </script>
-   <!--كود اعلاني2 -->
-<!-- === اعلان 2: Native Banner - Responsive === -->
 <div class="gtm-ad-wrap native" style="display:flex;justify-content:center;padding:18px 3%;background:#070709;width:100%;overflow:hidden;">
   <div class="gtm-ad-box" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;width:100%;max-width:1100px;">
     <div style="font-size:10px;color:#666;font-weight:800;margin-bottom:10px;">إعلان ممول • Sponsored</div>
@@ -306,5 +245,7 @@ fetch('movies.json?t='+Date.now()).then(r=>r.json()).then(movies=>{
       <script async="async" data-cfasync="false" src="https://pl31299988.profitableratecpmnetwork.com/cb91eb3107ecff3690d1019470844cea/invoke.js"></script>
       <div id="container-cb91eb3107ecff3690d1019470844cea" style="width:100%;max-width:100%;"></div>
     </div>
+  </div>
+</div>
 </body>
 </html>
