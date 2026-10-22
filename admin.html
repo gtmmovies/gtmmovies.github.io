@@ -213,8 +213,8 @@ button,input,textarea,select{font:inherit}
 <input id="seasonTitle" placeholder="عنوان الموسم - الموسم الاول">
 </div>
 
-<div class="step"><i>9</i> Episodes - 2 Servers + Download per Ep</div>
-<div class="epBox" id="epContainer"></div>
+<div class="step"><i>9</i> Episodes - 3 Servers + Download per Ep</div>
+  <div class="epBox" id="epContainer"></div>
 <button onclick="addEpisode()" style="width:100%;background:#fff;color:#000;border:0;padding:12px;border-radius:100px;margin-top:10px;cursor:pointer;font-weight:900;font-family:'JetBrains Mono',monospace">+ ADD EPISODE</button>
 <input id="seriesDl" placeholder="⬇ Full Season Download (optional)" style="margin-top:12px">
 </div>
@@ -314,8 +314,8 @@ function render(data){ $('list').innerHTML=data.map(m=>`<div class=card>${m.seas
 function filterBy(cat, el){ currentCat=cat; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); applyFilter(); }
 
 function addEpisode(data=null){
- let ep=data||{num:episodes.length+1,title:`الحلقة ${episodes.length+1}`,video_url:'',video_url2:'',download_url:''};
- episodes.push(ep);
+let ep=data||{num:episodes.length+1,title:`الحلقة ${episodes.length+1}`,video_url:'',video_url2:'',video_url3:'',download_url:''};
+  episodes.push(ep);
  renderEpisodes();
 }
 function renderEpisodes(){
@@ -329,6 +329,7 @@ function renderEpisodes(){
    </div>
    <input value="${ep.video_url||''}" oninput="episodes[${i}].video_url=this.value" placeholder="SERVER 1">
    <input value="${ep.video_url2||''}" oninput="episodes[${i}].video_url2=this.value" placeholder="SERVER 2">
+   <input value="${ep.video_url3||''}" oninput="episodes[${i}].video_url3=this.value" placeholder="SERVER 3">
    <input value="${ep.download_url||''}" oninput="episodes[${i}].download_url=this.value" placeholder="DOWNLOAD">
   </div>
  `).join('');
@@ -402,6 +403,7 @@ async function save(){
         title:e.title||`الحلقة ${i+1}`,
         video_url:e.video_url,
         video_url2:e.video_url2||'',
+        video_url3:e.video_url3||'',
         download_url:e.download_url||'',
         season: payload.season||1
       }));
@@ -410,6 +412,7 @@ async function save(){
       payload.video_url=payload.episodes[0]?.video_url||'';
       payload.watch_url=payload.episodes[0]?.video_url||'';
       payload.video_url2=payload.episodes[0]?.video_url2||'';
+      payload.video_url3=payload.episodes[0]?.video_url3||'';
     }
     let newData=$('editId').value?allData.map(m=> String(m.id)==String($('editId').value) ? {...m, ...payload} : m):[payload, ...allData];
     try{ let jf=await ghFetch(FILE_PATH); fileSha=jf.sha; }catch(_){}
